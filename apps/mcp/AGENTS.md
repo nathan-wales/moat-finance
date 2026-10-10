@@ -118,6 +118,3 @@ Every tool invocation goes through `scope-checker.ts`. Never add a tool without 
 
 See [docs/patterns/testing.md](docs/patterns/testing.md) for examples.
 
-## Active work
-
-- MCP gateway: [specs/features/mcp/spec.md](../../specs/features/mcp/spec.md)

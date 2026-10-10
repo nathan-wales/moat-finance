@@ -103,6 +103,3 @@ Chrome MV3 has three isolated contexts:
 
 ---
 
-## Active work
-
-- Retail sync extension: [specs/features/retail-sync-extension/spec.md](../../specs/features/retail-sync-extension/spec.md)

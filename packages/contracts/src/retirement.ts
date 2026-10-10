@@ -4,7 +4,7 @@
 //
 // A retirement scenario is never a copy of the user's plan. It is
 // `baseline + an ordered list of typed levers`, so the only thing persisted is
-// the lever list. See specs/features/retirement/spec.md.
+// the lever list.
 
 import { z } from "zod";
 import {

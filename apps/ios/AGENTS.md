@@ -64,7 +64,7 @@ apps/ios/Moat/
 - **There is no server-side Apple Wallet sync.** FinanceKit is device-local, so the phone initiates every sync. Do not add an Apple Wallet cron to `apps/api`.
 - **Sync incrementally.** Prefer `fetchTransactionChanges(for:since:)` (FinanceKit change stream) over the 365-day snapshot; the snapshot is only a first-sync and token-invalidation fallback.
 - History tokens are opaque `Data` in the Keychain via `AppleFinanceKitHistoryTokenStore` — never `UserDefaults`, and never `FinanceStore.HistoryToken` across a service boundary.
-- Background delivery requires iOS 26 plus a shared App Group; guard it with `#if compiler(>=6.2)` so older Xcode toolchains still build. See [specs/features/apple-wallet-background-sync/spec.md](../../specs/features/apple-wallet-background-sync/spec.md).
+- Background delivery requires iOS 26 plus a shared App Group; guard it with `#if compiler(>=6.2)` so older Xcode toolchains still build.
 
 ---
 
@@ -202,14 +202,3 @@ Product analytics go through `Moat/Core/Analytics/Analytics.swift`. Configure `P
 | Changing API base URL or environment config | This file (xcconfig convention) |
 | Adding a new API call | `Core/` API client — normalized DTOs only, no raw FinanceKit types |
 
-## SDD guidance
-
-Before adding a significant iOS feature, check for or write a spec in `specs/features/[feature]/spec.md`. Read [../../specs/mission.md](../../specs/mission.md) for product context.
-
----
-
-## Active work
-
-- Apple Wallet background sync: [specs/features/apple-wallet-background-sync/spec.md](../../specs/features/apple-wallet-background-sync/spec.md)
-- Account import full-screen overlay: [specs/features/ios-account-import-overlay/spec.md](../../specs/features/ios-account-import-overlay/spec.md)
-- Rule hashtag keyboard suggestions: [specs/features/ios-rule-hashtag-keyboard-suggestions/spec.md](../../specs/features/ios-rule-hashtag-keyboard-suggestions/spec.md)

@@ -88,4 +88,4 @@ pnpm --filter moat-api run test:plaid-sandbox-smoke
 | Setting up a test for a new service | This file (service unit test section) |
 | Testing a Plaid or external integration | [external-integrations.md](external-integrations.md) |
 | Testing auth behavior | [auth-and-permissions.md](auth-and-permissions.md) |
-| Golden Ledger fixture / expected-state | [specs/features/plaid-integration-e2e-tests/spec.md](../../../specs/features/plaid-integration-e2e-tests/spec.md) |
+| Golden Ledger fixture / expected-state | [apps/web/e2e/README.md](../../../web/e2e/README.md) |

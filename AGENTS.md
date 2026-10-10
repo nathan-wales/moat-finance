@@ -13,7 +13,7 @@
 - **No silent failures.** Log meaningful errors, surface typed error responses, and make failures observable.
 - **No PII in logs.** Never log email, account numbers, routing numbers, raw transaction descriptions, or tokens.
 - **Postgres schema changes use migrations only.** Never `db push` on a shared or deployed database; never apply deployed (production) schema changes from local `.env`. See [apps/api/docs/patterns/prisma-and-migrations.md](apps/api/docs/patterns/prisma-and-migrations.md).
-- **SDD first on non-trivial features.** Before writing code, read or write a `specs/features/[feature]/spec.md`. See [specs/README.md](specs/README.md) for how to write good specs, plus [specs/mission.md](specs/mission.md) and [specs/roadmap.md](specs/roadmap.md).
+- **Agree on scope first for non-trivial features.** Open a GitHub issue or discussion describing the problem and approach before writing code.
 
 ---
 

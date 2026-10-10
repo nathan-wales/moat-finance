@@ -38,7 +38,7 @@ Inside `initDesktopDb`:
 8. `purgeLegacyDesktopDemoWorkspaces(db)` — one-shot removal of older local sample datasets
 9. `createRuntime(createSqliteAppContext(db, activeUserId))` — builds the `AppRuntime` with typed repos
 
-Fresh installs stay empty of transactions until the user imports CSV or connects Plaid. To explore sample data, Settings → Local Database → **Open web demo** opens the web app demo (see `specs/features/desktop-demo-mode/spec.md`).
+Fresh installs stay empty of transactions until the user imports CSV or connects Plaid. To explore sample data, Settings → Local Database → **Open web demo** opens the web app demo.
 
 ---
 
@@ -114,5 +114,4 @@ const transactions = await appCtx.repositories.transactions.listRecent({
 |-------------|------|
 | Adding a new IPC handler that reads/writes data | This file + [main-renderer-ipc.md](main-renderer-ipc.md) |
 | Adding a new SQLite model or migration | This file (migration strategy section) |
-| Sample / demo dataset | `specs/features/desktop-demo-mode/spec.md` |
 | Local agent gateway accessing the DB | [local-agent-gateway.md](local-agent-gateway.md) |

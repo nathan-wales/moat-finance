@@ -108,7 +108,7 @@ Phase 4: Sync behavior
    - Keep the bounded 365-day snapshot only as a first-sync and token-invalidation fallback.
 4. Deduplication must make repeated syncs safe.
 5. Automatic sync:
-   - Foreground staleness sync on iOS 17.4+, plus iOS 26 background delivery. There is no server-side path — see [specs/features/apple-wallet-background-sync/spec.md](../specs/features/apple-wallet-background-sync/spec.md).
+   - Foreground staleness sync on iOS 17.4+, plus iOS 26 background delivery. There is no server-side path.
 
 Phase 5: Product polish
 - In the web app, if user tries to add Apple Card, explain:

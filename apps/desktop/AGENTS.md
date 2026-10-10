@@ -185,12 +185,6 @@ Cannot access "node:crypto.createHash" in client code.
 | Renderer component | React Testing Library |
 | Full IPC round-trip | Playwright Electron (`test:e2e:plaid-golden`) |
 
-## SDD guidance
-
-Before adding a significant new desktop feature, check for or write a spec in `specs/features/desktop-[feature]/spec.md`. Read [../../specs/mission.md](../../specs/mission.md) for product context.
-
----
-
 ## Anti-patterns
 
 - **Don't set `nodeIntegration: true`** — this exposes all of Node.js to untrusted renderer content.

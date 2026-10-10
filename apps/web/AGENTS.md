@@ -108,15 +108,9 @@ See [docs/patterns/testing.md](docs/patterns/testing.md) for examples.
 
 ---
 
-## SDD guidance
-
-Before building any non-trivial feature in the web app, check for a spec in `specs/features/[feature]/spec.md`. If none exists, write one. Read [../../specs/mission.md](../../specs/mission.md) and [../../specs/roadmap.md](../../specs/roadmap.md) to understand product context.
-
----
-
 ## Anti-patterns
 
-- **Don't add Prisma to `apps/web`.** `apps/web/prisma/` is a legacy artifact currently being removed. See `specs/features/auth-migration/spec.md`.
+- **Don't add Prisma to `apps/web`.** `apps/web/prisma/` is a legacy artifact currently being removed.
 - **Don't use `@/` imports** — only `~/` works with the tsconfig alias.
 - **Don't call the API server directly from React render** — use React Query hooks so loading/error/caching are handled consistently.
 - **Don't import from `apps/api/` directly** — the boundary is HTTP only.
@@ -124,7 +118,3 @@ Before building any non-trivial feature in the web app, check for a spec in `spe
 
 ---
 
-## Active work
-
-- Auth + Prisma migration: [specs/features/auth-migration/spec.md](../../specs/features/auth-migration/spec.md)
-- Goals feature: [specs/features/goals/spec.md](../../specs/features/goals/spec.md)

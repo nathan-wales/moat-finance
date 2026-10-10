@@ -126,12 +126,6 @@ Read [docs/patterns/prisma-and-migrations.md](docs/patterns/prisma-and-migration
 
 See [docs/patterns/testing.md](docs/patterns/testing.md) for examples.
 
-## SDD guidance
-
-Before building a non-trivial API feature, check for a spec in `specs/features/[feature]/spec.md`. If none exists, write one first. Read [../../specs/mission.md](../../specs/mission.md) for product context.
-
----
-
 ## Anti-patterns
 
 - **Don't call `requireDemoOrAuthenticated()` manually.** Always use `withAuth` / `withDemoOrAuth` / `withPublic`.
@@ -145,8 +139,3 @@ Before building a non-trivial API feature, check for a spec in `specs/features/[
 
 ---
 
-## Active work
-
-- Auth + Prisma migration: [specs/features/auth-migration/spec.md](../../specs/features/auth-migration/spec.md)
-- Goals feature API: [specs/features/goals/spec.md](../../specs/features/goals/spec.md)
-- Apple Wallet integration: [specs/features/apple-wallet/spec.md](../../specs/features/apple-wallet/spec.md)

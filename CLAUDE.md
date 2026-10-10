@@ -85,15 +85,9 @@ Read [AGENTS.md](AGENTS.md) first. The content below is preserved for tools that
 
 ---
 
-## Before building a feature (SDD)
+## Before building a feature
 
-Spec-Driven Development is the pre-build alignment layer. Before writing code for a feature:
-
-1. Read [specs/mission.md](specs/mission.md) — product intent
-2. Read [specs/roadmap.md](specs/roadmap.md) — current priorities
-3. Read [specs/tech-stack.md](specs/tech-stack.md) — canonical stack (don't guess)
-4. Find or write `specs/features/[feature-name]/spec.md` — the shared agreement before coding starts. See [specs/README.md](specs/README.md) for the template and quality bar.
-5. If no spec exists, write one first. Drop rough ideas in `specs/backlog/`.
+For anything non-trivial, agree on scope first: open a GitHub issue or discussion describing the problem and the proposed approach before writing code.
 
 ---
 
