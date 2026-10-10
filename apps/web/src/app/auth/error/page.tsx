@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { cookies, headers } from "next/headers";
 import Link from "next/link";
 import { AuthSplitLayout } from "~/components/auth/auth-split-layout";
+import { SignupsClosed } from "~/components/auth/signups-closed";
 import Logo from "~/components/common/logo";
 import { Button } from "~/components/ui/button";
 import { logger } from "~/lib/logger";
@@ -12,6 +13,7 @@ import {
 	getAuthErrorCopy,
 	getAuthErrorSupportBody,
 	getAuthErrorSupportSubject,
+	SIGNUPS_CLOSED_ERROR,
 } from "./auth-error-copy";
 import { buildAuthErrorPageLogContext } from "./auth-error-log";
 
@@ -56,6 +58,9 @@ export default async function AuthErrorPage({
 			hasSession: Boolean(userId),
 		}),
 	);
+
+	// First-time OAuth sign-in refused because this instance has sign-ups closed.
+	if (errorCode === SIGNUPS_CLOSED_ERROR) return <SignupsClosed />;
 
 	const { title, description } = getAuthErrorCopy(errorCode);
 	const supportHref = supportMailtoUrl(

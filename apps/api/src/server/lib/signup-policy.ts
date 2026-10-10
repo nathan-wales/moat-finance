@@ -31,6 +31,16 @@ export function areSignupsEnabled(env: SignupEnv = process.env): boolean {
 	return env.SIGNUPS_ENABLED?.trim().toLowerCase() !== "false";
 }
 
+export type SignupStatus = { signupsEnabled: boolean };
+
+/**
+ * Public sign-up status for clients deciding whether to show the sign-up form.
+ * Deliberately exposes only the instance-wide flag, never the allowlist.
+ */
+export function getSignupStatus(env: SignupEnv = process.env): SignupStatus {
+	return { signupsEnabled: areSignupsEnabled(env) };
+}
+
 export function parseSignupAllowedEmails(
 	env: SignupEnv = process.env,
 ): Set<string> {

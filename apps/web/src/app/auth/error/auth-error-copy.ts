@@ -3,6 +3,9 @@ type AuthErrorCopy = {
 	description: string;
 };
 
+/** Auth.js error code for a first-time sign-in refused by the sign-up policy. */
+export const SIGNUPS_CLOSED_ERROR = "SignupsClosed";
+
 const DEFAULT_COPY: AuthErrorCopy = {
 	title: "We couldn't complete sign-in",
 	description:
@@ -25,10 +28,10 @@ const AUTH_ERROR_COPY: Record<string, AuthErrorCopy> = {
 		description:
 			"Sign in with the original method you used for this email, or email support if you need help linking accounts.",
 	},
-	SignupsClosed: {
-		title: "Sign-ups are closed on this instance",
+	[SIGNUPS_CLOSED_ERROR]: {
+		title: "Sign-ups are closed for now",
 		description:
-			"This Moat instance isn't accepting new accounts. If you already have an account, sign in with the method you used before. To use Moat yourself, try the demo or self-host your own instance.",
+			"Moat Finance is free to self-host. The best way to use it is to run your own copy.",
 	},
 	Verification: {
 		title: "This sign-in link expired",

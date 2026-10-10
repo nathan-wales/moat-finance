@@ -17,7 +17,7 @@ import {
 import { verifyAppleIdentityToken } from "../lib/apple-auth";
 import { resolveCsrfTokenResponse } from "../lib/csrf";
 import { normalizeEmail } from "../lib/normalize-email";
-import { assertSignupAllowed } from "../lib/signup-policy";
+import { assertSignupAllowed, getSignupStatus } from "../lib/signup-policy";
 import {
 	createAuthSession,
 	generateAccessToken,
@@ -844,6 +844,19 @@ export const auth = {
 	 * demo. The router still requires CSRF on cookie-authenticated mutations.
 	 * Anonymous demo (no session) returns null.
 	 */
+	/**
+	 * Public, unauthenticated: whether this instance accepts new sign-ups, so
+	 * the web app can show a closed-sign-ups page before the form is submitted.
+	 * Never exposes the allowlist; `assertSignupAllowed` still enforces.
+	 */
+	signupStatus: withPublic(async (ctx: ApiContext) => {
+		ctx.res.setHeader(
+			"Cache-Control",
+			"public, max-age=60, stale-while-revalidate=300",
+		);
+		return getSignupStatus();
+	}),
+
 	csrfToken: withPublic(async (ctx: ApiContext) => {
 		try {
 			return await resolveCsrfTokenResponse({

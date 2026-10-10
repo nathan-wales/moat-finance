@@ -5004,6 +5004,34 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
+  /api/v1/auth/signupStatus:
+    get:
+      operationId: getSignupStatus
+      tags:
+        - Auth
+      summary: Whether this instance accepts new sign-ups
+      description: >-
+        Public and unauthenticated. Returns only the instance-wide sign-up flag
+        (never the allowlist). Responses may be cached briefly. Sign-up is still
+        enforced server-side on register and first-time OAuth sign-in.
+      responses:
+        '200':
+          description: Current sign-up status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      signupsEnabled:
+                        type: boolean
+                    required:
+                      - signupsEnabled
+                required:
+                  - data
+
   /api/v1/auth/register:
     post:
       operationId: registerUser

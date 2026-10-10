@@ -177,3 +177,51 @@ describe("auth handlers honor the sign-up policy", () => {
 		assert.equal(created.length, 0);
 	});
 });
+
+describe("auth.signupStatus (public)", () => {
+	const previous = new Map<string, string | undefined>();
+
+	beforeEach(() => {
+		for (const key of ENV_KEYS) previous.set(key, process.env[key]);
+		process.env.MOAT_DATABASE_ACTOR_CONTEXT = "false";
+		delete process.env.SIGNUPS_ENABLED;
+		delete process.env.SIGNUP_ALLOWED_EMAILS;
+	});
+
+	afterEach(() => {
+		for (const key of ENV_KEYS) {
+			const value = previous.get(key);
+			if (value === undefined) delete process.env[key];
+			else process.env[key] = value;
+		}
+	});
+
+	function statusContext() {
+		const headers = new Map<string, string>();
+		const ctx = {
+			...apiContext(null),
+			res: {
+				setHeader: (name: string, value: string) => {
+					headers.set(name.toLowerCase(), value);
+				},
+			},
+		} as unknown as ApiContext;
+		return { ctx, headers };
+	}
+
+	it("reports sign-ups open when SIGNUPS_ENABLED is unset", async () => {
+		const { ctx, headers } = statusContext();
+		const result = await auth.signupStatus(ctx, undefined);
+		assert.deepEqual(result, { signupsEnabled: true });
+		assert.match(headers.get("cache-control") ?? "", /max-age=\d+/);
+	});
+
+	it("reports sign-ups closed without exposing the allowlist", async () => {
+		process.env.SIGNUPS_ENABLED = "false";
+		process.env.SIGNUP_ALLOWED_EMAILS = "owner@example.com";
+		const { ctx } = statusContext();
+		const result = await auth.signupStatus(ctx, undefined);
+		assert.deepEqual(result, { signupsEnabled: false });
+		assert.doesNotMatch(JSON.stringify(result), /owner@example\.com/);
+	});
+});

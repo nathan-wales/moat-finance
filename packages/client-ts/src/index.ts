@@ -906,6 +906,14 @@ export type RegisterUserBody = {
   source?: RegisterUserBodySource;
 };
 
+export type GetSignupStatus200Data = {
+  signupsEnabled: boolean;
+};
+
+export type GetSignupStatus200 = {
+  data: GetSignupStatus200Data;
+};
+
 export type UpsertDesktopBackup200Data = { [key: string]: unknown };
 
 export type UpsertDesktopBackup200 = {
@@ -7759,6 +7767,31 @@ return customFetch<Promise<upsertDesktopBackupResponse>>(getUpsertDesktopBackupU
     method: 'POST',
     body: JSON.stringify(
       upsertDesktopBackupBody,)
+  }
+);}
+
+
+/**
+ * Public and unauthenticated. Returns only the instance-wide sign-up flag (never the allowlist). Responses may be cached briefly. Sign-up is still enforced server-side on register and first-time OAuth sign-in.
+ * @summary Whether this instance accepts new sign-ups
+ */
+export type getSignupStatusResponse = {
+  data: GetSignupStatus200;
+  status: number;
+}
+
+export const getGetSignupStatusUrl = () => {
+
+
+  return `/api/v1/auth/signupStatus`
+}
+
+export const getSignupStatus = async ( options?: RequestInit): Promise<getSignupStatusResponse> => {
+return customFetch<Promise<getSignupStatusResponse>>(getGetSignupStatusUrl(),
+  {      
+    ...options,
+    method: 'GET'
+    
   }
 );}
 
