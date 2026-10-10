@@ -1,6 +1,6 @@
 # Moat Finance
 
-**Open source personal finance app.** Budgeting, investments, retirement planning, and a built-in MCP server so your AI assistant can reason over your real financial data, all running on infrastructure you control.
+**Free, self-hosted personal finance app.** Budgeting, investments, retirement planning, and a built-in MCP server so your AI assistant can reason over your real financial data, all running on infrastructure you control.
 
 - **Self-host it** with Docker on a home server, NAS, VPS, or your own cloud account.
 - **Or run it locally** with the desktop app: a SQLite database on your computer that works fully offline.
@@ -18,21 +18,25 @@
 - **MCP server:** give AI assistants structured, audited, read-scoped access to your finances.
 - **REST API and TypeScript SDK:** an OpenAPI spec in `packages/openapi` and a client in `packages/client-ts`.
 
-## Quickstart (self-hosted)
+## Self-hosting
 
-You need Docker with Compose.
+Pick whichever fits you. The [self-hosting guide](docs/self-hosting.md) walks through both.
 
-```bash
-git clone https://github.com/tyler16smith/moat-finance.git
-cd moat-finance
-cp .env.self-host.example .env
-./scripts/self-host/generate-secrets.sh
-docker compose up -d
-```
+- **Option A: Docker (easiest).** One machine (home server, NAS, spare Mac, or VPS), one config file, three commands:
 
-Open http://localhost:3000. See the [self-hosting guide](docs/self-hosting.md) for HTTPS, Plaid, backups, upgrades, and connecting an AI assistant.
+  ```bash
+  git clone https://github.com/tyler16smith/moat-finance.git
+  cd moat-finance
+  cp .env.self-host.example .env
+  ./scripts/self-host/generate-secrets.sh
+  docker compose up -d
+  ```
 
-There is no billing, paywall, or subscription in this edition: every feature is available to every user. Optional integrations use your own accounts: for automatic bank sync you bring your own Plaid keys and pay Plaid directly (see [Bring your own Plaid keys](docs/self-hosting.md#bring-your-own-plaid-keys)).
+  Then open http://localhost:3000.
+
+- **Option B: Vercel + Neon (free).** Run the web app, API, and MCP server on Vercel's Hobby plan with a free Neon Postgres database (500 MB). It takes more setup (three Vercel projects and their environment variables) and needs your own domain. See [Option B](docs/self-hosting.md#option-b-vercel--neon).
+
+Anything that runs Node.js and Postgres 16 works too. The **iOS app** works with either option: build it with your Apple Developer account and install it through TestFlight ([iOS setup](docs/self-hosting.md#ios-app)).
 
 ## Repository layout
 
@@ -72,6 +76,8 @@ Engineering conventions live in [AGENTS.md](AGENTS.md) and [docs/patterns](docs/
 
 ## License
 
-Moat Finance is licensed under the [GNU Affero General Public License v3.0](LICENSE). You can use, modify, and self-host it freely. If you run a modified version as a network service for other people, you must make your source code available to those users under the same license.
+Moat Finance is licensed under the [PolyForm Shield License 1.0.0](LICENSE). You're free to use, modify, self-host, and share it, for personal use or inside your business. The one restriction: you can't use it to build or offer a product that competes with Moat Finance, such as reselling it as a hosted personal finance service. See the [license](LICENSE) for the exact terms.
+
+Because of that restriction, Moat Finance is source-available rather than OSI-approved open source.
 
 "Moat Finance" and the Moat logo are trademarks of Moat Finance LLC. Forks should use their own name and branding.

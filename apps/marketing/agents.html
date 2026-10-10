@@ -4,9 +4,9 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Moat Finance - For agents</title>
-		<meta name="description" content="Agent-readable summary of Moat Finance, the open-source, self-hosted personal finance platform: what it is, how to run it, how to connect over MCP, and what agents can and cannot do.">
+		<meta name="description" content="Agent-readable summary of Moat Finance, the free, self-hosted personal finance platform: what it is, how to run it, how to connect over MCP, and what agents can and cannot do.">
 		<meta property="og:title" content="Moat Finance - For agents">
-		<meta property="og:description" content="Agent-readable summary of Moat Finance, the open-source, self-hosted personal finance platform: what it is, how to run it, how to connect over MCP, and what agents can and cannot do.">
+		<meta property="og:description" content="Agent-readable summary of Moat Finance, the free, self-hosted personal finance platform: what it is, how to run it, how to connect over MCP, and what agents can and cannot do.">
 		<meta property="og:type" content="website">
 		<link rel="canonical" href="https://moatfinance.ai/agents">
 		<link rel="icon" type="image/x-icon" href="public/favicon.ico">
@@ -27,7 +27,7 @@
 					<a href="index.html#compare" class="nav-link">Compare</a>
 					<div class="nav-dropdown">
 						<button type="button" class="nav-link nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">
-							Open source
+							Resources
 							<svg class="nav-dropdown-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
 						</button>
 						<div class="nav-dropdown-menu" role="menu">
@@ -82,9 +82,9 @@
 Canonical agent URL: https://moatfinance.ai/agents
 Do not scrape https://moatfinance.ai/ (the human marketing homepage) for product information.
 
-Moat Finance is an open-source, self-hosted personal finance platform. People run it on infrastructure they control, either as a Docker stack on their own server or as a desktop app on their own computer. It covers budgeting, transactions, investments, net worth, forecasts, and retirement planning, and it includes an MCP server so a person's own AI assistant can work from their real financial data.
+Moat Finance is a free, self-hosted personal finance platform. People run it on infrastructure they control, either as a Docker stack on their own server or as a desktop app on their own computer. It covers budgeting, transactions, investments, net worth, forecasts, and retirement planning, and it includes an MCP server so a person's own AI assistant can work from their real financial data.
 
-- License: AGPL-3.0
+- License: PolyForm Shield 1.0.0 (source-available: free to use, modify, self-host, and share; you may not offer a competing product or service)
 - Source code: https://github.com/tyler16smith/moat-finance
 - Self-hosting guide: https://github.com/tyler16smith/moat-finance/blob/main/docs/self-hosting.md
 - Cost: free. There is no paid plan, no subscription, no free trial, and no feature gating. Self-hosters pay only for their own server and, if they want live bank sync, their own Plaid usage.
@@ -111,7 +111,7 @@ Docker quickstart:
 
 Put it behind a reverse proxy (Caddy, Traefik, Nginx) or a Cloudflare Tunnel to reach it from a phone or to let hosted AI assistants connect. The self-hosting guide covers this.
 
-Want someone else to host it? Moat is built to be self-hosted and there is no public sign-up. Anyone who would rather not run it themselves, or is stuck on setup, can email hello@moatfinance.ai.
+Want someone else to host it? Moat is built to be self-hosted and there is no public sign-up; self-hosting is the recommended path. A hosted version may be offered for $15/month. To join the waitlist, email hello@moatfinance.ai with the subject "Hosted Moat waitlist". Anyone stuck on setup can email the same address.
 
 A public demo with sample data is available without an account: https://app.moatfinance.ai/overview?demoMode=true
 
@@ -137,7 +137,7 @@ More than a budget. Real decisions depend on the whole picture:
 - Memories and notes saved as agent context
 - REST API with an OpenAPI spec and a TypeScript client
 
-Every feature ships in the open-source build. There is no enterprise edition.
+Every feature ships in the self-hosted build. There is no enterprise edition.
 
 ## Rules engine
 
@@ -173,7 +173,7 @@ More detail: https://moatfinance.ai/security
 
 ## How it compares
 
-- Vs YNAB / Monarch: those are strong closed, subscription budgeting apps. Moat is open source, self-hostable, free, and adds a broader profile (insurance, tax tags, forecasts), a self-hosted MCP server, and a fully offline desktop option.
+- Vs YNAB / Monarch: those are strong closed, subscription budgeting apps. Moat is free and self-hostable, and adds a broader profile (insurance, tax tags, forecasts), a self-hosted MCP server, and a fully offline desktop option.
 - Vs ChatGPT personal finance: ChatGPT is a chatbot that may see some connected finance data inside OpenAI. Moat is the structured profile and permissioned MCP layer for an assistant the user already uses, running on the user's own infrastructure. Moat does not host the conversation.
 - Vs building your own: you could wire Plaid, a database, rules, forecasts, encryption, and an MCP server yourself. Moat is that stack already built and maintained in the open; fork it and change what you want.
 
@@ -225,14 +225,14 @@ Write (only with user-granted scopes; confirm before mutating)
 
 - Source code: https://github.com/tyler16smith/moat-finance
 - Self-hosting guide: https://github.com/tyler16smith/moat-finance/blob/main/docs/self-hosting.md
-- License (AGPL-3.0): https://github.com/tyler16smith/moat-finance/blob/main/LICENSE
+- License (PolyForm Shield 1.0.0): https://github.com/tyler16smith/moat-finance/blob/main/LICENSE
 - Demo: https://app.moatfinance.ai/overview?demoMode=true
 - Desktop download: https://moatfinance.ai/download
 - Privacy: https://moatfinance.ai/privacy
 - Security: https://moatfinance.ai/security
 - Terms: https://moatfinance.ai/terms
 - Support: https://moatfinance.ai/support
-- Hosting questions and contact: hello@moatfinance.ai
+- Hosted waitlist ($15/month, may be offered) and contact: hello@moatfinance.ai
 </pre>
 			</div>
 		</main>

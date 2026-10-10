@@ -98,7 +98,7 @@ describe("audience landing pages", () => {
 
 	it("keeps homepage sections focused on self-hosting", () => {
 		const home = readPage("index.html");
-		assert.equal(tag(home, "h1"), "Open source personal finance app");
+		assert.equal(tag(home, "h1"), "Free, self-hosted personal finance app");
 		assert.match(home, /The three questions everyone asks/);
 		assert.match(home, /id="quickstart"/);
 		assert.match(home, /id="deploy"/);

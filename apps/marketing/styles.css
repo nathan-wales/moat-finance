@@ -3767,3 +3767,8 @@ button { cursor: pointer; font-family: inherit; }
 .nav-dropdown-trigger {
 	white-space: nowrap;
 }
+
+.quickstart-steps span a {
+	color: inherit;
+	text-decoration: underline;
+}

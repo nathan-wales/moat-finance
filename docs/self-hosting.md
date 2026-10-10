@@ -1,10 +1,33 @@
 # Self-hosting Moat Finance
 
-Run the full cloud stack (web app, API, MCP server, Postgres, and scheduled jobs) on your own machine or server with Docker Compose.
+Moat Finance is free to self-host. You run your own copy, your data lives in a database you control, and nothing goes through our servers.
 
-> **Don't want to run a server?** The Moat desktop app (`apps/desktop`) keeps everything in a local encrypted SQLite database and needs no backend. Use self-hosting when you want browser access from several devices, a shared household, or a remote MCP endpoint for AI assistants.
+> **Don't want to run anything?** The Moat desktop app (`apps/desktop`) keeps everything in a local encrypted SQLite database on your computer and needs no backend. Self-host when you want browser access from several devices, a shared household, the iOS app, or a remote MCP endpoint for AI assistants.
 
-## What you get
+## Choose how to host it
+
+These are two options we document, not the only ones. Anything that runs Node.js apps and a Postgres 16 database will work (Railway, Render, Fly.io, a home server, and so on). If you're less familiar with hosting, pick one of these two.
+
+| | **Option A: Docker** | **Option B: Vercel + Neon** |
+|---|---|---|
+| Best for | The simplest setup | A free, always-on setup in the cloud |
+| Where it runs | One computer you control: a home server, NAS, spare Mac, or a VPS | Vercel (apps) and Neon (Postgres database) |
+| Setup | One `.env` file and one command. Secrets are generated for you. | Three Vercel projects (web, API, MCP), each with its own environment variables, plus a Neon database |
+| Domain | Optional. `localhost` works on that machine. | **Required** (about $10/year). Web and API must share sub-domains of one domain for sign-in to work. |
+| HTTPS | You add it (Caddy or Cloudflare Tunnel; see below) | Automatic |
+| Cost | Free on hardware you already own, or about $5–10/month for a VPS | **$0** on Vercel's Hobby plan and Neon's free plan (500 MB of storage), plus the domain |
+| Limits | Your machine's uptime | Vercel Hobby is for personal, non-commercial use and runs scheduled jobs at most once a day (Moat's already run daily). Neon's free plan includes 500 MB of storage, which is plenty for one household. |
+| Needs on your computer | Docker Desktop (or Docker Engine) | A browser, plus Node.js and pnpm once to run database migrations |
+
+**Our recommendation:** Docker is the easiest because there's only one place to configure everything. Choose Vercel + Neon if you don't have a machine that stays on and you want it free. If you use [Claude Code](https://claude.com/claude-code) or another coding agent, it can do either setup for you. Point it at this guide.
+
+Plaid bank sync, the iOS app, and AI assistants work the same way on both options.
+
+## Option A: Docker
+
+Run the full stack (web app, API, MCP server, Postgres, and scheduled jobs) on one machine with Docker Compose.
+
+### What you get
 
 | Service    | Port (host) | What it is |
 |------------|-------------|------------|
@@ -15,14 +38,14 @@ Run the full cloud stack (web app, API, MCP server, Postgres, and scheduled jobs
 | `migrate`  | none        | One-shot `prisma migrate deploy`, runs before `api` and `mcp` start |
 | `cron`     | none        | Runs the scheduled jobs listed in `apps/api/vercel.json` (`crons`) |
 
-## Prerequisites
+### Prerequisites
 
 - Docker Engine 24+ with the Compose v2 plugin (`docker compose version`), or Docker Desktop
 - About 8 GB free disk for images, and 4 GB RAM available to Docker for the first build
 - `openssl` (used by the secret generator)
 - Git
 
-## Quickstart
+### Quickstart
 
 ```bash
 git clone https://github.com/<you>/moat-finance.git
@@ -43,7 +66,7 @@ Sign-up uses email and password by default. Google sign-in is optional (see [Con
 
 **Back up `.env`, and especially `ENCRYPTION_KEY`.** Bank-connection tokens and 2FA secrets are encrypted with it. If you lose it, that data can't be recovered.
 
-### Optional: demo mode
+#### Optional: demo mode
 
 The public demo (`/overview?demoMode=true`, or "Try Demo" on the sign-in page) reads a seeded demo workspace. Seed it once (idempotent; also upserts the default categories):
 
@@ -51,17 +74,175 @@ The public demo (`/overview?demoMode=true`, or "Try Demo" on the sign-in page) r
 docker compose run --rm migrate ./node_modules/.bin/tsx prisma/seed.ts
 ```
 
-### Lock down sign-ups
+#### Lock down sign-ups
 
 Anyone who can reach your web app can create an account and, with your Plaid keys, link their own banks. Once your own account exists, close sign-ups:
 
 1. Create your account at `/auth/register` (and any household members' accounts).
 2. In `.env`, set `SIGNUPS_ENABLED=false`. To let specific people sign up later, list them in `SIGNUP_ALLOWED_EMAILS=alice@example.com,bob@example.com`.
-3. Apply it: `docker compose up -d api` (the API enforces the policy; no rebuild needed).
+3. Apply it: `docker compose up -d api` (the API enforces the policy; no rebuild needed). On Vercel, set the same variables on the API project and redeploy it.
 
 New accounts are then refused with "Sign-ups are closed on this instance" for email/password registration and for first-time Google or Apple sign-in, on web, desktop, and iOS. Existing users sign in normally, and demo mode (`/overview?demoMode=true`) keeps working because it never creates users.
 
+## Option B: Vercel + Neon
+
+Run the web app, API, and MCP server as three Vercel projects from your fork, with the database on Neon. This mirrors how the hosted moatfinance.ai instance runs.
+
+You'll need:
+
+- A GitHub account, and your own **fork** of this repository (Vercel deploys from it)
+- A [Vercel](https://vercel.com) account (Hobby plan is fine for personal use)
+- A [Neon](https://neon.tech) account (free plan is fine)
+- **A domain you own**, for example `example.com`. You'll use `app.`, `api.`, and `mcp.` sub-domains. You can buy one in Vercel (Domains) or from any registrar.
+- Node.js 22+ and pnpm on your computer, once, to run database migrations
+
+The steps below use `example.com`. Replace it with your domain everywhere.
+
+### B1. Create the database on Neon
+
+1. Create a Neon project (Postgres 16 or newer, in a region near your Vercel region).
+2. On the project dashboard, open **Connect** and copy two connection strings:
+   - **Pooled** (the host contains `-pooler`): use it for `DATABASE_URL`.
+   - **Direct** (turn connection pooling off): use it for `DIRECT_URL`. Migrations need a direct connection.
+
+### B2. Generate your secrets
+
+Run these once and keep the output somewhere safe, such as a password manager. The same values are shared across projects.
+
+```bash
+openssl rand -base64 32   # AUTH_SECRET
+openssl rand -hex 32      # ENCRYPTION_KEY (must be exactly 64 hex characters)
+openssl rand -base64 32   # CRON_SECRET
+openssl rand -base64 48   # MCP_TOKEN_PEPPER (at least 32 characters)
+```
+
+**Back up `ENCRYPTION_KEY`.** Bank-connection tokens and 2FA secrets are encrypted with it. If you lose it, that data can't be recovered.
+
+### B3. Run the database migrations
+
+From your computer, in your fork:
+
+```bash
+git clone https://github.com/<you>/moat-finance.git
+cd moat-finance
+pnpm install
+DATABASE_URL='<pooled url>' DIRECT_URL='<direct url>' pnpm db:migrate:deploy
+```
+
+Optional: seed the public demo workspace (`/overview?demoMode=true`):
+
+```bash
+cd apps/api
+DATABASE_URL='<pooled url>' DIRECT_URL='<direct url>' pnpm exec tsx prisma/seed.ts
+```
+
+Repeat the migrate step whenever you pull a new version that adds migrations (`apps/api/prisma/migrations`). Run it **before** Vercel deploys the new API.
+
+### B4. Allow Git deploys in your fork
+
+The repository's `vercel.json` files turn off Git-triggered deploys because the hosted instance deploys through GitHub Actions. In your fork, delete this block from `apps/api/vercel.json`, `apps/web/vercel.json`, and `apps/mcp/vercel.json` and commit the change:
+
+```json
+"git": {
+	"deploymentEnabled": false
+}
+```
+
+### B5. Create three Vercel projects
+
+In Vercel, choose **Add New → Project** and import your fork three times, once per app. For each one, set **Root Directory** as shown and leave the framework and build settings as Vercel detects them (each app's `vercel.json` provides the build command). Add the environment variables before the first deploy.
+
+**API project** (Root Directory `apps/api`, domain `api.example.com`):
+
+| Variable | Value |
+|----------|-------|
+| `DATABASE_URL` | Neon pooled connection string |
+| `DIRECT_URL` | Neon direct connection string |
+| `AUTH_SECRET` | from B2 |
+| `ENCRYPTION_KEY` | from B2 |
+| `CRON_SECRET` | from B2. Vercel sends it automatically when it runs the scheduled jobs in `apps/api/vercel.json`. |
+| `MCP_TOKEN_PEPPER` | from B2 |
+| `WEB_ORIGIN` | `https://app.example.com` |
+| `APP_BASE_URL` | `https://app.example.com` |
+| `SIGNUPS_ENABLED` | Leave unset until you've created your account, then `false` (see [Lock down sign-ups](#lock-down-sign-ups)) |
+| Plaid (optional) | `PLAID_CLIENT_ID`, `PLAID_SECRET`, `PLAID_ENV`, `PLAID_COUNTRY_CODES`, and `PLAID_WEBHOOK=https://api.example.com/api/webhooks/plaid` (see [Bring your own Plaid keys](#bring-your-own-plaid-keys)) |
+
+**Web project** (Root Directory `apps/web`, domain `app.example.com`):
+
+| Variable | Value |
+|----------|-------|
+| `AUTH_SECRET` | same value as the API |
+| `ENCRYPTION_KEY` | same value as the API |
+| `AUTH_URL` | `https://app.example.com` |
+| `NEXT_PUBLIC_API_URL` | `https://api.example.com` |
+| `NEXT_PUBLIC_MCP_URL` | `https://mcp.example.com/mcp` |
+| `AUTH_COOKIE_DOMAIN` | `.example.com` (note the leading dot). **Required:** this is what lets the API read your sign-in session. |
+
+**MCP project** (Root Directory `apps/mcp`, domain `mcp.example.com`):
+
+| Variable | Value |
+|----------|-------|
+| `DATABASE_URL` | Neon pooled connection string |
+| `MCP_TOKEN_PEPPER` | same value as the API |
+| `MCP_BASE_URL` | `https://mcp.example.com` |
+| `WEB_APP_URL` | `https://app.example.com` |
+
+Optional integrations (Google sign-in, Resend email, OpenAI, PostHog, Axiom, Upstash) use the same variable names as the [configuration reference](#optional-integrations). Put them on the API project, plus `AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET` on the web project if you enable Google sign-in. Setting `AUTH_GOOGLE_ID` on the API also makes `AUTH_GOOGLE_ID_IOS` required there; if you don't use the iOS app, set it to the same value as `AUTH_GOOGLE_ID`.
+
+`NEXT_PUBLIC_*` variables are built into the web app, so redeploy the web project after you change them.
+
+### B6. Add your domains and deploy
+
+1. In each project, open **Settings → Domains** and add its sub-domain (`api.`, `app.`, `mcp.`). Follow Vercel's DNS instructions if the domain isn't managed by Vercel.
+2. Deploy the **API first**, then web and MCP.
+3. Open `https://app.example.com/auth/register` and create your account.
+4. Lock down sign-ups: set `SIGNUPS_ENABLED=false` on the API project and redeploy it.
+
+Why the domain matters: on default `*.vercel.app` addresses, browsers won't share the sign-in cookie between the web and API projects, so you can't stay signed in. Sub-domains of one domain you own fix that.
+
+### B7. Keeping it updated
+
+1. Sync your fork with this repository (GitHub's **Sync fork** button).
+2. If the update adds migrations, run step B3's migrate command.
+3. Vercel redeploys automatically from your fork's `main` branch.
+
+Back up your data with Neon's built-in restore history, or run `pg_dump "<direct url>" > moat-backup.sql` from your computer.
+
+## iOS app
+
+The iOS app (`apps/ios`) works with either option, but Apple only lets you install your own build in a few ways.
+
+**You'll need:**
+
+- A Mac with Xcode
+- An **Apple Developer Program** membership ($99/year) to distribute through **TestFlight**. Without it, you can still install the app on your own iPhone straight from Xcode with a free Apple ID, but Apple expires those installs after 7 days and you'll need to reinstall.
+- Your instance reachable over **HTTPS** from your phone: `https://api.example.com` on Vercel, or a reverse proxy or Cloudflare Tunnel with Docker (see [Reverse proxy and HTTPS](#reverse-proxy-and-https))
+
+**Point the app at your instance and your Apple account:**
+
+1. Copy `apps/ios/Moat/Config/Secrets.xcconfig.example` to `Secrets.xcconfig` (it's gitignored) and set:
+
+   ```
+   API_BASE_URL = https:\/\/api.example.com
+   WEB_BASE_URL = https:\/\/app.example.com
+   PRODUCT_BUNDLE_IDENTIFIER = com.yourname.moat
+   ```
+
+2. In Xcode, open `apps/ios/Moat.xcodeproj`, select the **Moat** target → **Signing & Capabilities**, and choose your own **Team**. Use a bundle ID you own: Apple won't let you sign with `com.moatfinance.*`.
+3. Sign-in with email and password works out of the box. Google sign-in on iOS needs your own iOS OAuth client (`GID_CLIENT_ID` in `Secrets.xcconfig`, and `AUTH_GOOGLE_ID_IOS` on the API). Sign in with Apple needs the capability on your paid developer account.
+
+**Install it with TestFlight (personal use):**
+
+1. In [App Store Connect](https://appstoreconnect.apple.com), create an app record with your bundle ID.
+2. In Xcode, choose **Product → Archive**, then **Distribute App → App Store Connect → Upload**.
+3. In App Store Connect → **TestFlight**, add yourself and your household as **internal testers**. Internal testing doesn't need App Review, and each build lasts 90 days.
+4. Install the **TestFlight** app on your iPhone and accept the invite.
+
+You don't need to publish to the App Store. TestFlight on your own account is enough for you and your household.
+
 ## Configuration reference
+
+> This section describes the Docker `.env` file. On Vercel, the same variables go on each project as described in [Option B](#b5-create-three-vercel-projects); `PUBLIC_WEB_URL`, `PUBLIC_API_URL`, and `PUBLIC_MCP_URL` are Docker shortcuts that map to the per-project values listed there.
 
 All configuration lives in the root `.env`. Compose passes it to every app container and also uses it for `${...}` interpolation in `docker-compose.yml`. `.env.self-host.example` is the annotated template.
 

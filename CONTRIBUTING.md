@@ -1,11 +1,11 @@
 # Contributing to Moat Finance
 
-Thanks for helping build open source personal finance. This guide covers how to propose changes and what reviewers look for.
+Thanks for helping build Moat Finance. This guide covers how to propose changes and what reviewers look for.
 
 ## Before you start
 
 - **Bugs:** open an issue with steps to reproduce, the expected vs. actual behavior, and whether you run self-hosted, desktop, or hosted.
-- **Features:** open an issue or discussion first so we can agree on scope before you write code. Larger features get a short spec in `specs/features/<name>/spec.md` (see [specs/README.md](specs/README.md)).
+- **Features:** open an issue or discussion first so we can agree on scope before you write code.
 - **Security issues:** do **not** open a public issue. Follow [SECURITY.md](SECURITY.md).
 
 ## Development setup
@@ -41,7 +41,7 @@ Read [AGENTS.md](AGENTS.md) and the relevant guide in [docs/patterns](docs/patte
 
 ## License of contributions
 
-By submitting a contribution, you agree that it is licensed under the project's [AGPL-3.0 license](LICENSE).
+By submitting a contribution, you agree that it is licensed under the project's [PolyForm Shield License 1.0.0](LICENSE), and you grant Moat Finance LLC a perpetual, worldwide, royalty-free, irrevocable license to use, modify, sublicense, and relicense your contribution as part of Moat Finance under any terms. You confirm you have the right to make the contribution.
 
 ## Code of conduct
 
