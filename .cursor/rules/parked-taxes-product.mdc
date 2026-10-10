@@ -1,0 +1,12 @@
+---
+description: Taxes product is parked. Do not re-enable unless a human explicitly asks.
+alwaysApply: true
+---
+
+# Parked Taxes product
+
+`TAXES_PRODUCT_ENABLED` in `packages/contracts` and iOS `ProductFlags.taxesEnabled` are **false on purpose**. Leave them false.
+
+Do not flip these flags, advertise tax MCP tools/scopes, or unhide Taxes nav while cleaning flags, finishing tax-llm, or wiring related features.
+
+Restore only when a human **explicitly** asks to bring Taxes back. Then follow the restore comment on `TAXES_PRODUCT_ENABLED`: flip both flags, keep PostHog `taxes` for rollout, and separately restore/fix the GCP Qwen3-8B GPU VM (`infra/tax-llm`) before `TAX_LLM_EXTRACTION_ENABLED`. Extraction was close but never fully proven E2E.

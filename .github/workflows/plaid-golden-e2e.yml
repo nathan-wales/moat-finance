@@ -1,0 +1,79 @@
+name: Plaid Golden Playwright
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  AUTH_SECRET: ci-auth-secret
+  DATABASE_URL: postgresql://ci:ci@localhost:5432/moat_finance_ci?sslmode=disable
+  DIRECT_URL: postgresql://ci:ci@localhost:5432/moat_finance_ci?sslmode=disable
+  ENCRYPTION_KEY: "0000000000000000000000000000000000000000000000000000000000000000"
+  NEXT_PUBLIC_API_URL: http://localhost:3001
+  NEXT_PUBLIC_E2E: "1"
+  SKIP_ENV_VALIDATION: "true"
+  MOAT_E2E: "1"
+  MOAT_DATABASE_ACTOR_TIMEOUT_MS: "120000"
+  PLAID_CLIENT_ID: golden-client-id
+  PLAID_SECRET: golden-secret
+  PLAID_ENV: sandbox
+  ELECTRON_SKIP_BINARY_DOWNLOAD: "1"
+
+jobs:
+  plaid-golden-playwright:
+    name: Web Playwright Golden
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: ci
+          POSTGRES_PASSWORD: ci
+          POSTGRES_DB: moat_finance_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ci -d moat_finance_ci"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8.10.0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma client
+        run: pnpm db:generate
+
+      - name: Migrate test database
+        run: pnpm db:migrate:deploy
+
+      - name: Install Playwright Chromium
+        run: pnpm --filter moat-web exec playwright install --with-deps chromium
+
+      - name: Run Playwright Golden
+        run: pnpm --filter moat-web run test:e2e:plaid-golden
+
+      - name: Upload Playwright artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-playwright-golden
+          path: apps/web/test-results
+          if-no-files-found: ignore

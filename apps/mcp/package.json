@@ -1,0 +1,40 @@
+{
+	"name": "@moat/mcp",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"main": "index.ts",
+	"scripts": {
+		"dev:http": "tsx --env-file=.env src/server.ts --transport=http",
+		"dev:stdio": "tsx --env-file=.env src/server.ts --transport=stdio",
+		"start": "tsx --env-file=.env src/server.ts --transport=http",
+		"build": "pnpm --filter moat-api exec prisma generate && tsc --noEmit",
+		"check": "biome check .",
+		"check:write": "biome check --write .",
+		"typecheck": "tsc --noEmit",
+		"test": "tsx --test src/**/__tests__/*.test.ts src/**/*.test.ts"
+	},
+	"dependencies": {
+		"@moat/community-tips": "workspace:^",
+		"@moat/contracts": "workspace:^",
+		"@moat/db-postgres": "workspace:*",
+		"@moat/domain": "workspace:*",
+		"@moat/logging": "workspace:*",
+		"@moat/mcp-contracts": "workspace:*",
+		"@moat/monitoring-rules": "workspace:*",
+		"@modelcontextprotocol/sdk": "^1.29.0",
+		"@prisma/client": "^6.19.3",
+		"@upstash/redis": "^1.35.3",
+		"date-fns": "^4.1.0",
+		"express": "^4.21.2",
+		"posthog-node": "^4.18.0",
+		"zod": "^3.25.76"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.5",
+		"@types/express": "^4.17.21",
+		"@types/node": "^20.14.10",
+		"tsx": "^4.21.0",
+		"typescript": "^5.8.2"
+	}
+}

@@ -1,0 +1,34 @@
+{
+	"name": "@moat/db-sqlite",
+	"private": true,
+	"version": "0.0.0",
+	"main": "src/index.ts",
+	"types": "src/index.ts",
+	"exports": {
+		".": "./src/index.ts"
+	},
+	"scripts": {
+		"typecheck": "tsc --noEmit",
+		"test": "pnpm run db:generate && tsx --test $(find src -name '*.test.ts' | sort)",
+		"db:generate": "prisma generate --schema prisma/schema.prisma",
+		"db:migrate": "prisma migrate dev --schema prisma/schema.prisma",
+		"db:push": "prisma db push --schema prisma/schema.prisma"
+	},
+	"dependencies": {
+		"@moat/category-mapping": "workspace:*",
+		"@moat/contracts": "workspace:*",
+		"@moat/data-access": "workspace:*",
+		"@moat/domain": "workspace:*",
+		"@prisma/client": "^6.19.3",
+		"@prisma/driver-adapter-utils": "6.19.3",
+		"better-sqlite3-multiple-ciphers": "13.0.3"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.5",
+		"@types/better-sqlite3": "^7.6.13",
+		"@types/node": "^20.14.10",
+		"prisma": "^6.19.3",
+		"tsx": "^4.21.0",
+		"typescript": "^5.8.2"
+	}
+}

@@ -1,0 +1,21 @@
+[Unit]
+Description=Moat tax LLM queue worker
+After=moat-tax-llm-vllm.service
+Requires=moat-tax-llm-vllm.service
+
+[Service]
+Type=simple
+User=moat-tax-llm
+Group=moat-tax-llm
+WorkingDirectory=/opt/moat/tax-llm
+Environment=NODE_ENV=production
+Environment=HF_HUB_OFFLINE=1
+Environment=TRANSFORMERS_OFFLINE=1
+EnvironmentFile=/opt/moat/tax-llm/runtime.env
+ExecStart=/usr/bin/node /opt/moat/tax-llm/worker.cjs
+Restart=on-failure
+RestartSec=3
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

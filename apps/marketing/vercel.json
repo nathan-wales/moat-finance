@@ -1,0 +1,152 @@
+{
+  "rewrites": [
+    {
+      "source": "/download",
+      "destination": "/download.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy.html"
+    },
+    {
+      "source": "/security",
+      "destination": "/security.html"
+    },
+    {
+      "source": "/support",
+      "destination": "/support.html"
+    },
+    {
+      "source": "/terms",
+      "destination": "/terms.html"
+    },
+    {
+      "source": "/windows",
+      "destination": "/windows.html"
+    },
+    {
+      "source": "/agents",
+      "destination": "/agents.html"
+    },
+    {
+      "source": "/for/ai-agents",
+      "destination": "/for/ai-agents.html"
+    },
+    {
+      "source": "/for/local",
+      "destination": "/for/local.html"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/for/self-employed",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/download.html",
+      "destination": "/download",
+      "permanent": true
+    },
+    {
+      "source": "/privacy.html",
+      "destination": "/privacy",
+      "permanent": true
+    },
+    {
+      "source": "/security.html",
+      "destination": "/security",
+      "permanent": true
+    },
+    {
+      "source": "/support.html",
+      "destination": "/support",
+      "permanent": true
+    },
+    {
+      "source": "/terms.html",
+      "destination": "/terms",
+      "permanent": true
+    },
+    {
+      "source": "/windows.html",
+      "destination": "/windows",
+      "permanent": true
+    },
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/agents.html",
+      "destination": "/agents",
+      "permanent": true
+    },
+    {
+      "source": "/for/ai-agents.html",
+      "destination": "/for/ai-agents",
+      "permanent": true
+    },
+    {
+      "source": "/for/local.html",
+      "destination": "/for/local",
+      "permanent": true
+    },
+    {
+      "source": "/for/self-employed.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/for-ai-agents.html",
+      "destination": "/for/ai-agents",
+      "permanent": true
+    },
+    {
+      "source": "/for/ai",
+      "destination": "/for/ai-agents",
+      "permanent": true
+    },
+    {
+      "source": "/for-ai.html",
+      "destination": "/for/ai-agents",
+      "permanent": true
+    },
+    {
+      "source": "/for-local.html",
+      "destination": "/for/local",
+      "permanent": true
+    },
+    {
+      "source": "/for-self-employed.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "for",
+          "value": "agents"
+        }
+      ],
+      "destination": "/agents",
+      "permanent": true
+    },
+    {
+      "source": "/llms",
+      "destination": "/agents",
+      "permanent": true
+    },
+    {
+      "source": "/llms.txt",
+      "destination": "/agents",
+      "permanent": true
+    }
+  ],
+  "git": {
+    "deploymentEnabled": false
+  }
+}

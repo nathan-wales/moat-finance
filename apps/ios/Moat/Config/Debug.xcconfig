@@ -1,0 +1,24 @@
+// Debug configuration
+// Simulator: use 127.0.0.1 (not localhost). Next binds IPv4-only via
+// `next dev -H 0.0.0.0`, and macOS resolves localhost to ::1 first.
+// Physical device: copy Secrets.xcconfig.example → Secrets.xcconfig and set your Mac's LAN IP.
+
+// API Configuration
+API_BASE_URL = http:\/\/127.0.0.1:3001
+WEB_BASE_URL = http:\/\/127.0.0.1:3000
+
+// App Configuration
+PRODUCT_BUNDLE_IDENTIFIER = com.moatfinance.app.debug
+
+// Google Sign-In Configuration (iOS OAuth Client)
+GID_CLIENT_ID = 418506358288-hqetoqk5dvneagvqm29sfda2tlavk6p6.apps.googleusercontent.com
+GID_REVERSED_CLIENT_ID = com.googleusercontent.apps.418506358288-hqetoqk5dvneagvqm29sfda2tlavk6p6
+
+// Institution logos (optional — initials fallback when empty)
+LOGO_DEV_PUBLISHABLE_KEY =
+
+// PostHog (optional — set in Secrets.xcconfig)
+POSTHOG_API_KEY =
+POSTHOG_HOST = https:\/\/app.posthog.com
+
+#include? "Secrets.xcconfig"

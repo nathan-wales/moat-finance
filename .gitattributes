@@ -1,0 +1,26 @@
+# Normalize text files to LF in the working tree on all platforms.
+* text=auto eol=lf
+
+# Windows-only scripts keep CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary assets — do not modify line endings.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.icns binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.pdf binary
+*.zip binary
+*.dmg binary
+*.exe binary
+*.AppImage binary
+*.p12 binary
+*.pem binary

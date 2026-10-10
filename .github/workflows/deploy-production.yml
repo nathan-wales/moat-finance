@@ -1,0 +1,131 @@
+name: Deploy Production
+
+on:
+  push:
+    tags:
+      - "cloud-v*"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  deploy-production:
+    name: Migrate and deploy production
+    needs: [ci]
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Validate required secrets
+        env:
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID_API: ${{ secrets.VERCEL_PROJECT_ID_API }}
+          VERCEL_PROJECT_ID_MCP: ${{ secrets.VERCEL_PROJECT_ID_MCP }}
+          VERCEL_PROJECT_ID_MARKETING: ${{ secrets.VERCEL_PROJECT_ID_MARKETING }}
+          VERCEL_PROJECT_ID_WEB: ${{ secrets.VERCEL_PROJECT_ID_WEB }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          missing=0
+          for name in AUTH_SECRET DATABASE_URL DIRECT_URL VERCEL_ORG_ID VERCEL_PROJECT_ID_API VERCEL_PROJECT_ID_MCP VERCEL_PROJECT_ID_MARKETING VERCEL_PROJECT_ID_WEB VERCEL_TOKEN; do
+            if [ -z "${!name}" ]; then
+              echo "Missing required secret: $name"
+              missing=1
+            fi
+          done
+          exit "$missing"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify tag matches package.json version
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#cloud-v}"
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
+            echo "Tag version ($TAG_VERSION) does not match root package.json ($PKG_VERSION)"
+            exit 1
+          fi
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8.10.0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        env:
+          # Deploy jobs do not build/run Electron; skip the large binary download that flakes on GH runners.
+          ELECTRON_SKIP_BINARY_DOWNLOAD: "1"
+        run: pnpm install --frozen-lockfile
+
+      # Lint, typecheck, and tests already ran in the `ci` job. Build once more
+      # before migrating so a broken build never reaches the production database.
+      - name: Build
+        env:
+          AUTH_SECRET: production-ci-auth-secret
+          CRON_SECRET: production-ci-cron-secret
+          DATABASE_URL: postgresql://ci:ci@localhost:5432/moat_ci?sslmode=disable
+          DIRECT_URL: postgresql://ci:ci@localhost:5432/moat_ci?sslmode=disable
+          ENCRYPTION_KEY: "0000000000000000000000000000000000000000000000000000000000000000"
+          NEXT_PUBLIC_API_URL: http://localhost:3001
+          SKIP_ENV_VALIDATION: "true"
+        run: pnpm ci:build:cloud
+
+      - name: Apply production migrations
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+        run: |
+          for name in DATABASE_URL DIRECT_URL; do
+            value="${!name}"
+            if [ -z "$value" ]; then
+              echo "Missing required secret for migrate step: $name"
+              exit 1
+            fi
+            echo "$name is set (length=${#value})"
+          done
+          pnpm db:migrate:deploy
+
+      - name: Deploy API to Vercel production
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_API }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: bash scripts/vercel-deploy-app.sh apps/api production "$VERCEL_PROJECT_ID"
+
+      - name: Deploy MCP to Vercel production
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_MCP }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: bash scripts/vercel-deploy-app.sh apps/mcp production "$VERCEL_PROJECT_ID"
+
+      - name: Deploy web to Vercel production
+        env:
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_WEB }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: bash scripts/vercel-deploy-app.sh apps/web production "$VERCEL_PROJECT_ID"
+
+      - name: Deploy marketing to Vercel production
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_MARKETING }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: bash scripts/vercel-deploy-app.sh apps/marketing production "$VERCEL_PROJECT_ID"
+

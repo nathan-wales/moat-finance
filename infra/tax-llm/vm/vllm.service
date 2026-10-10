@@ -1,0 +1,21 @@
+[Unit]
+Description=Moat tax LLM vLLM server
+After=network-online.target nvidia-persistenced.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=moat-tax-llm
+Group=moat-tax-llm
+WorkingDirectory=/opt/moat/tax-llm
+Environment=HF_HUB_OFFLINE=1
+Environment=TRANSFORMERS_OFFLINE=1
+Environment=VLLM_LOGGING_LEVEL=WARNING
+EnvironmentFile=/opt/moat/tax-llm/versions.env
+ExecStart=/opt/moat/tax-llm/start-vllm.sh
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

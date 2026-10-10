@@ -1,0 +1,3043 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A0000001 /* MoatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000001 /* MoatApp.swift */; };
+		A0000002 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000002 /* AppRouter.swift */; };
+		A0000003 /* AppDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000003 /* AppDependencies.swift */; };
+		A0000004 /* deep-link-router.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000004 /* deep-link-router.swift */; };
+		A0000010 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000010 /* Environment.swift */; };
+		A0000020 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000020 /* AuthManager.swift */; };
+		A0000021 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000021 /* Session.swift */; };
+		A0000022 /* CredentialsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000022 /* CredentialsStore.swift */; };
+		A0000030 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000030 /* APIClient.swift */; };
+		A0000031 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000031 /* APIError.swift */; };
+		A0000524 /* Error+Cancellation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000524 /* Error+Cancellation.swift */; };
+		A0000032 /* app-logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000032 /* app-logger.swift */; };
+		A0000040 /* MoatCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000040 /* MoatCard.swift */; };
+		A0000041 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000041 /* LoadingView.swift */; };
+		A0000042 /* ErrorStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000042 /* ErrorStateView.swift */; };
+		A0000520 /* moat-skeleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000520 /* moat-skeleton.swift */; };
+		A0000521 /* dashboard-loading-skeleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000521 /* dashboard-loading-skeleton.swift */; };
+		A0000522 /* financial-profile-loading-skeleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000522 /* financial-profile-loading-skeleton.swift */; };
+		A0000933 /* account-history-chart-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000933 /* account-history-chart-view.swift */; };
+		A0000934 /* account-balance-history-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000934 /* account-balance-history-models.swift */; };
+		A0000940 /* retirement-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000940 /* retirement-models.swift */; };
+		A0000941 /* retirement-lever.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000941 /* retirement-lever.swift */; };
+		A0000942 /* retirement-scenario.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000942 /* retirement-scenario.swift */; };
+		A0000943 /* retirement-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000943 /* retirement-service.swift */; };
+		A0000944 /* retirement-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000944 /* retirement-view-model.swift */; };
+		A0000945 /* retirement-what-if-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000945 /* retirement-what-if-view-model.swift */; };
+		A0000946 /* retirement-scenarios-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000946 /* retirement-scenarios-view-model.swift */; };
+		A0000947 /* retirement-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000947 /* retirement-view.swift */; };
+		A0000948 /* retirement-metric-strip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000948 /* retirement-metric-strip.swift */; };
+		A0000949 /* retirement-timeline-chart-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000949 /* retirement-timeline-chart-view.swift */; };
+		A0000950 /* retirement-what-if-section.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000950 /* retirement-what-if-section.swift */; };
+		A0000951 /* retirement-lever-stack-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000951 /* retirement-lever-stack-view.swift */; };
+		A0000952 /* retirement-lever-editor-sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000952 /* retirement-lever-editor-sheet.swift */; };
+		A0000953 /* retirement-scenario-compare-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000953 /* retirement-scenario-compare-view.swift */; };
+		A0000954 /* retirement-risk-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000954 /* retirement-risk-view.swift */; };
+		A0001100 /* taxes-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0001100 /* taxes-models.swift */; };
+		A0001101 /* taxes-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0001101 /* taxes-service.swift */; };
+		A0001102 /* taxes-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0001102 /* taxes-view-model.swift */; };
+		A0001103 /* taxes-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0001103 /* taxes-view.swift */; };
+		A0001200 /* mileage-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0001200 /* mileage-models.swift */; };
+		A0001201 /* mileage-rates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0001201 /* mileage-rates.swift */; };
+		A0001202 /* mileage-geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0001202 /* mileage-geometry.swift */; };
+		A0001203 /* mileage-tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0001203 /* mileage-tracker.swift */; };
+		A0001204 /* mileage-store.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0001204 /* mileage-store.swift */; };
+		A0001205 /* mileage-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0001205 /* mileage-view-model.swift */; };
+		A0001206 /* mileage-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0001206 /* mileage-view.swift */; };
+		A0001207 /* mileage-track-tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0001207 /* mileage-track-tab.swift */; };
+		A0001208 /* mileage-history-tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0001208 /* mileage-history-tab.swift */; };
+		A0001209 /* mileage-route-map-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0001209 /* mileage-route-map-view.swift */; };
+		T0000081 /* mileage-geometry-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T0000080 /* mileage-geometry-tests.swift */; };
+		A0000523 /* transactions-loading-skeleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000523 /* transactions-loading-skeleton.swift */; };
+		A0000050 /* CurrencyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000050 /* CurrencyFormatter.swift */; };
+		A0000052 /* AmountInputFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000052 /* AmountInputFormatter.swift */; };
+		A0000051 /* DateFormatterProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000051 /* DateFormatterProvider.swift */; };
+		A0000060 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000060 /* LoginView.swift */; };
+		A0000061 /* AuthLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000061 /* AuthLoadingView.swift */; };
+		A0000062 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000062 /* AuthViewModel.swift */; };
+		A0000070 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000070 /* DashboardView.swift */; };
+		A0000071 /* NetWorthChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000071 /* NetWorthChartView.swift */; };
+		A0000079 /* forecast-horizon-picker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000079 /* forecast-horizon-picker.swift */; };
+		A0000072 /* SummaryCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000072 /* SummaryCardView.swift */; };
+		A0000073 /* NetWorthPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000073 /* NetWorthPoint.swift */; };
+		A0000074 /* DashboardSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000074 /* DashboardSummary.swift */; };
+		A0000075 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000075 /* DashboardViewModel.swift */; };
+		A0000076 /* DashboardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000076 /* DashboardService.swift */; };
+		A0000077 /* DashboardLayoutModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000077 /* DashboardLayoutModels.swift */; };
+		A0000078 /* DashboardCustomizeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000078 /* DashboardCustomizeSheet.swift */; };
+		A0000080 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B0000080 /* Assets.xcassets */; };
+		A0000100 /* app-destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000100 /* app-destination.swift */; };
+		A0000101 /* app-shell-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000101 /* app-shell-view.swift */; };
+		A0000102 /* more-menu-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000102 /* more-menu-view.swift */; };
+		A0000110 /* moat-theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000110 /* moat-theme.swift */; };
+		A0000130 /* moat-glass-sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000130 /* moat-glass-sheet.swift */; };
+		A0000131 /* moat-action-result-sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000131 /* moat-action-result-sheet.swift */; };
+		A0000140 /* feature-placeholder-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000140 /* feature-placeholder-view.swift */; };
+		A0000150 /* json-value.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000150 /* json-value.swift */; };
+		A0000151 /* remote-feature-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000151 /* remote-feature-model.swift */; };
+		A0000152 /* remote-feature-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000152 /* remote-feature-service.swift */; };
+		A0000153 /* remote-feature-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000153 /* remote-feature-view-model.swift */; };
+		A0000154 /* remote-feature-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000154 /* remote-feature-view.swift */; };
+		A0000160 /* transaction-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000160 /* transaction-models.swift */; };
+		A0000164 /* transaction-rule-matcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000164 /* transaction-rule-matcher.swift */; };
+		A0000165 /* transaction-stats-window.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000165 /* transaction-stats-window.swift */; };
+		A0000161 /* transactions-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000161 /* transactions-service.swift */; };
+		A0000162 /* transactions-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000162 /* transactions-view-model.swift */; };
+		A0000163 /* transactions-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000163 /* transactions-view.swift */; };
+		A0000166 /* transaction-edit-grouped-rows.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000166 /* transaction-edit-grouped-rows.swift */; };
+		A0000167 /* hashtag-picker-sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000167 /* hashtag-picker-sheet.swift */; };
+		A0000170 /* budget-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000170 /* budget-models.swift */; };
+		A0000171 /* budget-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000171 /* budget-service.swift */; };
+		A0000172 /* budget-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000172 /* budget-view-model.swift */; };
+		A0000173 /* budget-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000173 /* budget-view.swift */; };
+		A0000174 /* budget-overview-card.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000174 /* budget-overview-card.swift */; };
+		A0000175 /* category-budgets-card.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000175 /* category-budgets-card.swift */; };
+		A0000176 /* budget-edit-sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000176 /* budget-edit-sheet.swift */; };
+		A0000180 /* investment-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000180 /* investment-models.swift */; };
+		A0000181 /* investments-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000181 /* investments-service.swift */; };
+		A0000182 /* investments-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000182 /* investments-view-model.swift */; };
+		A0000183 /* investments-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000183 /* investments-view.swift */; };
+		A0000184 /* investment-detail-sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000184 /* investment-detail-sheet.swift */; };
+		A0000190 /* accounts-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000190 /* accounts-models.swift */; };
+		A0000191 /* accounts-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000191 /* accounts-service.swift */; };
+		A0000192 /* accounts-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000192 /* accounts-view-model.swift */; };
+		A0000193 /* accounts-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000193 /* accounts-view.swift */; };
+		A0000194 /* plaid-link-coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000194 /* plaid-link-coordinator.swift */; };
+		A0000200 /* spending-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000200 /* spending-models.swift */; };
+		A0000201 /* spending-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000201 /* spending-service.swift */; };
+		A0000203 /* spending-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000203 /* spending-view.swift */; };
+		A0000210 /* category-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000210 /* category-models.swift */; };
+		A0000211 /* categories-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000211 /* categories-service.swift */; };
+		A0000212 /* categories-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000212 /* categories-view-model.swift */; };
+		A0000213 /* categories-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000213 /* categories-view.swift */; };
+		A0000214 /* category-picker-sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000214 /* category-picker-sheet.swift */; };
+		A0000215 /* category-icon-catalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000215 /* category-icon-catalog.swift */; };
+		A0000216 /* category-icon-picker-sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000216 /* category-icon-picker-sheet.swift */; };
+		A0000217 /* category-section-card.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000217 /* category-section-card.swift */; };
+		A0000218 /* category-editor-sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000218 /* category-editor-sheet.swift */; };
+		A0000220 /* rule-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000220 /* rule-models.swift */; };
+		A0000221 /* rules-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000221 /* rules-service.swift */; };
+		A0000222 /* rules-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000222 /* rules-view-model.swift */; };
+		A0000223 /* rules-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000223 /* rules-view.swift */; };
+		A0000224 /* rule-editor-sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000224 /* rule-editor-sheet.swift */; };
+		A0000225 /* rule-preview-helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000225 /* rule-preview-helpers.swift */; };
+		A0000226 /* moat-data-refresh-bus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000226 /* moat-data-refresh-bus.swift */; };
+		A0000801 /* notification-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000801 /* notification-models.swift */; };
+		A0000802 /* notification-rules-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000802 /* notification-rules-service.swift */; };
+		A0000803 /* notifications-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000803 /* notifications-view.swift */; };
+		A0000230 /* scenario-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000230 /* scenario-models.swift */; };
+		A0000231 /* scenarios-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000231 /* scenarios-service.swift */; };
+		A0000232 /* scenarios-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000232 /* scenarios-view-model.swift */; };
+		A0000233 /* scenarios-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000233 /* scenarios-view.swift */; };
+		A0000250 /* demo-mode-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000250 /* demo-mode-models.swift */; };
+		A0000251 /* demo-mode-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000251 /* demo-mode-service.swift */; };
+		A0000252 /* demo-mode-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000252 /* demo-mode-view-model.swift */; };
+		A0000253 /* demo-mode-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000253 /* demo-mode-view.swift */; };
+		A0000254 /* demo-mode-banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000254 /* demo-mode-banner.swift */; };
+		A0000260 /* account-settings-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000260 /* account-settings-models.swift */; };
+		A0000261 /* account-settings-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000261 /* account-settings-service.swift */; };
+		A0000262 /* account-settings-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000262 /* account-settings-view-model.swift */; };
+		A0000263 /* account-settings-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000263 /* account-settings-view.swift */; };
+		A0000270 /* onboarding-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000270 /* onboarding-models.swift */; };
+		A0000271 /* onboarding-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000271 /* onboarding-service.swift */; };
+		A0000272 /* onboarding-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000272 /* onboarding-view-model.swift */; };
+		A0000273 /* onboarding-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000273 /* onboarding-view.swift */; };
+		A0000274 /* onboarding-gate-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000274 /* onboarding-gate-view.swift */; };
+		A0000275 /* onboarding-allocation-card.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000275 /* onboarding-allocation-card.swift */; };
+		A0000276 /* onboarding-connected-institution-row.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000276 /* onboarding-connected-institution-row.swift */; };
+		A0000277 /* portfolio-allocation-chart-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000277 /* portfolio-allocation-chart-view.swift */; };
+		A0000280 /* household-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000280 /* household-models.swift */; };
+		A0000281 /* household-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000281 /* household-service.swift */; };
+		A0000282 /* household-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000282 /* household-view-model.swift */; };
+		A0000283 /* household-sharing-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000283 /* household-sharing-view.swift */; };
+
+		A0000450 /* feedback-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000450 /* feedback-models.swift */; };
+		A0000451 /* feedback-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000451 /* feedback-service.swift */; };
+		A0000452 /* feedback-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000452 /* feedback-view-model.swift */; };
+		A0000453 /* feedback-sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000453 /* feedback-sheet.swift */; };
+		A0000550 /* setup-guide-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000550 /* setup-guide-models.swift */; };
+		A0000551 /* setup-guide-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000551 /* setup-guide-service.swift */; };
+		A0000552 /* setup-guide-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000552 /* setup-guide-view-model.swift */; };
+		A0000553 /* setup-guide-card.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000553 /* setup-guide-card.swift */; };
+		A0000554 /* setup-guide-edit-sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000554 /* setup-guide-edit-sheet.swift */; };
+		A0000430 /* ai-access-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000430 /* ai-access-models.swift */; };
+		A0000431 /* mcp-scope-catalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000431 /* mcp-scope-catalog.swift */; };
+		A0000432 /* ai-access-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000432 /* ai-access-service.swift */; };
+		A0000433 /* ai-access-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000433 /* ai-access-view-model.swift */; };
+		A0000434 /* ai-access-connection-store.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000434 /* ai-access-connection-store.swift */; };
+		A0000435 /* ai-access-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000435 /* ai-access-view.swift */; };
+		A0000444 /* ai-assistant-connect-card.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000444 /* ai-assistant-connect-card.swift */; };
+		A0000436 /* ai-access-connect-banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000436 /* ai-access-connect-banner.swift */; };
+		A0000437 /* oauth-connections-section.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000437 /* oauth-connections-section.swift */; };
+		A0000438 /* personal-access-tokens-section.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000438 /* personal-access-tokens-section.swift */; };
+		A0000443 /* ai-access-compact-action-button.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000443 /* ai-access-compact-action-button.swift */; };
+		A0000439 /* create-mcp-token-sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000439 /* create-mcp-token-sheet.swift */; };
+		A0000440 /* mcp-logs-section.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000440 /* mcp-logs-section.swift */; };
+		A0000441 /* mcp-log-details-sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000441 /* mcp-log-details-sheet.swift */; };
+		A0000442 /* app-navigation-coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000442 /* app-navigation-coordinator.swift */; };
+		A0000500 /* financial-chart-selection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000500 /* financial-chart-selection.swift */; };
+		A0000501 /* financial-chart-formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000501 /* financial-chart-formatting.swift */; };
+		A0000502 /* financial-chart-style.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000502 /* financial-chart-style.swift */; };
+		A0000503 /* financial-chart-haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000503 /* financial-chart-haptics.swift */; };
+		A0000504 /* financial-chart-axis.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000504 /* financial-chart-axis.swift */; };
+		A0000505 /* financial-chart-interaction-overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000505 /* financial-chart-interaction-overlay.swift */; };
+		A0000506 /* financial-chart-container.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000506 /* financial-chart-container.swift */; };
+		A0000507 /* financial-chart-previews.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000507 /* financial-chart-previews.swift */; };
+		A0000508 /* financial-line-chart.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000508 /* financial-line-chart.swift */; };
+		A0000509 /* financial-bar-chart.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000509 /* financial-bar-chart.swift */; };
+		A000050A /* positive-negative-bar-chart.swift in Sources */ = {isa = PBXBuildFile; fileRef = B000050A /* positive-negative-bar-chart.swift */; };
+		A000050B /* financial-chart-interaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B000050B /* financial-chart-interaction.swift */; };
+		A000050C /* financial-chart-hold-to-inspect.swift in Sources */ = {isa = PBXBuildFile; fileRef = B000050C /* financial-chart-hold-to-inspect.swift */; };
+		A0000510 /* prompts.json in Resources */ = {isa = PBXBuildFile; fileRef = B0000510 /* prompts.json */; };
+		A0000511 /* prompt-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000511 /* prompt-models.swift */; };
+		A0000512 /* prompt-library-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000512 /* prompt-library-service.swift */; };
+		A0000513 /* ask-ai-dispatch-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000513 /* ask-ai-dispatch-service.swift */; };
+		A0000514 /* prompts-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000514 /* prompts-view-model.swift */; };
+		A0000515 /* prompts-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000515 /* prompts-view.swift */; };
+		A0000516 /* prompt-card-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000516 /* prompt-card-view.swift */; };
+		A0000517 /* prompt-detail-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000517 /* prompt-detail-view.swift */; };
+		A0000518 /* prompt-tag-chip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000518 /* prompt-tag-chip.swift */; };
+		A0000519 /* prompts-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000519 /* prompts-service.swift */; };
+		A000051A /* prompt-create-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B000051A /* prompt-create-view-model.swift */; };
+		A000051B /* prompt-status-badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = B000051B /* prompt-status-badge.swift */; };
+		A000051C /* community-prompt-card.swift in Sources */ = {isa = PBXBuildFile; fileRef = B000051C /* community-prompt-card.swift */; };
+		A000051D /* prompt-create-choice-sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B000051D /* prompt-create-choice-sheet.swift */; };
+		A0000701 /* community-tip-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000701 /* community-tip-models.swift */; };
+		A0000702 /* community-tips-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000702 /* community-tips-service.swift */; };
+		A0000703 /* community-tips-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000703 /* community-tips-view-model.swift */; };
+		A0000704 /* community-tips-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000704 /* community-tips-view.swift */; };
+		A0000705 /* community-tip-detail-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000705 /* community-tip-detail-view.swift */; };
+		A0000706 /* community-tip-submit-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000706 /* community-tip-submit-view.swift */; };
+		A0000707 /* my-community-tips-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000707 /* my-community-tips-view.swift */; };
+		A0000708 /* community-tip-recommendation-card.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000708 /* community-tip-recommendation-card.swift */; };
+		T0000005 /* financial-chart-selection-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T0000004 /* financial-chart-selection-tests.swift */; };
+		T0000051 /* financial-chart-interaction-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T0000050 /* financial-chart-interaction-tests.swift */; };
+		T0000061 /* account-history-chart-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T0000060 /* account-history-chart-tests.swift */; };
+		A0000290 /* financial-profile-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000290 /* financial-profile-models.swift */; };
+		A0000291 /* financial-profile-field-options.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000291 /* financial-profile-field-options.swift */; };
+		A0000292 /* financial-profile-link-options.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000292 /* financial-profile-link-options.swift */; };
+		A0000293 /* insurance-cloud-safety.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000293 /* insurance-cloud-safety.swift */; };
+		A0000294 /* financial-profile-formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000294 /* financial-profile-formatters.swift */; };
+		A0000295 /* financial-profile-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000295 /* financial-profile-service.swift */; };
+		A0000296 /* financial-profile-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000296 /* financial-profile-view-model.swift */; };
+		A0000297 /* financial-profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000297 /* financial-profile.swift */; };
+		A0000299 /* financial-profile-section-card.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000299 /* financial-profile-section-card.swift */; };
+		A0000300 /* financial-profile-sections.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000300 /* financial-profile-sections.swift */; };
+		A0000301 /* financial-profile-edit-sheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000301 /* financial-profile-edit-sheets.swift */; };
+		A0000302 /* financial-profile-collection-sheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000302 /* financial-profile-collection-sheets.swift */; };
+		A0000303 /* financial-profile-account-sheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000303 /* financial-profile-account-sheets.swift */; };
+		A0000304 /* financial-profile-insurance-sheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000304 /* financial-profile-insurance-sheets.swift */; };
+		A0000305 /* financial-profile-labeled-field.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000305 /* financial-profile-labeled-field.swift */; };
+		A0000350 /* apple-wallet-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000350 /* apple-wallet-models.swift */; };
+		A0000351 /* apple-finance-kit-normalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000351 /* apple-finance-kit-normalizer.swift */; };
+		A0000352 /* apple-finance-kit-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000352 /* apple-finance-kit-service.swift */; };
+		A0000353 /* apple-finance-kit-sync-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000353 /* apple-finance-kit-sync-service.swift */; };
+		A0000354 /* apple-wallet-api-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000354 /* apple-wallet-api-service.swift */; };
+		A0000811 /* apple-wallet-auto-sync-coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000811 /* apple-wallet-auto-sync-coordinator.swift */; };
+		A0000812 /* apple-finance-kit-history-token-store.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000812 /* apple-finance-kit-history-token-store.swift */; };
+		A0000813 /* apple-wallet-shared-container.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000813 /* apple-wallet-shared-container.swift */; };
+		A0000814 /* apple-finance-kit-background-delivery.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000814 /* apple-finance-kit-background-delivery.swift */; };
+		A0000355 /* apple-wallet-connect-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000355 /* apple-wallet-connect-view-model.swift */; };
+		A0000356 /* apple-wallet-connect-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000356 /* apple-wallet-connect-view.swift */; };
+		A0000357 /* FinanceKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0000357 /* FinanceKit.framework */; };
+		A0000358 /* moat-mark.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000358 /* moat-mark.swift */; };
+		A0000359 /* moat-more-menu-icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000359 /* moat-more-menu-icon.swift */; };
+		A0000360 /* financial-connection-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000360 /* financial-connection-models.swift */; };
+		A0000361 /* top-institutions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000361 /* top-institutions.swift */; };
+		A0000362 /* financial-connections-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000362 /* financial-connections-service.swift */; };
+		A0000363 /* provider-launch-coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000363 /* provider-launch-coordinator.swift */; };
+		A0000364 /* connect-institution-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000364 /* connect-institution-view-model.swift */; };
+		A0000365 /* institution-logo-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000365 /* institution-logo-view.swift */; };
+		A0000366 /* top-institutions-grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000366 /* top-institutions-grid.swift */; };
+		A0000367 /* institution-search-result-row.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000367 /* institution-search-result-row.swift */; };
+		A0000368 /* connect-institution-sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000368 /* connect-institution-sheet.swift */; };
+		A0000369 /* connect-institution-import-overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000369 /* connect-institution-import-overlay.swift */; };
+		A0000370 /* moat-confetti-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000370 /* moat-confetti-view.swift */; };
+		A0000380 /* post-connect-transaction-polling.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000380 /* post-connect-transaction-polling.swift */; };
+		A0000381 /* remote-logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000381 /* remote-logger.swift */; };
+		A0000382 /* finance-kit-diagnostics.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000382 /* finance-kit-diagnostics.swift */; };
+		A0000383 /* moat-text-field.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000383 /* moat-text-field.swift */; };
+		A0000384 /* moat-toggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000384 /* moat-toggle.swift */; };
+		A0000386 /* moat-keyboard-dismiss.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000386 /* moat-keyboard-dismiss.swift */; };
+		A0000920 /* moat-flow-layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000920 /* moat-flow-layout.swift */; };
+		A0000921 /* moat-dotted-underline.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000921 /* moat-dotted-underline.swift */; };
+		A0000922 /* inline-rule-token-label.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000922 /* inline-rule-token-label.swift */; };
+		A0000923 /* inline-rule-static-text.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000923 /* inline-rule-static-text.swift */; };
+		A0000924 /* inline-rule-sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000924 /* inline-rule-sentence.swift */; };
+		A0000925 /* inline-rule-picker-token.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000925 /* inline-rule-picker-token.swift */; };
+		A0000926 /* inline-rule-text-token.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000926 /* inline-rule-text-token.swift */; };
+		A0000927 /* inline-rule-remove-button.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000927 /* inline-rule-remove-button.swift */; };
+		A0000928 /* inline-rule-date-token.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000928 /* inline-rule-date-token.swift */; };
+		A0000929 /* rule-condition-sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000929 /* rule-condition-sentence.swift */; };
+		A0000930 /* rule-action-sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000930 /* rule-action-sentence.swift */; };
+		A0000931 /* rule-category-token.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000931 /* rule-category-token.swift */; };
+		A0000932 /* hashtag-suggestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000932 /* hashtag-suggestions.swift */; };
+		T0000021 /* hashtag-suggestions-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T0000020 /* hashtag-suggestions-tests.swift */; };
+		T0000031 /* transaction-day-grouping-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T0000030 /* transaction-day-grouping-tests.swift */; };
+		T0000041 /* transaction-rule-matcher-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T0000040 /* transaction-rule-matcher-tests.swift */; };
+		T0000071 /* transaction-stats-window-tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T0000070 /* transaction-stats-window-tests.swift */; };
+		A0000385 /* haptic-feedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000385 /* haptic-feedback.swift */; };
+		A0000390 /* insights-period.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000390 /* insights-period.swift */; };
+		A0000391 /* income-insights-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000391 /* income-insights-models.swift */; };
+		A0000392 /* net-income-insights-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000392 /* net-income-insights-models.swift */; };
+		A0000393 /* insights-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000393 /* insights-service.swift */; };
+		A0000394 /* spending-insights-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000394 /* spending-insights-view-model.swift */; };
+		A0000395 /* income-insights-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000395 /* income-insights-view-model.swift */; };
+		A0000396 /* net-income-insights-view-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000396 /* net-income-insights-view-model.swift */; };
+		A0000397 /* insights-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000397 /* insights-view.swift */; };
+		A0000398 /* insights-tab-picker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000398 /* insights-tab-picker.swift */; };
+		A0000399 /* insights-period-picker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000399 /* insights-period-picker.swift */; };
+		A0000400 /* insights-chart-utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000400 /* insights-chart-utils.swift */; };
+		A0000401 /* spending-insights-tab-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000401 /* spending-insights-tab-view.swift */; };
+		A0000402 /* income-insights-tab-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000402 /* income-insights-tab-view.swift */; };
+		A0000403 /* income-tab-sections.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000403 /* income-tab-sections.swift */; };
+		A0000404 /* net-income-insights-tab-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000404 /* net-income-insights-tab-view.swift */; };
+		A0000405 /* net-income-tab-sections.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000405 /* net-income-tab-sections.swift */; };
+		A0000406 /* spending-tab-sections.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000406 /* spending-tab-sections.swift */; };
+		A0000407 /* insights-chart-cta-copy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000407 /* insights-chart-cta-copy.swift */; };
+		A0000408 /* insights-chart-request-ctas.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000408 /* insights-chart-request-ctas.swift */; };
+		A0000410 /* biometric-auth-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000410 /* biometric-auth-service.swift */; };
+		A0000411 /* app-lock-preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000411 /* app-lock-preferences.swift */; };
+		A0000412 /* app-lock-manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000412 /* app-lock-manager.swift */; };
+		A0000413 /* app-locked-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000413 /* app-locked-view.swift */; };
+		A0000414 /* app-lock-gate-view.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000414 /* app-lock-gate-view.swift */; };
+		A0000415 /* security-settings-card.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000415 /* security-settings-card.swift */; };
+		A0000420 /* real-estate-models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000420 /* real-estate-models.swift */; };
+		A0000421 /* real-estate-service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000421 /* real-estate-service.swift */; };
+		A0000422 /* property-intake-sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000422 /* property-intake-sheet.swift */; };
+		A0000900 /* LinkKit in Frameworks */ = {isa = PBXBuildFile; productRef = X0000901 /* LinkKit */; };
+		A0000910 /* PostHog in Frameworks */ = {isa = PBXBuildFile; productRef = X0000911 /* PostHog */; };
+		A0000460 /* Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0000460 /* Analytics.swift */; };
+		BB3831B02F92ABD000339112 /* GoogleSignInManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3831AF2F92ABD000339112 /* GoogleSignInManager.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		T0000006 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F0000000 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F0000001;
+			remoteInfo = Moat;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		B0000001 /* MoatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoatApp.swift; sourceTree = "<group>"; };
+		B0000002 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
+		B0000003 /* AppDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependencies.swift; sourceTree = "<group>"; };
+		B0000004 /* deep-link-router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "deep-link-router.swift"; sourceTree = "<group>"; };
+		B0000010 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		B0000011 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		B0000012 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		B0000020 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		B0000021 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		B0000022 /* CredentialsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialsStore.swift; sourceTree = "<group>"; };
+		B0000030 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		B0000031 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		B0000524 /* Error+Cancellation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+Cancellation.swift"; sourceTree = "<group>"; };
+		B0000032 /* app-logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "app-logger.swift"; sourceTree = "<group>"; };
+		B0000040 /* MoatCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoatCard.swift; sourceTree = "<group>"; };
+		B0000041 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		B0000042 /* ErrorStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorStateView.swift; sourceTree = "<group>"; };
+		B0000520 /* moat-skeleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "moat-skeleton.swift"; sourceTree = "<group>"; };
+		B0000521 /* dashboard-loading-skeleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "dashboard-loading-skeleton.swift"; sourceTree = "<group>"; };
+		B0000522 /* financial-profile-loading-skeleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-profile-loading-skeleton.swift"; sourceTree = "<group>"; };
+		B0000933 /* account-history-chart-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "account-history-chart-view.swift"; sourceTree = "<group>"; };
+		B0000934 /* account-balance-history-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "account-balance-history-models.swift"; sourceTree = "<group>"; };
+		B0000940 /* retirement-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "retirement-models.swift"; sourceTree = "<group>"; };
+		B0000941 /* retirement-lever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "retirement-lever.swift"; sourceTree = "<group>"; };
+		B0000942 /* retirement-scenario.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "retirement-scenario.swift"; sourceTree = "<group>"; };
+		B0000943 /* retirement-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "retirement-service.swift"; sourceTree = "<group>"; };
+		B0000944 /* retirement-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "retirement-view-model.swift"; sourceTree = "<group>"; };
+		B0000945 /* retirement-what-if-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "retirement-what-if-view-model.swift"; sourceTree = "<group>"; };
+		B0000946 /* retirement-scenarios-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "retirement-scenarios-view-model.swift"; sourceTree = "<group>"; };
+		B0000947 /* retirement-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "retirement-view.swift"; sourceTree = "<group>"; };
+		B0000948 /* retirement-metric-strip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "retirement-metric-strip.swift"; sourceTree = "<group>"; };
+		B0000949 /* retirement-timeline-chart-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "retirement-timeline-chart-view.swift"; sourceTree = "<group>"; };
+		B0000950 /* retirement-what-if-section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "retirement-what-if-section.swift"; sourceTree = "<group>"; };
+		B0000951 /* retirement-lever-stack-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "retirement-lever-stack-view.swift"; sourceTree = "<group>"; };
+		B0000952 /* retirement-lever-editor-sheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "retirement-lever-editor-sheet.swift"; sourceTree = "<group>"; };
+		B0000953 /* retirement-scenario-compare-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "retirement-scenario-compare-view.swift"; sourceTree = "<group>"; };
+		B0000954 /* retirement-risk-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "retirement-risk-view.swift"; sourceTree = "<group>"; };
+		B0001100 /* taxes-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "taxes-models.swift"; sourceTree = "<group>"; };
+		B0001101 /* taxes-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "taxes-service.swift"; sourceTree = "<group>"; };
+		B0001102 /* taxes-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "taxes-view-model.swift"; sourceTree = "<group>"; };
+		B0001103 /* taxes-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "taxes-view.swift"; sourceTree = "<group>"; };
+		B0001200 /* mileage-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "mileage-models.swift"; sourceTree = "<group>"; };
+		B0001201 /* mileage-rates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "mileage-rates.swift"; sourceTree = "<group>"; };
+		B0001202 /* mileage-geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "mileage-geometry.swift"; sourceTree = "<group>"; };
+		B0001203 /* mileage-tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "mileage-tracker.swift"; sourceTree = "<group>"; };
+		B0001204 /* mileage-store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "mileage-store.swift"; sourceTree = "<group>"; };
+		B0001205 /* mileage-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "mileage-view-model.swift"; sourceTree = "<group>"; };
+		B0001206 /* mileage-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "mileage-view.swift"; sourceTree = "<group>"; };
+		B0001207 /* mileage-track-tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "mileage-track-tab.swift"; sourceTree = "<group>"; };
+		B0001208 /* mileage-history-tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "mileage-history-tab.swift"; sourceTree = "<group>"; };
+		B0001209 /* mileage-route-map-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "mileage-route-map-view.swift"; sourceTree = "<group>"; };
+		T0000080 /* mileage-geometry-tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "mileage-geometry-tests.swift"; sourceTree = "<group>"; };
+		B0000523 /* transactions-loading-skeleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "transactions-loading-skeleton.swift"; sourceTree = "<group>"; };
+		B0000050 /* CurrencyFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyFormatter.swift; sourceTree = "<group>"; };
+		B0000052 /* AmountInputFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountInputFormatter.swift; sourceTree = "<group>"; };
+		B0000051 /* DateFormatterProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterProvider.swift; sourceTree = "<group>"; };
+		B0000060 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		B0000061 /* AuthLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthLoadingView.swift; sourceTree = "<group>"; };
+		B0000062 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		B0000070 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		B0000071 /* NetWorthChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetWorthChartView.swift; sourceTree = "<group>"; };
+		B0000079 /* forecast-horizon-picker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "forecast-horizon-picker.swift"; sourceTree = "<group>"; };
+		B0000072 /* SummaryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryCardView.swift; sourceTree = "<group>"; };
+		B0000073 /* NetWorthPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetWorthPoint.swift; sourceTree = "<group>"; };
+		B0000074 /* DashboardSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardSummary.swift; sourceTree = "<group>"; };
+		B0000075 /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
+		B0000076 /* DashboardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardService.swift; sourceTree = "<group>"; };
+		B0000077 /* DashboardLayoutModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardLayoutModels.swift; sourceTree = "<group>"; };
+		B0000078 /* DashboardCustomizeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardCustomizeSheet.swift; sourceTree = "<group>"; };
+		B0000080 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B0000090 /* MoatApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MoatApp.entitlements; sourceTree = "<group>"; };
+		B0000091 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B0000100 /* app-destination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "app-destination.swift"; sourceTree = "<group>"; };
+		B0000101 /* app-shell-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "app-shell-view.swift"; sourceTree = "<group>"; };
+		B0000102 /* more-menu-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "more-menu-view.swift"; sourceTree = "<group>"; };
+		B0000110 /* moat-theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "moat-theme.swift"; sourceTree = "<group>"; };
+		B0000130 /* moat-glass-sheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "moat-glass-sheet.swift"; sourceTree = "<group>"; };
+		B0000131 /* moat-action-result-sheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "moat-action-result-sheet.swift"; sourceTree = "<group>"; };
+		B0000140 /* feature-placeholder-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "feature-placeholder-view.swift"; sourceTree = "<group>"; };
+		B0000150 /* json-value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "json-value.swift"; sourceTree = "<group>"; };
+		B0000151 /* remote-feature-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "remote-feature-model.swift"; sourceTree = "<group>"; };
+		B0000152 /* remote-feature-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "remote-feature-service.swift"; sourceTree = "<group>"; };
+		B0000153 /* remote-feature-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "remote-feature-view-model.swift"; sourceTree = "<group>"; };
+		B0000154 /* remote-feature-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "remote-feature-view.swift"; sourceTree = "<group>"; };
+		B0000160 /* transaction-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "transaction-models.swift"; sourceTree = "<group>"; };
+		B0000164 /* transaction-rule-matcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "transaction-rule-matcher.swift"; sourceTree = "<group>"; };
+		B0000165 /* transaction-stats-window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "transaction-stats-window.swift"; sourceTree = "<group>"; };
+		B0000161 /* transactions-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "transactions-service.swift"; sourceTree = "<group>"; };
+		B0000162 /* transactions-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "transactions-view-model.swift"; sourceTree = "<group>"; };
+		B0000163 /* transactions-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "transactions-view.swift"; sourceTree = "<group>"; };
+		B0000166 /* transaction-edit-grouped-rows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "transaction-edit-grouped-rows.swift"; sourceTree = "<group>"; };
+		B0000167 /* hashtag-picker-sheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "hashtag-picker-sheet.swift"; sourceTree = "<group>"; };
+		B0000170 /* budget-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "budget-models.swift"; sourceTree = "<group>"; };
+		B0000171 /* budget-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "budget-service.swift"; sourceTree = "<group>"; };
+		B0000172 /* budget-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "budget-view-model.swift"; sourceTree = "<group>"; };
+		B0000173 /* budget-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "budget-view.swift"; sourceTree = "<group>"; };
+		B0000174 /* budget-overview-card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "budget-overview-card.swift"; sourceTree = "<group>"; };
+		B0000175 /* category-budgets-card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "category-budgets-card.swift"; sourceTree = "<group>"; };
+		B0000176 /* budget-edit-sheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "budget-edit-sheet.swift"; sourceTree = "<group>"; };
+		B0000180 /* investment-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "investment-models.swift"; sourceTree = "<group>"; };
+		B0000181 /* investments-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "investments-service.swift"; sourceTree = "<group>"; };
+		B0000182 /* investments-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "investments-view-model.swift"; sourceTree = "<group>"; };
+		B0000183 /* investments-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "investments-view.swift"; sourceTree = "<group>"; };
+		B0000184 /* investment-detail-sheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "investment-detail-sheet.swift"; sourceTree = "<group>"; };
+		B0000190 /* accounts-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "accounts-models.swift"; sourceTree = "<group>"; };
+		B0000191 /* accounts-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "accounts-service.swift"; sourceTree = "<group>"; };
+		B0000192 /* accounts-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "accounts-view-model.swift"; sourceTree = "<group>"; };
+		B0000193 /* accounts-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "accounts-view.swift"; sourceTree = "<group>"; };
+		B0000194 /* plaid-link-coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "plaid-link-coordinator.swift"; sourceTree = "<group>"; };
+		B0000200 /* spending-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "spending-models.swift"; sourceTree = "<group>"; };
+		B0000201 /* spending-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "spending-service.swift"; sourceTree = "<group>"; };
+		B0000203 /* spending-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "spending-view.swift"; sourceTree = "<group>"; };
+		B0000210 /* category-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "category-models.swift"; sourceTree = "<group>"; };
+		B0000211 /* categories-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "categories-service.swift"; sourceTree = "<group>"; };
+		B0000212 /* categories-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "categories-view-model.swift"; sourceTree = "<group>"; };
+		B0000213 /* categories-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "categories-view.swift"; sourceTree = "<group>"; };
+		B0000214 /* category-picker-sheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "category-picker-sheet.swift"; sourceTree = "<group>"; };
+		B0000215 /* category-icon-catalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "category-icon-catalog.swift"; sourceTree = "<group>"; };
+		B0000216 /* category-icon-picker-sheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "category-icon-picker-sheet.swift"; sourceTree = "<group>"; };
+		B0000217 /* category-section-card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "category-section-card.swift"; sourceTree = "<group>"; };
+		B0000218 /* category-editor-sheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "category-editor-sheet.swift"; sourceTree = "<group>"; };
+		B0000220 /* rule-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "rule-models.swift"; sourceTree = "<group>"; };
+		B0000221 /* rules-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "rules-service.swift"; sourceTree = "<group>"; };
+		B0000222 /* rules-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "rules-view-model.swift"; sourceTree = "<group>"; };
+		B0000223 /* rules-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "rules-view.swift"; sourceTree = "<group>"; };
+		B0000224 /* rule-editor-sheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "rule-editor-sheet.swift"; sourceTree = "<group>"; };
+		B0000225 /* rule-preview-helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "rule-preview-helpers.swift"; sourceTree = "<group>"; };
+		B0000226 /* moat-data-refresh-bus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "moat-data-refresh-bus.swift"; sourceTree = "<group>"; };
+		B0000801 /* notification-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "notification-models.swift"; sourceTree = "<group>"; };
+		B0000802 /* notification-rules-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "notification-rules-service.swift"; sourceTree = "<group>"; };
+		B0000803 /* notifications-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "notifications-view.swift"; sourceTree = "<group>"; };
+		B0000230 /* scenario-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "scenario-models.swift"; sourceTree = "<group>"; };
+		B0000231 /* scenarios-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "scenarios-service.swift"; sourceTree = "<group>"; };
+		B0000232 /* scenarios-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "scenarios-view-model.swift"; sourceTree = "<group>"; };
+		B0000233 /* scenarios-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "scenarios-view.swift"; sourceTree = "<group>"; };
+		B0000250 /* demo-mode-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "demo-mode-models.swift"; sourceTree = "<group>"; };
+		B0000251 /* demo-mode-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "demo-mode-service.swift"; sourceTree = "<group>"; };
+		B0000252 /* demo-mode-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "demo-mode-view-model.swift"; sourceTree = "<group>"; };
+		B0000253 /* demo-mode-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "demo-mode-view.swift"; sourceTree = "<group>"; };
+		B0000254 /* demo-mode-banner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "demo-mode-banner.swift"; sourceTree = "<group>"; };
+		B0000260 /* account-settings-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "account-settings-models.swift"; sourceTree = "<group>"; };
+		B0000261 /* account-settings-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "account-settings-service.swift"; sourceTree = "<group>"; };
+		B0000262 /* account-settings-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "account-settings-view-model.swift"; sourceTree = "<group>"; };
+		B0000263 /* account-settings-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "account-settings-view.swift"; sourceTree = "<group>"; };
+		B0000270 /* onboarding-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "onboarding-models.swift"; sourceTree = "<group>"; };
+		B0000271 /* onboarding-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "onboarding-service.swift"; sourceTree = "<group>"; };
+		B0000272 /* onboarding-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "onboarding-view-model.swift"; sourceTree = "<group>"; };
+		B0000273 /* onboarding-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "onboarding-view.swift"; sourceTree = "<group>"; };
+		B0000274 /* onboarding-gate-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "onboarding-gate-view.swift"; sourceTree = "<group>"; };
+		B0000275 /* onboarding-allocation-card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "onboarding-allocation-card.swift"; sourceTree = "<group>"; };
+		B0000276 /* onboarding-connected-institution-row.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "onboarding-connected-institution-row.swift"; sourceTree = "<group>"; };
+		B0000277 /* portfolio-allocation-chart-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "portfolio-allocation-chart-view.swift"; sourceTree = "<group>"; };
+		B0000280 /* household-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "household-models.swift"; sourceTree = "<group>"; };
+		B0000281 /* household-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "household-service.swift"; sourceTree = "<group>"; };
+		B0000282 /* household-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "household-view-model.swift"; sourceTree = "<group>"; };
+		B0000283 /* household-sharing-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "household-sharing-view.swift"; sourceTree = "<group>"; };
+		B0000450 /* feedback-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "feedback-models.swift"; sourceTree = "<group>"; };
+		B0000451 /* feedback-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "feedback-service.swift"; sourceTree = "<group>"; };
+		B0000452 /* feedback-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "feedback-view-model.swift"; sourceTree = "<group>"; };
+		B0000453 /* feedback-sheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "feedback-sheet.swift"; sourceTree = "<group>"; };
+		B0000550 /* setup-guide-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "setup-guide-models.swift"; sourceTree = "<group>"; };
+		B0000551 /* setup-guide-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "setup-guide-service.swift"; sourceTree = "<group>"; };
+		B0000552 /* setup-guide-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "setup-guide-view-model.swift"; sourceTree = "<group>"; };
+		B0000553 /* setup-guide-card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "setup-guide-card.swift"; sourceTree = "<group>"; };
+		B0000554 /* setup-guide-edit-sheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "setup-guide-edit-sheet.swift"; sourceTree = "<group>"; };
+		B0000430 /* ai-access-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ai-access-models.swift"; sourceTree = "<group>"; };
+		B0000431 /* mcp-scope-catalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "mcp-scope-catalog.swift"; sourceTree = "<group>"; };
+		B0000432 /* ai-access-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ai-access-service.swift"; sourceTree = "<group>"; };
+		B0000433 /* ai-access-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ai-access-view-model.swift"; sourceTree = "<group>"; };
+		B0000434 /* ai-access-connection-store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ai-access-connection-store.swift"; sourceTree = "<group>"; };
+		B0000435 /* ai-access-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ai-access-view.swift"; sourceTree = "<group>"; };
+		B0000444 /* ai-assistant-connect-card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ai-assistant-connect-card.swift"; sourceTree = "<group>"; };
+		B0000436 /* ai-access-connect-banner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ai-access-connect-banner.swift"; sourceTree = "<group>"; };
+		B0000437 /* oauth-connections-section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "oauth-connections-section.swift"; sourceTree = "<group>"; };
+		B0000438 /* personal-access-tokens-section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "personal-access-tokens-section.swift"; sourceTree = "<group>"; };
+		B0000443 /* ai-access-compact-action-button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ai-access-compact-action-button.swift"; sourceTree = "<group>"; };
+		B0000439 /* create-mcp-token-sheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "create-mcp-token-sheet.swift"; sourceTree = "<group>"; };
+		B0000440 /* mcp-logs-section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "mcp-logs-section.swift"; sourceTree = "<group>"; };
+		B0000441 /* mcp-log-details-sheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "mcp-log-details-sheet.swift"; sourceTree = "<group>"; };
+		B0000442 /* app-navigation-coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "app-navigation-coordinator.swift"; sourceTree = "<group>"; };
+		B0000290 /* financial-profile-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-profile-models.swift"; sourceTree = "<group>"; };
+		B0000291 /* financial-profile-field-options.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-profile-field-options.swift"; sourceTree = "<group>"; };
+		B0000292 /* financial-profile-link-options.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-profile-link-options.swift"; sourceTree = "<group>"; };
+		B0000293 /* insurance-cloud-safety.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "insurance-cloud-safety.swift"; sourceTree = "<group>"; };
+		B0000294 /* financial-profile-formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-profile-formatters.swift"; sourceTree = "<group>"; };
+		B0000295 /* financial-profile-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-profile-service.swift"; sourceTree = "<group>"; };
+		B0000296 /* financial-profile-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-profile-view-model.swift"; sourceTree = "<group>"; };
+		B0000297 /* financial-profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-profile.swift"; sourceTree = "<group>"; };
+		B0000299 /* financial-profile-section-card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-profile-section-card.swift"; sourceTree = "<group>"; };
+		B0000300 /* financial-profile-sections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-profile-sections.swift"; sourceTree = "<group>"; };
+		B0000301 /* financial-profile-edit-sheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-profile-edit-sheets.swift"; sourceTree = "<group>"; };
+		B0000302 /* financial-profile-collection-sheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-profile-collection-sheets.swift"; sourceTree = "<group>"; };
+		B0000303 /* financial-profile-account-sheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-profile-account-sheets.swift"; sourceTree = "<group>"; };
+		B0000304 /* financial-profile-insurance-sheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-profile-insurance-sheets.swift"; sourceTree = "<group>"; };
+		B0000305 /* financial-profile-labeled-field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-profile-labeled-field.swift"; sourceTree = "<group>"; };
+		B0000350 /* apple-wallet-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "apple-wallet-models.swift"; sourceTree = "<group>"; };
+		B0000351 /* apple-finance-kit-normalizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "apple-finance-kit-normalizer.swift"; sourceTree = "<group>"; };
+		B0000352 /* apple-finance-kit-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "apple-finance-kit-service.swift"; sourceTree = "<group>"; };
+		B0000353 /* apple-finance-kit-sync-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "apple-finance-kit-sync-service.swift"; sourceTree = "<group>"; };
+		B0000354 /* apple-wallet-api-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "apple-wallet-api-service.swift"; sourceTree = "<group>"; };
+		B0000811 /* apple-wallet-auto-sync-coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "apple-wallet-auto-sync-coordinator.swift"; sourceTree = "<group>"; };
+		B0000812 /* apple-finance-kit-history-token-store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "apple-finance-kit-history-token-store.swift"; sourceTree = "<group>"; };
+		B0000813 /* apple-wallet-shared-container.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "apple-wallet-shared-container.swift"; sourceTree = "<group>"; };
+		B0000814 /* apple-finance-kit-background-delivery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "apple-finance-kit-background-delivery.swift"; sourceTree = "<group>"; };
+		B0000355 /* apple-wallet-connect-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "apple-wallet-connect-view-model.swift"; sourceTree = "<group>"; };
+		B0000356 /* apple-wallet-connect-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "apple-wallet-connect-view.swift"; sourceTree = "<group>"; };
+		B0000357 /* FinanceKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FinanceKit.framework; path = System/Library/Frameworks/FinanceKit.framework; sourceTree = SDKROOT; };
+		B0000358 /* moat-mark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "moat-mark.swift"; sourceTree = "<group>"; };
+		B0000359 /* moat-more-menu-icon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "moat-more-menu-icon.swift"; sourceTree = "<group>"; };
+		B0000360 /* financial-connection-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-connection-models.swift"; sourceTree = "<group>"; };
+		B0000361 /* top-institutions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "top-institutions.swift"; sourceTree = "<group>"; };
+		B0000362 /* financial-connections-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-connections-service.swift"; sourceTree = "<group>"; };
+		B0000363 /* provider-launch-coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "provider-launch-coordinator.swift"; sourceTree = "<group>"; };
+		B0000364 /* connect-institution-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "connect-institution-view-model.swift"; sourceTree = "<group>"; };
+		B0000365 /* institution-logo-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "institution-logo-view.swift"; sourceTree = "<group>"; };
+		B0000366 /* top-institutions-grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "top-institutions-grid.swift"; sourceTree = "<group>"; };
+		B0000367 /* institution-search-result-row.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "institution-search-result-row.swift"; sourceTree = "<group>"; };
+		B0000368 /* connect-institution-sheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "connect-institution-sheet.swift"; sourceTree = "<group>"; };
+		B0000369 /* connect-institution-import-overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "connect-institution-import-overlay.swift"; sourceTree = "<group>"; };
+		B0000370 /* moat-confetti-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "moat-confetti-view.swift"; sourceTree = "<group>"; };
+		B0000380 /* post-connect-transaction-polling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "post-connect-transaction-polling.swift"; sourceTree = "<group>"; };
+		B0000381 /* remote-logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "remote-logger.swift"; sourceTree = "<group>"; };
+		B0000460 /* Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
+		B0000382 /* finance-kit-diagnostics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "finance-kit-diagnostics.swift"; sourceTree = "<group>"; };
+		B0000383 /* moat-text-field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "moat-text-field.swift"; sourceTree = "<group>"; };
+		B0000384 /* moat-toggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "moat-toggle.swift"; sourceTree = "<group>"; };
+		B0000386 /* moat-keyboard-dismiss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "moat-keyboard-dismiss.swift"; sourceTree = "<group>"; };
+		B0000920 /* moat-flow-layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "moat-flow-layout.swift"; sourceTree = "<group>"; };
+		B0000921 /* moat-dotted-underline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "moat-dotted-underline.swift"; sourceTree = "<group>"; };
+		B0000922 /* inline-rule-token-label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "inline-rule-token-label.swift"; sourceTree = "<group>"; };
+		B0000923 /* inline-rule-static-text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "inline-rule-static-text.swift"; sourceTree = "<group>"; };
+		B0000924 /* inline-rule-sentence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "inline-rule-sentence.swift"; sourceTree = "<group>"; };
+		B0000925 /* inline-rule-picker-token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "inline-rule-picker-token.swift"; sourceTree = "<group>"; };
+		B0000926 /* inline-rule-text-token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "inline-rule-text-token.swift"; sourceTree = "<group>"; };
+		B0000927 /* inline-rule-remove-button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "inline-rule-remove-button.swift"; sourceTree = "<group>"; };
+		B0000928 /* inline-rule-date-token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "inline-rule-date-token.swift"; sourceTree = "<group>"; };
+		B0000929 /* rule-condition-sentence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "rule-condition-sentence.swift"; sourceTree = "<group>"; };
+		B0000930 /* rule-action-sentence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "rule-action-sentence.swift"; sourceTree = "<group>"; };
+		B0000931 /* rule-category-token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "rule-category-token.swift"; sourceTree = "<group>"; };
+		B0000932 /* hashtag-suggestions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "hashtag-suggestions.swift"; sourceTree = "<group>"; };
+		B0000385 /* haptic-feedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "haptic-feedback.swift"; sourceTree = "<group>"; };
+		B0000390 /* insights-period.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "insights-period.swift"; sourceTree = "<group>"; };
+		B0000391 /* income-insights-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "income-insights-models.swift"; sourceTree = "<group>"; };
+		B0000392 /* net-income-insights-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "net-income-insights-models.swift"; sourceTree = "<group>"; };
+		B0000393 /* insights-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "insights-service.swift"; sourceTree = "<group>"; };
+		B0000394 /* spending-insights-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "spending-insights-view-model.swift"; sourceTree = "<group>"; };
+		B0000395 /* income-insights-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "income-insights-view-model.swift"; sourceTree = "<group>"; };
+		B0000396 /* net-income-insights-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "net-income-insights-view-model.swift"; sourceTree = "<group>"; };
+		B0000397 /* insights-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "insights-view.swift"; sourceTree = "<group>"; };
+		B0000398 /* insights-tab-picker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "insights-tab-picker.swift"; sourceTree = "<group>"; };
+		B0000399 /* insights-period-picker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "insights-period-picker.swift"; sourceTree = "<group>"; };
+		B0000400 /* insights-chart-utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "insights-chart-utils.swift"; sourceTree = "<group>"; };
+		B0000401 /* spending-insights-tab-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "spending-insights-tab-view.swift"; sourceTree = "<group>"; };
+		B0000402 /* income-insights-tab-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "income-insights-tab-view.swift"; sourceTree = "<group>"; };
+		B0000403 /* income-tab-sections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "income-tab-sections.swift"; sourceTree = "<group>"; };
+		B0000404 /* net-income-insights-tab-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "net-income-insights-tab-view.swift"; sourceTree = "<group>"; };
+		B0000405 /* net-income-tab-sections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "net-income-tab-sections.swift"; sourceTree = "<group>"; };
+		B0000406 /* spending-tab-sections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "spending-tab-sections.swift"; sourceTree = "<group>"; };
+		B0000407 /* insights-chart-cta-copy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "insights-chart-cta-copy.swift"; sourceTree = "<group>"; };
+		B0000408 /* insights-chart-request-ctas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "insights-chart-request-ctas.swift"; sourceTree = "<group>"; };
+		B0000410 /* biometric-auth-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "biometric-auth-service.swift"; sourceTree = "<group>"; };
+		B0000411 /* app-lock-preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "app-lock-preferences.swift"; sourceTree = "<group>"; };
+		B0000412 /* app-lock-manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "app-lock-manager.swift"; sourceTree = "<group>"; };
+		B0000413 /* app-locked-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "app-locked-view.swift"; sourceTree = "<group>"; };
+		B0000414 /* app-lock-gate-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "app-lock-gate-view.swift"; sourceTree = "<group>"; };
+		B0000415 /* security-settings-card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "security-settings-card.swift"; sourceTree = "<group>"; };
+		B0000420 /* real-estate-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "real-estate-models.swift"; sourceTree = "<group>"; };
+		B0000421 /* real-estate-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "real-estate-service.swift"; sourceTree = "<group>"; };
+		B0000422 /* property-intake-sheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "property-intake-sheet.swift"; sourceTree = "<group>"; };
+		B0000500 /* financial-chart-selection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-chart-selection.swift"; sourceTree = "<group>"; };
+		B0000501 /* financial-chart-formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-chart-formatting.swift"; sourceTree = "<group>"; };
+		B0000502 /* financial-chart-style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-chart-style.swift"; sourceTree = "<group>"; };
+		B0000503 /* financial-chart-haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-chart-haptics.swift"; sourceTree = "<group>"; };
+		B0000504 /* financial-chart-axis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-chart-axis.swift"; sourceTree = "<group>"; };
+		B0000505 /* financial-chart-interaction-overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-chart-interaction-overlay.swift"; sourceTree = "<group>"; };
+		B0000506 /* financial-chart-container.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-chart-container.swift"; sourceTree = "<group>"; };
+		B0000507 /* financial-chart-previews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-chart-previews.swift"; sourceTree = "<group>"; };
+		B0000508 /* financial-line-chart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-line-chart.swift"; sourceTree = "<group>"; };
+		B0000509 /* financial-bar-chart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-bar-chart.swift"; sourceTree = "<group>"; };
+		B000050A /* positive-negative-bar-chart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "positive-negative-bar-chart.swift"; sourceTree = "<group>"; };
+		B000050B /* financial-chart-interaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-chart-interaction.swift"; sourceTree = "<group>"; };
+		B000050C /* financial-chart-hold-to-inspect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-chart-hold-to-inspect.swift"; sourceTree = "<group>"; };
+		B0000510 /* prompts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = prompts.json; sourceTree = "<group>"; };
+		B0000511 /* prompt-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "prompt-models.swift"; sourceTree = "<group>"; };
+		B0000512 /* prompt-library-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "prompt-library-service.swift"; sourceTree = "<group>"; };
+		B0000513 /* ask-ai-dispatch-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ask-ai-dispatch-service.swift"; sourceTree = "<group>"; };
+		B0000514 /* prompts-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "prompts-view-model.swift"; sourceTree = "<group>"; };
+		B0000515 /* prompts-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "prompts-view.swift"; sourceTree = "<group>"; };
+		B0000516 /* prompt-card-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "prompt-card-view.swift"; sourceTree = "<group>"; };
+		B0000517 /* prompt-detail-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "prompt-detail-view.swift"; sourceTree = "<group>"; };
+		B0000518 /* prompt-tag-chip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "prompt-tag-chip.swift"; sourceTree = "<group>"; };
+		B0000519 /* prompts-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "prompts-service.swift"; sourceTree = "<group>"; };
+		B000051A /* prompt-create-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "prompt-create-view-model.swift"; sourceTree = "<group>"; };
+		B000051B /* prompt-status-badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "prompt-status-badge.swift"; sourceTree = "<group>"; };
+		B000051C /* community-prompt-card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "community-prompt-card.swift"; sourceTree = "<group>"; };
+		B000051D /* prompt-create-choice-sheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "prompt-create-choice-sheet.swift"; sourceTree = "<group>"; };
+		B0000701 /* community-tip-models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "community-tip-models.swift"; sourceTree = "<group>"; };
+		B0000702 /* community-tips-service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "community-tips-service.swift"; sourceTree = "<group>"; };
+		B0000703 /* community-tips-view-model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "community-tips-view-model.swift"; sourceTree = "<group>"; };
+		B0000704 /* community-tips-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "community-tips-view.swift"; sourceTree = "<group>"; };
+		B0000705 /* community-tip-detail-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "community-tip-detail-view.swift"; sourceTree = "<group>"; };
+		B0000706 /* community-tip-submit-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "community-tip-submit-view.swift"; sourceTree = "<group>"; };
+		B0000707 /* my-community-tips-view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "my-community-tips-view.swift"; sourceTree = "<group>"; };
+		B0000708 /* community-tip-recommendation-card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "community-tip-recommendation-card.swift"; sourceTree = "<group>"; };
+		BB3831AF2F92ABD000339112 /* GoogleSignInManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInManager.swift; sourceTree = "<group>"; };
+		BB4E10B92FE1DB1C00F5847E /* MoatRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MoatRelease.entitlements; sourceTree = "<group>"; };
+		C0000001 /* Moat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Moat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0000002 /* MoatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MoatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		T0000004 /* financial-chart-selection-tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-chart-selection-tests.swift"; sourceTree = "<group>"; };
+		T0000050 /* financial-chart-interaction-tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "financial-chart-interaction-tests.swift"; sourceTree = "<group>"; };
+		T0000060 /* account-history-chart-tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "account-history-chart-tests.swift"; sourceTree = "<group>"; };
+		T0000020 /* hashtag-suggestions-tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "hashtag-suggestions-tests.swift"; sourceTree = "<group>"; };
+		T0000030 /* transaction-day-grouping-tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "transaction-day-grouping-tests.swift"; sourceTree = "<group>"; };
+		T0000040 /* transaction-rule-matcher-tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "transaction-rule-matcher-tests.swift"; sourceTree = "<group>"; };
+		T0000070 /* transaction-stats-window-tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "transaction-stats-window-tests.swift"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D0000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A0000357 /* FinanceKit.framework in Frameworks */,
+				A0000900 /* LinkKit in Frameworks */,
+				A0000910 /* PostHog in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		T0000002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BB4E10B82FE1D73D00F5847E /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				B0000357 /* FinanceKit.framework */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		E0000000 = {
+			isa = PBXGroup;
+			children = (
+				E0000001 /* Moat */,
+				E0000190 /* MoatTests */,
+				E0000099 /* Products */,
+				BB4E10B82FE1D73D00F5847E /* Recovered References */,
+			);
+			sourceTree = "<group>";
+		};
+		E0000001 /* Moat */ = {
+			isa = PBXGroup;
+			children = (
+				BB4E10B92FE1DB1C00F5847E /* MoatRelease.entitlements */,
+				E0000002 /* App */,
+				E0000003 /* Config */,
+				E0000004 /* Core */,
+				E0000005 /* Features */,
+				E0000006 /* Resources */,
+				E0000007 /* SupportingFiles */,
+			);
+			path = Moat;
+			sourceTree = "<group>";
+		};
+		E0000002 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				B0000001 /* MoatApp.swift */,
+				B0000002 /* AppRouter.swift */,
+				B0000003 /* AppDependencies.swift */,
+				B0000004 /* deep-link-router.swift */,
+				B0000100 /* app-destination.swift */,
+				B0000101 /* app-shell-view.swift */,
+				B0000102 /* more-menu-view.swift */,
+				B0000442 /* app-navigation-coordinator.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		E0000003 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				B0000010 /* Environment.swift */,
+				B0000011 /* Debug.xcconfig */,
+				B0000012 /* Release.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		E0000004 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				E0000010 /* Auth */,
+				E0000011 /* Networking */,
+				E0000018 /* Logging */,
+				E0000019 /* Analytics */,
+				E0000012 /* DesignSystem */,
+				E0000013 /* Utilities */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		E0000005 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				E0000020 /* Auth */,
+				E0000021 /* Dashboard */,
+				E0000033 /* Transactions */,
+				E0000038 /* Budget */,
+				E0000043 /* Investments */,
+				E0000140 /* RealEstate */,
+				E0000048 /* Accounts */,
+				E0000120 /* FinancialConnections */,
+				E0000100 /* AppleWallet */,
+				E0000053 /* Spending */,
+				E0000130 /* Insights */,
+				E0000058 /* Categories */,
+				E0000063 /* Rules */,
+				E0000800 /* Notifications */,
+				E0000068 /* Scenarios */,
+				E0000210 /* Retirement */,
+				E0001100 /* Taxes */,
+				E0001200 /* Mileage */,
+				E0000078 /* DemoMode */,
+				E0000088 /* Onboarding */,
+				E0000180 /* SetupGuide */,
+				E0000083 /* AccountSettings */,
+				E0000093 /* Household */,
+				E0000170 /* Feedback */,
+			E0000160 /* AIAccess */,
+			E0000196 /* Prompts */,
+			E0000710 /* CommunityTips */,
+			E0000098 /* FinancialProfile */,
+				E0000028 /* Shared */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		E0000006 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B0000080 /* Assets.xcassets */,
+				B0000510 /* prompts.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		E0000007 /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				B0000090 /* MoatApp.entitlements */,
+				B0000091 /* Info.plist */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		E0000010 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				B0000020 /* AuthManager.swift */,
+				BB3831AF2F92ABD000339112 /* GoogleSignInManager.swift */,
+				B0000021 /* Session.swift */,
+				B0000022 /* CredentialsStore.swift */,
+				B0000410 /* biometric-auth-service.swift */,
+				B0000411 /* app-lock-preferences.swift */,
+				B0000412 /* app-lock-manager.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		E0000011 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				B0000030 /* APIClient.swift */,
+				B0000031 /* APIError.swift */,
+				B0000524 /* Error+Cancellation.swift */,
+				B0000150 /* json-value.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		E0000012 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				E0000015 /* Tokens */,
+				E0000014 /* Components */,
+				E0001300 /* FinancialCharts */,
+				E0000016 /* Navigation */,
+				E0000017 /* Sheets */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		E0000013 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				B0000050 /* CurrencyFormatter.swift */,
+				B0000052 /* AmountInputFormatter.swift */,
+				B0000051 /* DateFormatterProvider.swift */,
+				B0000226 /* moat-data-refresh-bus.swift */,
+				B0000380 /* post-connect-transaction-polling.swift */,
+				B0000385 /* haptic-feedback.swift */,
+				B0000932 /* hashtag-suggestions.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		E0000014 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				B0000040 /* MoatCard.swift */,
+				B0000041 /* LoadingView.swift */,
+				B0000042 /* ErrorStateView.swift */,
+				B0000520 /* moat-skeleton.swift */,
+				B0000358 /* moat-mark.swift */,
+				B0000359 /* moat-more-menu-icon.swift */,
+				B0000370 /* moat-confetti-view.swift */,
+				B0000383 /* moat-text-field.swift */,
+				B0000384 /* moat-toggle.swift */,
+				B0000386 /* moat-keyboard-dismiss.swift */,
+				B0000920 /* moat-flow-layout.swift */,
+				B0000921 /* moat-dotted-underline.swift */,
+				B0000922 /* inline-rule-token-label.swift */,
+				B0000923 /* inline-rule-static-text.swift */,
+				B0000924 /* inline-rule-sentence.swift */,
+				B0000925 /* inline-rule-picker-token.swift */,
+				B0000926 /* inline-rule-text-token.swift */,
+				B0000927 /* inline-rule-remove-button.swift */,
+				B0000928 /* inline-rule-date-token.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		E0000015 /* Tokens */ = {
+			isa = PBXGroup;
+			children = (
+				B0000110 /* moat-theme.swift */,
+			);
+			path = Tokens;
+			sourceTree = "<group>";
+		};
+		E0000016 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		E0000017 /* Sheets */ = {
+			isa = PBXGroup;
+			children = (
+				B0000130 /* moat-glass-sheet.swift */,
+				B0000131 /* moat-action-result-sheet.swift */,
+			);
+			path = Sheets;
+			sourceTree = "<group>";
+		};
+		E0001300 /* FinancialCharts */ = {
+			isa = PBXGroup;
+			children = (
+				B0000500 /* financial-chart-selection.swift */,
+				B0000501 /* financial-chart-formatting.swift */,
+				B0000502 /* financial-chart-style.swift */,
+				B0000503 /* financial-chart-haptics.swift */,
+				B0000504 /* financial-chart-axis.swift */,
+				B0000505 /* financial-chart-interaction-overlay.swift */,
+				B000050B /* financial-chart-interaction.swift */,
+				B000050C /* financial-chart-hold-to-inspect.swift */,
+				B0000506 /* financial-chart-container.swift */,
+				B0000507 /* financial-chart-previews.swift */,
+				E0001301 /* Components */,
+			);
+			path = FinancialCharts;
+			sourceTree = "<group>";
+		};
+		E0001301 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				B0000508 /* financial-line-chart.swift */,
+				B0000509 /* financial-bar-chart.swift */,
+				B000050A /* positive-negative-bar-chart.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		E0000018 /* Logging */ = {
+			isa = PBXGroup;
+			children = (
+				B0000032 /* app-logger.swift */,
+				B0000381 /* remote-logger.swift */,
+			);
+			path = Logging;
+			sourceTree = "<group>";
+		};
+		E0000019 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				B0000460 /* Analytics.swift */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
+		E0000020 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				E0000022 /* Views */,
+				E0000023 /* ViewModels */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		E0000021 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				E0000024 /* Views */,
+				E0000025 /* Models */,
+				E0000026 /* ViewModels */,
+				E0000027 /* Services */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		E0000022 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000060 /* LoginView.swift */,
+				B0000061 /* AuthLoadingView.swift */,
+				B0000413 /* app-locked-view.swift */,
+				B0000414 /* app-lock-gate-view.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0000023 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0000062 /* AuthViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0000024 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000070 /* DashboardView.swift */,
+				B0000078 /* DashboardCustomizeSheet.swift */,
+				B0000521 /* dashboard-loading-skeleton.swift */,
+				B0000071 /* NetWorthChartView.swift */,
+				B0000079 /* forecast-horizon-picker.swift */,
+				B0000072 /* SummaryCardView.swift */,
+				B0000277 /* portfolio-allocation-chart-view.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0000025 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000073 /* NetWorthPoint.swift */,
+				B0000074 /* DashboardSummary.swift */,
+				B0000077 /* DashboardLayoutModels.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000026 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0000075 /* DashboardViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0000027 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000076 /* DashboardService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000028 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				E0000030 /* Models */,
+				E0000031 /* Services */,
+				E0000032 /* ViewModels */,
+				E0000029 /* Views */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		E0000029 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000140 /* feature-placeholder-view.swift */,
+				B0000297 /* financial-profile.swift */,
+				B0000154 /* remote-feature-view.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0000030 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000151 /* remote-feature-model.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000031 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000152 /* remote-feature-service.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000032 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0000153 /* remote-feature-view-model.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0000033 /* Transactions */ = {
+			isa = PBXGroup;
+			children = (
+				E0000034 /* Models */,
+				E0000035 /* Services */,
+				E0000036 /* ViewModels */,
+				E0000037 /* Views */,
+			);
+			path = Transactions;
+			sourceTree = "<group>";
+		};
+		E0000034 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000160 /* transaction-models.swift */,
+				B0000164 /* transaction-rule-matcher.swift */,
+				B0000165 /* transaction-stats-window.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000035 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000161 /* transactions-service.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000036 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0000162 /* transactions-view-model.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0000037 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000163 /* transactions-view.swift */,
+				B0000166 /* transaction-edit-grouped-rows.swift */,
+				B0000167 /* hashtag-picker-sheet.swift */,
+				B0000523 /* transactions-loading-skeleton.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0000038 /* Budget */ = {
+			isa = PBXGroup;
+			children = (
+				E0000039 /* Models */,
+				E0000040 /* Services */,
+				E0000041 /* ViewModels */,
+				E0000042 /* Views */,
+			);
+			path = Budget;
+			sourceTree = "<group>";
+		};
+		E0000039 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000170 /* budget-models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000040 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000171 /* budget-service.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000041 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0000172 /* budget-view-model.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0000042 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000173 /* budget-view.swift */,
+				B0000174 /* budget-overview-card.swift */,
+				B0000175 /* category-budgets-card.swift */,
+				B0000176 /* budget-edit-sheet.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0000043 /* Investments */ = {
+			isa = PBXGroup;
+			children = (
+				E0000044 /* Models */,
+				E0000045 /* Services */,
+				E0000046 /* ViewModels */,
+				E0000047 /* Views */,
+			);
+			path = Investments;
+			sourceTree = "<group>";
+		};
+		E0000044 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000180 /* investment-models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000045 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000181 /* investments-service.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000046 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0000182 /* investments-view-model.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0000047 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000183 /* investments-view.swift */,
+				B0000184 /* investment-detail-sheet.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0000048 /* Accounts */ = {
+			isa = PBXGroup;
+			children = (
+				E0000049 /* Models */,
+				E0000050 /* Services */,
+				E0000051 /* ViewModels */,
+				E0000052 /* Views */,
+			);
+			path = Accounts;
+			sourceTree = "<group>";
+		};
+		E0000049 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000190 /* accounts-models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000050 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000191 /* accounts-service.swift */,
+				B0000194 /* plaid-link-coordinator.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000051 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0000192 /* accounts-view-model.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0000052 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000193 /* accounts-view.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0000053 /* Spending */ = {
+			isa = PBXGroup;
+			children = (
+				E0000054 /* Models */,
+				E0000055 /* Services */,
+				E0000057 /* Views */,
+			);
+			path = Spending;
+			sourceTree = "<group>";
+		};
+		E0000054 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000200 /* spending-models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000055 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000201 /* spending-service.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000057 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000203 /* spending-view.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0000058 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				E0000059 /* Models */,
+				E0000060 /* Services */,
+				E0000061 /* ViewModels */,
+				E0000062 /* Views */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		E0000059 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000210 /* category-models.swift */,
+				B0000215 /* category-icon-catalog.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000060 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000211 /* categories-service.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000061 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0000212 /* categories-view-model.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0000062 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000213 /* categories-view.swift */,
+				B0000214 /* category-picker-sheet.swift */,
+				B0000216 /* category-icon-picker-sheet.swift */,
+				B0000217 /* category-section-card.swift */,
+				B0000218 /* category-editor-sheet.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0000063 /* Rules */ = {
+			isa = PBXGroup;
+			children = (
+				E0000064 /* Models */,
+				E0000065 /* Services */,
+				E0000066 /* ViewModels */,
+				E0000067 /* Views */,
+			);
+			path = Rules;
+			sourceTree = "<group>";
+		};
+		E0000800 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				E0000801 /* Models */,
+				E0000802 /* Services */,
+				E0000803 /* Views */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
+		E0000801 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000801 /* notification-models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000802 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000802 /* notification-rules-service.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000803 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000803 /* notifications-view.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0000064 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000220 /* rule-models.swift */,
+				B0000225 /* rule-preview-helpers.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000065 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000221 /* rules-service.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000066 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0000222 /* rules-view-model.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0000067 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000223 /* rules-view.swift */,
+				B0000224 /* rule-editor-sheet.swift */,
+				B0000929 /* rule-condition-sentence.swift */,
+				B0000930 /* rule-action-sentence.swift */,
+				B0000931 /* rule-category-token.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0000068 /* Scenarios */ = {
+			isa = PBXGroup;
+			children = (
+				E0000069 /* Models */,
+				E0000070 /* Services */,
+				E0000071 /* ViewModels */,
+				E0000072 /* Views */,
+			);
+			path = Scenarios;
+			sourceTree = "<group>";
+		};
+		E0000069 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000230 /* scenario-models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000070 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000231 /* scenarios-service.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000071 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0000232 /* scenarios-view-model.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0000072 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000233 /* scenarios-view.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0000210 /* Retirement */ = {
+			isa = PBXGroup;
+			children = (
+				E0000211 /* Models */,
+				E0000212 /* Services */,
+				E0000213 /* ViewModels */,
+				E0000214 /* Views */,
+			);
+			path = Retirement;
+			sourceTree = "<group>";
+		};
+		E0000211 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000940 /* retirement-models.swift */,
+				B0000941 /* retirement-lever.swift */,
+				B0000942 /* retirement-scenario.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000212 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000943 /* retirement-service.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000213 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0000944 /* retirement-view-model.swift */,
+				B0000945 /* retirement-what-if-view-model.swift */,
+				B0000946 /* retirement-scenarios-view-model.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0000214 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000947 /* retirement-view.swift */,
+				B0000948 /* retirement-metric-strip.swift */,
+				B0000949 /* retirement-timeline-chart-view.swift */,
+				B0000950 /* retirement-what-if-section.swift */,
+				B0000951 /* retirement-lever-stack-view.swift */,
+				B0000952 /* retirement-lever-editor-sheet.swift */,
+				B0000953 /* retirement-scenario-compare-view.swift */,
+				B0000954 /* retirement-risk-view.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0001100 /* Taxes */ = {
+			isa = PBXGroup;
+			children = (
+				E0001101 /* Models */,
+				E0001102 /* Services */,
+				E0001103 /* ViewModels */,
+				E0001104 /* Views */,
+			);
+			path = Taxes;
+			sourceTree = "<group>";
+		};
+		E0001101 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0001100 /* taxes-models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0001102 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0001101 /* taxes-service.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0001103 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0001102 /* taxes-view-model.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0001104 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0001103 /* taxes-view.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0001200 /* Mileage */ = {
+			isa = PBXGroup;
+			children = (
+				E0001201 /* Models */,
+				E0001202 /* Services */,
+				E0001203 /* ViewModels */,
+				E0001204 /* Views */,
+			);
+			path = Mileage;
+			sourceTree = "<group>";
+		};
+		E0001201 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0001200 /* mileage-models.swift */,
+				B0001201 /* mileage-rates.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0001202 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0001202 /* mileage-geometry.swift */,
+				B0001203 /* mileage-tracker.swift */,
+				B0001204 /* mileage-store.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0001203 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0001205 /* mileage-view-model.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0001204 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0001206 /* mileage-view.swift */,
+				B0001207 /* mileage-track-tab.swift */,
+				B0001208 /* mileage-history-tab.swift */,
+				B0001209 /* mileage-route-map-view.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0000078 /* DemoMode */ = {
+			isa = PBXGroup;
+			children = (
+				E0000079 /* Models */,
+				E0000080 /* Services */,
+				E0000081 /* ViewModels */,
+				E0000082 /* Views */,
+			);
+			path = DemoMode;
+			sourceTree = "<group>";
+		};
+		E0000079 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000250 /* demo-mode-models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000080 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000251 /* demo-mode-service.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000081 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0000252 /* demo-mode-view-model.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0000082 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000253 /* demo-mode-view.swift */,
+				B0000254 /* demo-mode-banner.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0000083 /* AccountSettings */ = {
+			isa = PBXGroup;
+			children = (
+				E0000084 /* Models */,
+				E0000085 /* Services */,
+				E0000086 /* ViewModels */,
+				E0000087 /* Views */,
+			);
+			path = AccountSettings;
+			sourceTree = "<group>";
+		};
+		E0000084 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000260 /* account-settings-models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000085 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000261 /* account-settings-service.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000086 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0000262 /* account-settings-view-model.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0000087 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000263 /* account-settings-view.swift */,
+				B0000415 /* security-settings-card.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0000088 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				E0000089 /* Models */,
+				E0000090 /* Services */,
+				E0000091 /* ViewModels */,
+				E0000092 /* Views */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		E0000089 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000270 /* onboarding-models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000090 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000271 /* onboarding-service.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000091 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0000272 /* onboarding-view-model.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0000092 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000273 /* onboarding-view.swift */,
+				B0000274 /* onboarding-gate-view.swift */,
+				B0000275 /* onboarding-allocation-card.swift */,
+				B0000276 /* onboarding-connected-institution-row.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0000180 /* SetupGuide */ = {
+			isa = PBXGroup;
+			children = (
+				E0000181 /* Models */,
+				E0000182 /* Services */,
+				E0000183 /* ViewModels */,
+				E0000184 /* Views */,
+			);
+			path = SetupGuide;
+			sourceTree = "<group>";
+		};
+		E0000181 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000550 /* setup-guide-models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000182 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000551 /* setup-guide-service.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000183 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0000552 /* setup-guide-view-model.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0000184 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000553 /* setup-guide-card.swift */,
+				B0000554 /* setup-guide-edit-sheet.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0000093 /* Household */ = {
+			isa = PBXGroup;
+			children = (
+				E0000094 /* Models */,
+				E0000095 /* Services */,
+				E0000096 /* ViewModels */,
+				E0000097 /* Views */,
+			);
+			path = Household;
+			sourceTree = "<group>";
+		};
+		E0000094 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000280 /* household-models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000095 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000281 /* household-service.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000096 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0000282 /* household-view-model.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0000097 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000283 /* household-sharing-view.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+
+		E0000170 /* Feedback */ = {
+			isa = PBXGroup;
+			children = (
+				E0000171 /* Models */,
+				E0000172 /* Services */,
+				E0000173 /* ViewModels */,
+				E0000174 /* Views */,
+			);
+			path = Feedback;
+			sourceTree = "<group>";
+		};
+		E0000171 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000450 /* feedback-models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000172 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000451 /* feedback-service.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000173 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0000452 /* feedback-view-model.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0000174 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000453 /* feedback-sheet.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+
+		E0000160 /* AIAccess */ = {
+			isa = PBXGroup;
+			children = (
+				E0000161 /* Models */,
+				E0000162 /* Services */,
+				E0000163 /* ViewModels */,
+				E0000164 /* Views */,
+			);
+			path = AIAccess;
+			sourceTree = "<group>";
+		};
+		E0000161 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000430 /* ai-access-models.swift */,
+				B0000431 /* mcp-scope-catalog.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000162 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000432 /* ai-access-service.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000163 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0000433 /* ai-access-view-model.swift */,
+				B0000434 /* ai-access-connection-store.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0000164 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000435 /* ai-access-view.swift */,
+				B0000444 /* ai-assistant-connect-card.swift */,
+				B0000436 /* ai-access-connect-banner.swift */,
+				B0000437 /* oauth-connections-section.swift */,
+				B0000438 /* personal-access-tokens-section.swift */,
+				B0000443 /* ai-access-compact-action-button.swift */,
+				B0000439 /* create-mcp-token-sheet.swift */,
+				B0000440 /* mcp-logs-section.swift */,
+				B0000441 /* mcp-log-details-sheet.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0000196 /* Prompts */ = {
+			isa = PBXGroup;
+			children = (
+				E0000197 /* Models */,
+				E0000198 /* Services */,
+				E0000199 /* ViewModels */,
+				E000019A /* Views */,
+			);
+			path = Prompts;
+			sourceTree = "<group>";
+		};
+		E0000197 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000511 /* prompt-models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000198 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000512 /* prompt-library-service.swift */,
+				B0000513 /* ask-ai-dispatch-service.swift */,
+				B0000519 /* prompts-service.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000199 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0000514 /* prompts-view-model.swift */,
+				B000051A /* prompt-create-view-model.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E000019A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000515 /* prompts-view.swift */,
+				B0000516 /* prompt-card-view.swift */,
+				B0000517 /* prompt-detail-view.swift */,
+				B0000518 /* prompt-tag-chip.swift */,
+				B000051B /* prompt-status-badge.swift */,
+				B000051C /* community-prompt-card.swift */,
+				B000051D /* prompt-create-choice-sheet.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0000710 /* CommunityTips */ = {
+			isa = PBXGroup;
+			children = (
+				E0000711 /* Models */,
+				E0000712 /* Services */,
+				E0000713 /* ViewModels */,
+				E0000714 /* Views */,
+			);
+			path = CommunityTips;
+			sourceTree = "<group>";
+		};
+		E0000711 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000701 /* community-tip-models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000712 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000702 /* community-tips-service.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000713 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0000703 /* community-tips-view-model.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0000714 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000704 /* community-tips-view.swift */,
+				B0000705 /* community-tip-detail-view.swift */,
+				B0000706 /* community-tip-submit-view.swift */,
+				B0000707 /* my-community-tips-view.swift */,
+				B0000708 /* community-tip-recommendation-card.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0000098 /* FinancialProfile */ = {
+			isa = PBXGroup;
+			children = (
+				E0000101 /* Models */,
+				E0000102 /* Helpers */,
+				E0000103 /* Services */,
+				E0000104 /* ViewModels */,
+				E0000105 /* Views */,
+			);
+			path = FinancialProfile;
+			sourceTree = "<group>";
+		};
+		E0000099 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C0000001 /* Moat.app */,
+				C0000002 /* MoatTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E0000190 /* MoatTests */ = {
+			isa = PBXGroup;
+			children = (
+				T0000004 /* financial-chart-selection-tests.swift */,
+				T0000050 /* financial-chart-interaction-tests.swift */,
+				T0000060 /* account-history-chart-tests.swift */,
+				T0000020 /* hashtag-suggestions-tests.swift */,
+				T0000030 /* transaction-day-grouping-tests.swift */,
+				T0000040 /* transaction-rule-matcher-tests.swift */,
+				T0000070 /* transaction-stats-window-tests.swift */,
+				T0000080 /* mileage-geometry-tests.swift */,
+			);
+			path = MoatTests;
+			sourceTree = "<group>";
+		};
+		E0000100 /* AppleWallet */ = {
+			isa = PBXGroup;
+			children = (
+				E0000110 /* Models */,
+				E0000111 /* Services */,
+				E0000112 /* ViewModels */,
+				E0000113 /* Views */,
+			);
+			path = AppleWallet;
+			sourceTree = "<group>";
+		};
+		E0000101 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000290 /* financial-profile-models.swift */,
+				B0000934 /* account-balance-history-models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000102 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				B0000291 /* financial-profile-field-options.swift */,
+				B0000292 /* financial-profile-link-options.swift */,
+				B0000293 /* insurance-cloud-safety.swift */,
+				B0000294 /* financial-profile-formatters.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		E0000103 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000295 /* financial-profile-service.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000104 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0000296 /* financial-profile-view-model.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0000105 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000299 /* financial-profile-section-card.swift */,
+				B0000300 /* financial-profile-sections.swift */,
+				B0000522 /* financial-profile-loading-skeleton.swift */,
+				B0000301 /* financial-profile-edit-sheets.swift */,
+				B0000302 /* financial-profile-collection-sheets.swift */,
+				B0000933 /* account-history-chart-view.swift */,
+				B0000303 /* financial-profile-account-sheets.swift */,
+				B0000304 /* financial-profile-insurance-sheets.swift */,
+				B0000305 /* financial-profile-labeled-field.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0000110 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000350 /* apple-wallet-models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000111 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000814 /* apple-finance-kit-background-delivery.swift */,
+				B0000812 /* apple-finance-kit-history-token-store.swift */,
+				B0000351 /* apple-finance-kit-normalizer.swift */,
+				B0000352 /* apple-finance-kit-service.swift */,
+				B0000353 /* apple-finance-kit-sync-service.swift */,
+				B0000354 /* apple-wallet-api-service.swift */,
+				B0000811 /* apple-wallet-auto-sync-coordinator.swift */,
+				B0000813 /* apple-wallet-shared-container.swift */,
+				B0000382 /* finance-kit-diagnostics.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000112 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0000355 /* apple-wallet-connect-view-model.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0000113 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000356 /* apple-wallet-connect-view.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0000120 /* FinancialConnections */ = {
+			isa = PBXGroup;
+			children = (
+				E0000121 /* Models */,
+				E0000122 /* Services */,
+				E0000123 /* ViewModels */,
+				E0000124 /* Views */,
+			);
+			path = FinancialConnections;
+			sourceTree = "<group>";
+		};
+		E0000121 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000360 /* financial-connection-models.swift */,
+				B0000361 /* top-institutions.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000122 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000362 /* financial-connections-service.swift */,
+				B0000363 /* provider-launch-coordinator.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000123 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0000364 /* connect-institution-view-model.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0000124 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000365 /* institution-logo-view.swift */,
+				B0000366 /* top-institutions-grid.swift */,
+				B0000367 /* institution-search-result-row.swift */,
+				B0000368 /* connect-institution-sheet.swift */,
+				B0000369 /* connect-institution-import-overlay.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0000130 /* Insights */ = {
+			isa = PBXGroup;
+			children = (
+				E0000131 /* Models */,
+				E0000132 /* Services */,
+				E0000133 /* ViewModels */,
+				E0000134 /* Views */,
+			);
+			path = Insights;
+			sourceTree = "<group>";
+		};
+		E0000131 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000390 /* insights-period.swift */,
+				B0000391 /* income-insights-models.swift */,
+				B0000392 /* net-income-insights-models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000132 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000393 /* insights-service.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000133 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B0000394 /* spending-insights-view-model.swift */,
+				B0000395 /* income-insights-view-model.swift */,
+				B0000396 /* net-income-insights-view-model.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E0000134 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000397 /* insights-view.swift */,
+				B0000398 /* insights-tab-picker.swift */,
+				B0000399 /* insights-period-picker.swift */,
+				B0000400 /* insights-chart-utils.swift */,
+				B0000407 /* insights-chart-cta-copy.swift */,
+				B0000408 /* insights-chart-request-ctas.swift */,
+				E0000135 /* spending */,
+				E0000136 /* income */,
+				E0000137 /* net-income */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E0000135 /* spending */ = {
+			isa = PBXGroup;
+			children = (
+				B0000401 /* spending-insights-tab-view.swift */,
+				B0000406 /* spending-tab-sections.swift */,
+			);
+			path = spending;
+			sourceTree = "<group>";
+		};
+		E0000136 /* income */ = {
+			isa = PBXGroup;
+			children = (
+				B0000402 /* income-insights-tab-view.swift */,
+				B0000403 /* income-tab-sections.swift */,
+			);
+			path = income;
+			sourceTree = "<group>";
+		};
+		E0000137 /* net-income */ = {
+			isa = PBXGroup;
+			children = (
+				B0000404 /* net-income-insights-tab-view.swift */,
+				B0000405 /* net-income-tab-sections.swift */,
+			);
+			path = "net-income";
+			sourceTree = "<group>";
+		};
+		E0000140 /* RealEstate */ = {
+			isa = PBXGroup;
+			children = (
+				E0000141 /* Models */,
+				E0000142 /* Services */,
+				E0000143 /* Views */,
+			);
+			path = RealEstate;
+			sourceTree = "<group>";
+		};
+		E0000141 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B0000420 /* real-estate-models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E0000142 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B0000421 /* real-estate-service.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		E0000143 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B0000422 /* property-intake-sheet.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F0000001 /* Moat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F0000010 /* Build configuration list for PBXNativeTarget "Moat" */;
+			buildPhases = (
+				F0000002 /* Sources */,
+				D0000001 /* Frameworks */,
+				F0000003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Moat;
+			packageProductDependencies = (
+				X0000901 /* LinkKit */,
+				X0000911 /* PostHog */,
+			);
+			productName = Moat;
+			productReference = C0000001 /* Moat.app */;
+			productType = "com.apple.product-type.application";
+		};
+		T0000001 /* MoatTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = T0000010 /* Build configuration list for PBXNativeTarget "MoatTests" */;
+			buildPhases = (
+				T0000008 /* Sources */,
+				T0000002 /* Frameworks */,
+				T0000003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				T0000007 /* PBXTargetDependency */,
+			);
+			name = MoatTests;
+			packageProductDependencies = (
+			);
+			productName = MoatTests;
+			productReference = C0000002 /* MoatTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F0000000 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					F0000001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					T0000001 = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = F0000001;
+					};
+				};
+			};
+			buildConfigurationList = F0000020 /* Build configuration list for PBXProject "Moat" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E0000000;
+			packageReferences = (
+				X0000900 /* XCRemoteSwiftPackageReference "plaid-link-ios-spm" */,
+				X0000910 /* XCRemoteSwiftPackageReference "posthog-ios" */,
+			);
+			productRefGroup = E0000099 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F0000001 /* Moat */,
+				T0000001 /* MoatTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F0000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A0000080 /* Assets.xcassets in Resources */,
+				A0000510 /* prompts.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		T0000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F0000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A0000001 /* MoatApp.swift in Sources */,
+				A0000002 /* AppRouter.swift in Sources */,
+				A0000003 /* AppDependencies.swift in Sources */,
+				A0000004 /* deep-link-router.swift in Sources */,
+				A0000100 /* app-destination.swift in Sources */,
+				A0000101 /* app-shell-view.swift in Sources */,
+				A0000102 /* more-menu-view.swift in Sources */,
+				A0000010 /* Environment.swift in Sources */,
+				A0000020 /* AuthManager.swift in Sources */,
+				A0000021 /* Session.swift in Sources */,
+				A0000022 /* CredentialsStore.swift in Sources */,
+				A0000410 /* biometric-auth-service.swift in Sources */,
+				A0000411 /* app-lock-preferences.swift in Sources */,
+				A0000412 /* app-lock-manager.swift in Sources */,
+				A0000413 /* app-locked-view.swift in Sources */,
+				A0000414 /* app-lock-gate-view.swift in Sources */,
+				A0000030 /* APIClient.swift in Sources */,
+				A0000031 /* APIError.swift in Sources */,
+				A0000524 /* Error+Cancellation.swift in Sources */,
+				A0000032 /* app-logger.swift in Sources */,
+				A0000381 /* remote-logger.swift in Sources */,
+				A0000460 /* Analytics.swift in Sources */,
+				A0000150 /* json-value.swift in Sources */,
+				A0000110 /* moat-theme.swift in Sources */,
+				A0000500 /* financial-chart-selection.swift in Sources */,
+				A0000501 /* financial-chart-formatting.swift in Sources */,
+				A0000502 /* financial-chart-style.swift in Sources */,
+				A0000503 /* financial-chart-haptics.swift in Sources */,
+				A0000504 /* financial-chart-axis.swift in Sources */,
+				A0000505 /* financial-chart-interaction-overlay.swift in Sources */,
+				A000050B /* financial-chart-interaction.swift in Sources */,
+				A000050C /* financial-chart-hold-to-inspect.swift in Sources */,
+				A0000506 /* financial-chart-container.swift in Sources */,
+				A0000507 /* financial-chart-previews.swift in Sources */,
+				A0000508 /* financial-line-chart.swift in Sources */,
+				A0000509 /* financial-bar-chart.swift in Sources */,
+				A000050A /* positive-negative-bar-chart.swift in Sources */,
+				A0000040 /* MoatCard.swift in Sources */,
+				A0000041 /* LoadingView.swift in Sources */,
+				A0000042 /* ErrorStateView.swift in Sources */,
+				A0000520 /* moat-skeleton.swift in Sources */,
+				A0000521 /* dashboard-loading-skeleton.swift in Sources */,
+				A0000522 /* financial-profile-loading-skeleton.swift in Sources */,
+				A0000933 /* account-history-chart-view.swift in Sources */,
+				A0000934 /* account-balance-history-models.swift in Sources */,
+				A0000940 /* retirement-models.swift in Sources */,
+				A0000941 /* retirement-lever.swift in Sources */,
+				A0000942 /* retirement-scenario.swift in Sources */,
+				A0000943 /* retirement-service.swift in Sources */,
+				A0000944 /* retirement-view-model.swift in Sources */,
+				A0000945 /* retirement-what-if-view-model.swift in Sources */,
+				A0000946 /* retirement-scenarios-view-model.swift in Sources */,
+				A0000947 /* retirement-view.swift in Sources */,
+				A0000948 /* retirement-metric-strip.swift in Sources */,
+				A0000949 /* retirement-timeline-chart-view.swift in Sources */,
+				A0000950 /* retirement-what-if-section.swift in Sources */,
+				A0000951 /* retirement-lever-stack-view.swift in Sources */,
+				A0000952 /* retirement-lever-editor-sheet.swift in Sources */,
+				A0000953 /* retirement-scenario-compare-view.swift in Sources */,
+				A0000954 /* retirement-risk-view.swift in Sources */,
+				A0001100 /* taxes-models.swift in Sources */,
+				A0001101 /* taxes-service.swift in Sources */,
+				A0001102 /* taxes-view-model.swift in Sources */,
+				A0001103 /* taxes-view.swift in Sources */,
+				A0001200 /* mileage-models.swift in Sources */,
+				A0001201 /* mileage-rates.swift in Sources */,
+				A0001202 /* mileage-geometry.swift in Sources */,
+				A0001203 /* mileage-tracker.swift in Sources */,
+				A0001204 /* mileage-store.swift in Sources */,
+				A0001205 /* mileage-view-model.swift in Sources */,
+				A0001206 /* mileage-view.swift in Sources */,
+				A0001207 /* mileage-track-tab.swift in Sources */,
+				A0001208 /* mileage-history-tab.swift in Sources */,
+				A0001209 /* mileage-route-map-view.swift in Sources */,
+				A0000523 /* transactions-loading-skeleton.swift in Sources */,
+				A0000358 /* moat-mark.swift in Sources */,
+				A0000359 /* moat-more-menu-icon.swift in Sources */,
+				A0000370 /* moat-confetti-view.swift in Sources */,
+				A0000383 /* moat-text-field.swift in Sources */,
+				A0000384 /* moat-toggle.swift in Sources */,
+				A0000386 /* moat-keyboard-dismiss.swift in Sources */,
+				A0000920 /* moat-flow-layout.swift in Sources */,
+				A0000921 /* moat-dotted-underline.swift in Sources */,
+				A0000922 /* inline-rule-token-label.swift in Sources */,
+				A0000923 /* inline-rule-static-text.swift in Sources */,
+				A0000924 /* inline-rule-sentence.swift in Sources */,
+				A0000925 /* inline-rule-picker-token.swift in Sources */,
+				A0000926 /* inline-rule-text-token.swift in Sources */,
+				A0000927 /* inline-rule-remove-button.swift in Sources */,
+				A0000928 /* inline-rule-date-token.swift in Sources */,
+				A0000929 /* rule-condition-sentence.swift in Sources */,
+				A0000930 /* rule-action-sentence.swift in Sources */,
+				A0000931 /* rule-category-token.swift in Sources */,
+				A0000932 /* hashtag-suggestions.swift in Sources */,
+				A0000130 /* moat-glass-sheet.swift in Sources */,
+				A0000131 /* moat-action-result-sheet.swift in Sources */,
+				A0000050 /* CurrencyFormatter.swift in Sources */,
+				A0000052 /* AmountInputFormatter.swift in Sources */,
+				A0000051 /* DateFormatterProvider.swift in Sources */,
+				A0000060 /* LoginView.swift in Sources */,
+				A0000061 /* AuthLoadingView.swift in Sources */,
+				A0000062 /* AuthViewModel.swift in Sources */,
+				A0000070 /* DashboardView.swift in Sources */,
+				A0000277 /* portfolio-allocation-chart-view.swift in Sources */,
+				A0000071 /* NetWorthChartView.swift in Sources */,
+				A0000079 /* forecast-horizon-picker.swift in Sources */,
+				A0000072 /* SummaryCardView.swift in Sources */,
+				A0000073 /* NetWorthPoint.swift in Sources */,
+				BB3831B02F92ABD000339112 /* GoogleSignInManager.swift in Sources */,
+				A0000074 /* DashboardSummary.swift in Sources */,
+				A0000077 /* DashboardLayoutModels.swift in Sources */,
+				A0000075 /* DashboardViewModel.swift in Sources */,
+				A0000076 /* DashboardService.swift in Sources */,
+				A0000078 /* DashboardCustomizeSheet.swift in Sources */,
+				A0000140 /* feature-placeholder-view.swift in Sources */,
+				A0000297 /* financial-profile.swift in Sources */,
+				A0000299 /* financial-profile-section-card.swift in Sources */,
+				A0000300 /* financial-profile-sections.swift in Sources */,
+				A0000301 /* financial-profile-edit-sheets.swift in Sources */,
+				A0000302 /* financial-profile-collection-sheets.swift in Sources */,
+				A0000303 /* financial-profile-account-sheets.swift in Sources */,
+				A0000304 /* financial-profile-insurance-sheets.swift in Sources */,
+				A0000305 /* financial-profile-labeled-field.swift in Sources */,
+				A0000151 /* remote-feature-model.swift in Sources */,
+				A0000152 /* remote-feature-service.swift in Sources */,
+				A0000153 /* remote-feature-view-model.swift in Sources */,
+				A0000154 /* remote-feature-view.swift in Sources */,
+				A0000160 /* transaction-models.swift in Sources */,
+				A0000164 /* transaction-rule-matcher.swift in Sources */,
+				A0000165 /* transaction-stats-window.swift in Sources */,
+				A0000161 /* transactions-service.swift in Sources */,
+				A0000162 /* transactions-view-model.swift in Sources */,
+				A0000163 /* transactions-view.swift in Sources */,
+				A0000166 /* transaction-edit-grouped-rows.swift in Sources */,
+				A0000167 /* hashtag-picker-sheet.swift in Sources */,
+				A0000170 /* budget-models.swift in Sources */,
+				A0000171 /* budget-service.swift in Sources */,
+				A0000172 /* budget-view-model.swift in Sources */,
+				A0000173 /* budget-view.swift in Sources */,
+				A0000174 /* budget-overview-card.swift in Sources */,
+				A0000175 /* category-budgets-card.swift in Sources */,
+				A0000176 /* budget-edit-sheet.swift in Sources */,
+				A0000180 /* investment-models.swift in Sources */,
+				A0000181 /* investments-service.swift in Sources */,
+				A0000182 /* investments-view-model.swift in Sources */,
+				A0000183 /* investments-view.swift in Sources */,
+				A0000184 /* investment-detail-sheet.swift in Sources */,
+				A0000420 /* real-estate-models.swift in Sources */,
+				A0000421 /* real-estate-service.swift in Sources */,
+				A0000422 /* property-intake-sheet.swift in Sources */,
+				A0000190 /* accounts-models.swift in Sources */,
+				A0000191 /* accounts-service.swift in Sources */,
+				A0000194 /* plaid-link-coordinator.swift in Sources */,
+				A0000192 /* accounts-view-model.swift in Sources */,
+				A0000193 /* accounts-view.swift in Sources */,
+				A0000350 /* apple-wallet-models.swift in Sources */,
+				A0000351 /* apple-finance-kit-normalizer.swift in Sources */,
+				A0000352 /* apple-finance-kit-service.swift in Sources */,
+				A0000353 /* apple-finance-kit-sync-service.swift in Sources */,
+				A0000354 /* apple-wallet-api-service.swift in Sources */,
+				A0000811 /* apple-wallet-auto-sync-coordinator.swift in Sources */,
+				A0000812 /* apple-finance-kit-history-token-store.swift in Sources */,
+				A0000813 /* apple-wallet-shared-container.swift in Sources */,
+				A0000814 /* apple-finance-kit-background-delivery.swift in Sources */,
+				A0000382 /* finance-kit-diagnostics.swift in Sources */,
+				A0000355 /* apple-wallet-connect-view-model.swift in Sources */,
+				A0000356 /* apple-wallet-connect-view.swift in Sources */,
+				A0000360 /* financial-connection-models.swift in Sources */,
+				A0000361 /* top-institutions.swift in Sources */,
+				A0000362 /* financial-connections-service.swift in Sources */,
+				A0000363 /* provider-launch-coordinator.swift in Sources */,
+				A0000364 /* connect-institution-view-model.swift in Sources */,
+				A0000365 /* institution-logo-view.swift in Sources */,
+				A0000366 /* top-institutions-grid.swift in Sources */,
+				A0000367 /* institution-search-result-row.swift in Sources */,
+				A0000368 /* connect-institution-sheet.swift in Sources */,
+				A0000369 /* connect-institution-import-overlay.swift in Sources */,
+				A0000200 /* spending-models.swift in Sources */,
+				A0000201 /* spending-service.swift in Sources */,
+				A0000203 /* spending-view.swift in Sources */,
+				A0000390 /* insights-period.swift in Sources */,
+				A0000391 /* income-insights-models.swift in Sources */,
+				A0000392 /* net-income-insights-models.swift in Sources */,
+				A0000393 /* insights-service.swift in Sources */,
+				A0000394 /* spending-insights-view-model.swift in Sources */,
+				A0000395 /* income-insights-view-model.swift in Sources */,
+				A0000396 /* net-income-insights-view-model.swift in Sources */,
+				A0000397 /* insights-view.swift in Sources */,
+				A0000398 /* insights-tab-picker.swift in Sources */,
+				A0000399 /* insights-period-picker.swift in Sources */,
+				A0000400 /* insights-chart-utils.swift in Sources */,
+				A0000407 /* insights-chart-cta-copy.swift in Sources */,
+				A0000408 /* insights-chart-request-ctas.swift in Sources */,
+				A0000401 /* spending-insights-tab-view.swift in Sources */,
+				A0000402 /* income-insights-tab-view.swift in Sources */,
+				A0000403 /* income-tab-sections.swift in Sources */,
+				A0000404 /* net-income-insights-tab-view.swift in Sources */,
+				A0000405 /* net-income-tab-sections.swift in Sources */,
+				A0000406 /* spending-tab-sections.swift in Sources */,
+				A0000210 /* category-models.swift in Sources */,
+				A0000215 /* category-icon-catalog.swift in Sources */,
+				A0000211 /* categories-service.swift in Sources */,
+				A0000212 /* categories-view-model.swift in Sources */,
+				A0000213 /* categories-view.swift in Sources */,
+				A0000214 /* category-picker-sheet.swift in Sources */,
+				A0000216 /* category-icon-picker-sheet.swift in Sources */,
+				A0000217 /* category-section-card.swift in Sources */,
+				A0000218 /* category-editor-sheet.swift in Sources */,
+				A0000220 /* rule-models.swift in Sources */,
+				A0000221 /* rules-service.swift in Sources */,
+				A0000222 /* rules-view-model.swift in Sources */,
+				A0000223 /* rules-view.swift in Sources */,
+				A0000224 /* rule-editor-sheet.swift in Sources */,
+				A0000225 /* rule-preview-helpers.swift in Sources */,
+				A0000801 /* notification-models.swift in Sources */,
+				A0000802 /* notification-rules-service.swift in Sources */,
+				A0000803 /* notifications-view.swift in Sources */,
+				A0000226 /* moat-data-refresh-bus.swift in Sources */,
+				A0000380 /* post-connect-transaction-polling.swift in Sources */,
+				A0000385 /* haptic-feedback.swift in Sources */,
+				A0000230 /* scenario-models.swift in Sources */,
+				A0000231 /* scenarios-service.swift in Sources */,
+				A0000232 /* scenarios-view-model.swift in Sources */,
+				A0000233 /* scenarios-view.swift in Sources */,
+				A0000250 /* demo-mode-models.swift in Sources */,
+				A0000251 /* demo-mode-service.swift in Sources */,
+				A0000252 /* demo-mode-view-model.swift in Sources */,
+				A0000253 /* demo-mode-view.swift in Sources */,
+				A0000254 /* demo-mode-banner.swift in Sources */,
+				A0000260 /* account-settings-models.swift in Sources */,
+				A0000261 /* account-settings-service.swift in Sources */,
+				A0000262 /* account-settings-view-model.swift in Sources */,
+				A0000263 /* account-settings-view.swift in Sources */,
+				A0000415 /* security-settings-card.swift in Sources */,
+				A0000280 /* household-models.swift in Sources */,
+				A0000281 /* household-service.swift in Sources */,
+				A0000282 /* household-view-model.swift in Sources */,
+				A0000283 /* household-sharing-view.swift in Sources */,
+				A0000450 /* feedback-models.swift in Sources */,
+				A0000451 /* feedback-service.swift in Sources */,
+				A0000452 /* feedback-view-model.swift in Sources */,
+				A0000453 /* feedback-sheet.swift in Sources */,
+				A0000550 /* setup-guide-models.swift in Sources */,
+				A0000551 /* setup-guide-service.swift in Sources */,
+				A0000552 /* setup-guide-view-model.swift in Sources */,
+				A0000553 /* setup-guide-card.swift in Sources */,
+				A0000554 /* setup-guide-edit-sheet.swift in Sources */,
+				A0000430 /* ai-access-models.swift in Sources */,
+				A0000431 /* mcp-scope-catalog.swift in Sources */,
+				A0000432 /* ai-access-service.swift in Sources */,
+				A0000433 /* ai-access-view-model.swift in Sources */,
+				A0000434 /* ai-access-connection-store.swift in Sources */,
+				A0000435 /* ai-access-view.swift in Sources */,
+				A0000444 /* ai-assistant-connect-card.swift in Sources */,
+				A0000436 /* ai-access-connect-banner.swift in Sources */,
+				A0000437 /* oauth-connections-section.swift in Sources */,
+				A0000438 /* personal-access-tokens-section.swift in Sources */,
+				A0000443 /* ai-access-compact-action-button.swift in Sources */,
+				A0000439 /* create-mcp-token-sheet.swift in Sources */,
+				A0000440 /* mcp-logs-section.swift in Sources */,
+				A0000441 /* mcp-log-details-sheet.swift in Sources */,
+				A0000442 /* app-navigation-coordinator.swift in Sources */,
+				A0000511 /* prompt-models.swift in Sources */,
+				A0000512 /* prompt-library-service.swift in Sources */,
+				A0000513 /* ask-ai-dispatch-service.swift in Sources */,
+				A0000514 /* prompts-view-model.swift in Sources */,
+				A0000515 /* prompts-view.swift in Sources */,
+				A0000516 /* prompt-card-view.swift in Sources */,
+				A0000517 /* prompt-detail-view.swift in Sources */,
+				A0000518 /* prompt-tag-chip.swift in Sources */,
+				A0000519 /* prompts-service.swift in Sources */,
+				A000051A /* prompt-create-view-model.swift in Sources */,
+				A000051B /* prompt-status-badge.swift in Sources */,
+			A000051C /* community-prompt-card.swift in Sources */,
+			A000051D /* prompt-create-choice-sheet.swift in Sources */,
+			A0000701 /* community-tip-models.swift in Sources */,
+			A0000702 /* community-tips-service.swift in Sources */,
+			A0000703 /* community-tips-view-model.swift in Sources */,
+			A0000704 /* community-tips-view.swift in Sources */,
+			A0000705 /* community-tip-detail-view.swift in Sources */,
+			A0000706 /* community-tip-submit-view.swift in Sources */,
+			A0000707 /* my-community-tips-view.swift in Sources */,
+			A0000708 /* community-tip-recommendation-card.swift in Sources */,
+			A0000290 /* financial-profile-models.swift in Sources */,
+				A0000291 /* financial-profile-field-options.swift in Sources */,
+				A0000292 /* financial-profile-link-options.swift in Sources */,
+				A0000293 /* insurance-cloud-safety.swift in Sources */,
+				A0000294 /* financial-profile-formatters.swift in Sources */,
+				A0000295 /* financial-profile-service.swift in Sources */,
+				A0000296 /* financial-profile-view-model.swift in Sources */,
+				A0000270 /* onboarding-models.swift in Sources */,
+				A0000271 /* onboarding-service.swift in Sources */,
+				A0000272 /* onboarding-view-model.swift in Sources */,
+				A0000273 /* onboarding-view.swift in Sources */,
+				A0000274 /* onboarding-gate-view.swift in Sources */,
+				A0000275 /* onboarding-allocation-card.swift in Sources */,
+				A0000276 /* onboarding-connected-institution-row.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		T0000008 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				T0000005 /* financial-chart-selection-tests.swift in Sources */,
+				T0000051 /* financial-chart-interaction-tests.swift in Sources */,
+				T0000061 /* account-history-chart-tests.swift in Sources */,
+				T0000021 /* hashtag-suggestions-tests.swift in Sources */,
+				T0000031 /* transaction-day-grouping-tests.swift in Sources */,
+				T0000041 /* transaction-rule-matcher-tests.swift in Sources */,
+				T0000071 /* transaction-stats-window-tests.swift in Sources */,
+				T0000081 /* mileage-geometry-tests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		T0000007 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F0000001 /* Moat */;
+			targetProxy = T0000006 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		G0000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B0000011 /* Debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		G0000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B0000012 /* Release.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		G0000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Moat/SupportingFiles/MoatApp.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 53;
+				DEVELOPMENT_TEAM = 8VDD3425PX;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Moat/SupportingFiles/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.53;
+				PRODUCT_BUNDLE_IDENTIFIER = com.moatfinance.app.debug;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		G0000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Moat/MoatRelease.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 53;
+				DEVELOPMENT_TEAM = 8VDD3425PX;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Moat/SupportingFiles/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.53;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "Moat Finance App Store";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		T0000011 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 53;
+				DEVELOPMENT_TEAM = 8VDD3425PX;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.53;
+				PRODUCT_BUNDLE_IDENTIFIER = com.moatfinance.app.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Moat.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Moat";
+			};
+			name = Debug;
+		};
+		T0000012 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 53;
+				DEVELOPMENT_TEAM = 8VDD3425PX;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.53;
+				PRODUCT_BUNDLE_IDENTIFIER = com.moatfinance.app.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Moat.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Moat";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F0000010 /* Build configuration list for PBXNativeTarget "Moat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				G0000003 /* Debug */,
+				G0000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F0000020 /* Build configuration list for PBXProject "Moat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				G0000001 /* Debug */,
+				G0000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		T0000010 /* Build configuration list for PBXNativeTarget "MoatTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				T0000011 /* Debug */,
+				T0000012 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		X0000900 /* XCRemoteSwiftPackageReference "plaid-link-ios-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/plaid/plaid-link-ios-spm.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
+		X0000910 /* XCRemoteSwiftPackageReference "posthog-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/PostHog/posthog-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		X0000901 /* LinkKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = X0000900 /* XCRemoteSwiftPackageReference "plaid-link-ios-spm" */;
+			productName = LinkKit;
+		};
+		X0000911 /* PostHog */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = X0000910 /* XCRemoteSwiftPackageReference "posthog-ios" */;
+			productName = PostHog;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = F0000000 /* Project object */;
+}

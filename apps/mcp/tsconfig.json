@@ -1,0 +1,18 @@
+{
+	"extends": "../../packages/config/tsconfig.base.json",
+	"compilerOptions": {
+		"paths": {
+			"~/*": ["./src/*"]
+		},
+		"outDir": "dist",
+		"types": ["node"]
+	},
+	"include": [
+		"api/**/*.ts",
+		"index.ts",
+		"src/**/*.ts",
+		"../api/src/server/services/feedback-record.service.ts",
+		"../api/src/server/services/github-feedback-sync.service.ts",
+		"../api/src/lib/github/**/*.ts"
+	]
+}

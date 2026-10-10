@@ -1,0 +1,149 @@
+[
+  {
+    "id": "tax-strategy-annual",
+    "title": "Build My Tax Strategy Report",
+    "prompt": "Use the Moat MCP tools to get my spending breakdown, budget status, and account overview for the current year. Then build a personalized tax strategy report: (1) Identify categories with the highest deduction potential — home office, business expenses, charitable giving, healthcare. (2) Flag retirement contribution headroom I haven't fully used (IRA, 401k, HSA). (3) Highlight any obvious tax-loss harvesting opportunities in my investment accounts. (4) Give me three high-priority moves I should make before December 31st, ranked by estimated dollar impact.",
+    "tags": [
+      "tax"
+    ],
+    "surfaces": [
+      "prompt-library"
+    ]
+  },
+  {
+    "id": "rental-write-off-prep",
+    "title": "Prepare My Rental for Tax Season",
+    "prompt": "Use the Moat MCP tools to pull my transactions and spending breakdown, focusing on real-estate and property-related categories. Then: (1) List all likely deductible rental expenses I've captured this year — repairs, insurance, utilities, management fees, mortgage interest. (2) Identify gaps: expenses I probably have but aren't yet categorized (depreciation schedule, mileage, capital improvements). (3) Suggest specific Moat Finance hashtag rules I should create to automate this categorization going forward. (4) Give me a tax-season prep checklist ordered by deadline urgency.",
+    "tags": [
+      "tax",
+      "real-estate",
+      "rules"
+    ],
+    "surfaces": [
+      "prompt-library"
+    ]
+  },
+  {
+    "id": "rule-setup-for-taxes",
+    "title": "Set Up Rules and Hashtags for Tax Season",
+    "prompt": "Use the Moat MCP tools to pull my recent transactions and current rule configuration. Then: (1) Identify merchant and category patterns that are likely tax-deductible but have no hashtag rule yet. (2) Suggest 5–10 specific Moat Finance hashtag rules I should create, with exact hashtag names (e.g. #home-office, #charitable, #business-travel, #medical). (3) For each rule, explain what it captures and why it matters at tax time. (4) Give me a prioritized setup order based on my spending patterns, starting with the highest-value rules.",
+    "tags": [
+      "tax",
+      "rules"
+    ],
+    "surfaces": [
+      "transactions.empty",
+      "prompt-library"
+    ]
+  },
+  {
+    "id": "hsa-eligibility",
+    "title": "Should I Open an HSA?",
+    "prompt": "Use the Moat MCP tools to retrieve my account summary, spending breakdown, and budget status. Then: (1) Summarize my current health-related and insurance expenses to infer whether I might be on a High-Deductible Health Plan. (2) Based on my monthly cash flow, estimate how much I could realistically contribute to an HSA this year. (3) Explain the triple tax advantage in concrete dollar terms for my situation. (4) Give me a clear yes/no recommendation and a 3-step action plan if I should open one.",
+    "tags": [
+      "tax",
+      "investing",
+      "hsa"
+    ],
+    "surfaces": [
+      "investments.hsa",
+      "prompt-library"
+    ]
+  },
+  {
+    "id": "retirement-on-track",
+    "title": "Am I On Track for Retirement?",
+    "prompt": "Use the Moat MCP tools to get my account overview, spending breakdown, and forecast. Then: (1) Estimate my current monthly savings rate as a percentage of net income. (2) Assess whether I'm on track for a comfortable retirement using standard benchmarks (25x annual expenses, 4% withdrawal rule). (3) Identify whether I'm leaving employer match or tax-advantaged contribution headroom unused. (4) Give me a clear verdict — on track, behind, or ahead — with three specific, prioritized steps to strengthen my position.",
+    "tags": [
+      "investing",
+      "goals"
+    ],
+    "surfaces": [
+      "goals.empty",
+      "prompt-library"
+    ]
+  },
+  {
+    "id": "investment-rebalance",
+    "title": "Should I Rebalance My Portfolio?",
+    "prompt": "Use the Moat MCP tools to get my full account and investment overview. Then: (1) Map out my investment accounts and infer the asset class mix from available data. (2) Compare my current allocation to a target appropriate for my financial profile — consider age implied by account history and apparent risk tolerance. (3) Identify which asset classes are meaningfully over- or under-weight (>5% drift). (4) Give me a concrete rebalancing action plan: what to trim, what to add, and how to execute with minimal tax impact.",
+    "tags": [
+      "investing"
+    ],
+    "surfaces": [
+      "prompt-library"
+    ]
+  },
+  {
+    "id": "budget-improvement-top3",
+    "title": "Where Should I Cut Spending?",
+    "prompt": "Use the Moat MCP tools to retrieve my budget status and spending breakdown. Then: (1) Identify the three categories where I'm most over budget or spending the most relative to my income. (2) For each category, give me a specific, realistic monthly reduction target and at least two actionable tactics to hit it. (3) Calculate how much I'd save annually by hitting all three targets. (4) Rank the opportunities by impact-to-effort ratio so I know where to start.",
+    "tags": [
+      "budgeting",
+      "cash-flow"
+    ],
+    "surfaces": [
+      "budgeting.overview",
+      "prompt-library"
+    ]
+  },
+  {
+    "id": "emergency-fund-check",
+    "title": "Do I Have a Strong Enough Emergency Fund?",
+    "prompt": "Use the Moat MCP tools to get my budget status, spending breakdown, and account overview. Then: (1) Calculate my average monthly essential expenses — housing, food, utilities, insurance, minimum debt payments. (2) Identify which accounts hold liquid savings accessible in an emergency. (3) Compute how many months of essential expenses my current liquid savings cover. (4) Give me a clear verdict (under-funded, adequate, or over-funded), a specific savings target if I'm below 3–6 months, and a timeline to get there based on my current surplus.",
+    "tags": [
+      "goals",
+      "budgeting"
+    ],
+    "surfaces": [
+      "prompt-library"
+    ]
+  },
+  {
+    "id": "monthly-cash-flow-analysis",
+    "title": "Analyze My Monthly Cash Flow",
+    "prompt": "Use the Moat MCP tools to get my spending breakdown and forecast for the current month. Then: (1) Summarize total income vs. total expenses and whether I'm net positive or negative. (2) Flag the top three spending categories that deviated most from my recent average and explain why that matters. (3) Project whether I'll end the month with a surplus or deficit based on the current trajectory. (4) Suggest one concrete, high-leverage adjustment I could make right now to improve this month's outcome.",
+    "tags": [
+      "cash-flow"
+    ],
+    "surfaces": [
+      "cash-flow.chart",
+      "prompt-library"
+    ]
+  },
+  {
+    "id": "debt-payoff-strategy",
+    "title": "What's the Best Way to Pay Off My Debt?",
+    "prompt": "Use the Moat MCP tools to get my accounts overview and budget status. Identify all debt accounts — credit cards, loans, lines of credit. Then: (1) List each debt with estimated balance, type, and any interest-rate context you can infer. (2) Model both the avalanche method (highest interest first) and the snowball method (smallest balance first) — compare projected payoff timelines and total interest paid for each. (3) Based on my current monthly cash flow surplus, recommend which method fits my situation better and how long full payoff would take. (4) Give me a concrete monthly payment allocation to start this month.",
+    "tags": [
+      "debt"
+    ],
+    "surfaces": [
+      "debt.accounts",
+      "prompt-library"
+    ]
+  },
+  {
+    "id": "net-worth-breakdown",
+    "title": "Break Down My Net Worth",
+    "prompt": "Use the Moat MCP tools to retrieve my full account summary and profile. Then: (1) Organize all assets (cash, investments, property) and liabilities (debt, loans) into a clean net-worth snapshot. (2) Calculate my debt-to-asset ratio and liquid-asset ratio and interpret what they indicate about financial health. (3) Identify the single biggest lever I could pull to improve my net worth over the next 12 months. (4) Compare my asset composition to standard financial health benchmarks and flag any meaningful imbalances worth addressing.",
+    "tags": [
+      "net-worth"
+    ],
+    "surfaces": [
+      "net-worth.summary",
+      "prompt-library"
+    ]
+  },
+  {
+    "id": "insurance-gap-analysis",
+    "title": "Do I Have the Right Insurance Coverage?",
+    "prompt": "Use the Moat MCP tools to get my spending breakdown and account overview. Then: (1) Identify what insurance premiums I'm currently paying — health, auto, home/renters, life, disability, umbrella — based on transaction patterns. (2) Flag likely coverage gaps given my financial profile: assets at risk, implied dependents, and property I hold. (3) Calculate what percentage of my monthly income goes to insurance premiums and whether that's proportionate. (4) Give me a prioritized list of gaps to address, with estimated cost ranges and the financial risk each gap exposes me to.",
+    "tags": [
+      "insurance"
+    ],
+    "surfaces": [
+      "prompt-library"
+    ]
+  }
+]

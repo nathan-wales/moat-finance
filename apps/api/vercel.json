@@ -1,0 +1,39 @@
+{
+	"$schema": "https://openapi.vercel.sh/vercel.json",
+	"buildCommand": "cd ../.. && pnpm run build --filter=moat-api",
+	"installCommand": "pnpm install",
+	"framework": "nextjs",
+	"crons": [
+		{
+			"path": "/api/cron/scheduled-balance-sync",
+			"schedule": "0 7 * * *"
+		},
+		{
+			"path": "/api/cron/scheduled-transaction-fallback",
+			"schedule": "0 7 * * *"
+		},
+		{
+			"path": "/api/cron/process-provider-sync-jobs",
+			"schedule": "0 7 * * *"
+		},
+		{
+			"path": "/api/cron/evaluate-notification-rules",
+			"schedule": "0 7 * * *"
+		},
+		{
+			"path": "/api/cron/evaluate-notification-schedules",
+			"schedule": "0 7 * * *"
+		},
+		{
+			"path": "/api/cron/accrue-manual-investment-balances",
+			"schedule": "0 7 * * *"
+		},
+		{
+			"path": "/api/cron/amortize-manual-liability-balances",
+			"schedule": "0 7 * * *"
+		}
+	],
+	"git": {
+		"deploymentEnabled": false
+	}
+}

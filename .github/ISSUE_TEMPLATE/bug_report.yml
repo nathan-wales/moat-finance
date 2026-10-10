@@ -1,0 +1,35 @@
+name: Bug report
+description: Something isn't working
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "Never paste real financial data, tokens, or account numbers. Report security issues privately (see SECURITY.md)."
+  - type: dropdown
+    id: deployment
+    attributes:
+      label: How do you run Moat?
+      options: [Self-hosted (Docker), Desktop app, Hosted (moatfinance.ai), Local development]
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected vs. actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs (redacted)
+      render: shell

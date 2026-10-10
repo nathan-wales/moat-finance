@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Security — Moat Finance</title>
+		<meta name="description" content="How open-source Moat Finance protects your financial data on your own server and on your desktop — AES-256 encryption, read-only bank connections, and a biometric-gated local vault.">
+		<meta property="og:title" content="Security — Moat Finance">
+		<meta property="og:description" content="Open-source, self-hosted security you can verify. Read-only connections, encrypted tokens, and biometric unlock every session on desktop.">
+		<meta property="og:type" content="website">
+		<link rel="icon" type="image/x-icon" href="public/favicon.ico">
+		<link rel="stylesheet" href="styles.css">
+	</head>
+	<body>
+
+		<nav id="nav-header" class="nav" aria-label="Main navigation">
+			<div class="container nav-container">
+				<a href="index.html" class="logo-with-text">
+					<img class="logo-img" src="public/moat-logo-light-transparent.png" alt="Moat Finance">
+					<span class="logo-text">Moat Finance</span>
+				</a>
+				<div class="nav-links">
+					<a href="index.html#features" class="nav-link">Features</a>
+					<a href="index.html#quickstart" class="nav-link">Quickstart</a>
+					<a href="index.html#deploy" class="nav-link">Deploy</a>
+					<a href="index.html#compare" class="nav-link">Compare</a>
+					<div class="nav-dropdown">
+						<button type="button" class="nav-link nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">
+							Open source
+							<svg class="nav-dropdown-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+						</button>
+						<div class="nav-dropdown-menu" role="menu">
+							<a href="https://github.com/tyler16smith/moat-finance" class="nav-dropdown-item" role="menuitem">GitHub repository</a>
+							<a href="https://github.com/tyler16smith/moat-finance/blob/main/docs/self-hosting.md" class="nav-dropdown-item" role="menuitem">Self-hosting guide</a>
+							<a href="https://github.com/tyler16smith/moat-finance/blob/main/CONTRIBUTING.md" class="nav-dropdown-item" role="menuitem">Contributing</a>
+							<a href="security.html" class="nav-dropdown-item nav-dropdown-item-active" role="menuitem" aria-current="page">Security</a>
+						</div>
+					</div>
+					<a href="index.html#about" class="nav-link">About</a>
+				</div>
+				<div class="nav-actions">
+					<a href="https://github.com/tyler16smith/moat-finance" class="btn btn-ghost nav-github" aria-label="Moat Finance on GitHub">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.73.5.5 5.73.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5Z"/></svg>
+						GitHub
+					</a>
+					<a href="index.html#get-started" class="btn btn-primary">Get started</a>
+				</div>
+				<button type="button" id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+					<span class="menu-icon"></span>
+				</button>
+			</div>
+			<div id="mobile-menu" class="mobile-menu">
+				<a href="index.html#get-started" class="mobile-link">Get started</a>
+				<a href="index.html#features" class="mobile-link">Features</a>
+				<a href="index.html#quickstart" class="mobile-link">Quickstart</a>
+				<a href="index.html#deploy" class="mobile-link">Deploy</a>
+				<a href="index.html#compare" class="mobile-link">Compare</a>
+				<a href="https://github.com/tyler16smith/moat-finance/blob/main/docs/self-hosting.md" class="mobile-link">Self-hosting guide</a>
+				<a href="https://github.com/tyler16smith/moat-finance/blob/main/CONTRIBUTING.md" class="mobile-link">Contributing</a>
+				<a href="security.html" class="mobile-link mobile-link-active" aria-current="page">Security</a>
+				<a href="index.html#about" class="mobile-link">About</a>
+				<a href="index.html#get-started" class="mobile-cta btn btn-primary">Get started</a>
+			</div>
+		</nav>
+
+		<main class="security-page">
+			<section class="section security-hero">
+				<div class="container security-hero-inner reveal">
+					<div class="eyebrow">SECURITY</div>
+					<h1 class="section-title">Your financial data,<br/>protected at every layer</h1>
+					<p class="section-description security-lead">
+						Moat Finance is built for sensitive financial information. Whether you run your own server or keep everything on your computer, security is designed in — not bolted on. And because it&rsquo;s open source, you can read every line and verify it yourself.
+					</p>
+				</div>
+			</section>
+
+			<section class="section section-alt security-bank-section">
+				<div class="container">
+					<div class="section-header centered reveal">
+						<div class="security-section-icon" aria-hidden="true">
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+						</div>
+						<h2 class="section-title centered">Connecting bank accounts</h2>
+						<p class="section-description centered">When you link a financial institution with your own Plaid keys, Moat follows the same security practices shown in the app — every time you connect.</p>
+					</div>
+
+					<div class="security-feature-grid reveal reveal-delay-1">
+						<div class="security-feature-item">
+							<div class="security-feature-icon" aria-hidden="true">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+							</div>
+							<h3>AES-256 encryption</h3>
+							<p>Sensitive tokens and secrets are encrypted at rest with AES-256-GCM. All data is encrypted in transit with TLS.</p>
+						</div>
+						<div class="security-feature-item">
+							<div class="security-feature-icon" aria-hidden="true">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+							</div>
+							<h3>Read-only access</h3>
+							<p>Moat only ever requests read-only access. We cannot move or transfer money on your behalf.</p>
+						</div>
+						<div class="security-feature-item">
+							<div class="security-feature-icon" aria-hidden="true">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+							</div>
+							<h3>Credentials never stored</h3>
+							<p>Your bank login is handled entirely by Plaid. Moat never sees or stores your credentials.</p>
+						</div>
+						<div class="security-feature-item">
+							<div class="security-feature-icon" aria-hidden="true">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+							</div>
+							<h3>Revoke access anytime</h3>
+							<p>Disconnect any institution at any time from your accounts page. Access is revoked immediately.</p>
+						</div>
+					</div>
+
+					<div class="security-provider-note reveal reveal-delay-2">
+						Live connections use your own Plaid developer account. No keys? Manual accounts and CSV imports work without any bank connection.
+					</div>
+				</div>
+			</section>
+
+			<section class="section security-platforms">
+				<div class="container">
+					<div class="section-header centered reveal">
+						<h2 class="section-title centered">Two modes, one security standard</h2>
+						<p class="section-description centered">Run a self-hosted server for access across devices, or the desktop app for maximum privacy. Both are built with the same security principles, and both run on hardware you control.</p>
+					</div>
+
+					<div class="security-grid reveal reveal-delay-1">
+						<div class="security-card">
+							<div class="security-card-header">
+								<div class="security-mode-badge badge-cloud">Server</div>
+								<h3>Self-hosted server</h3>
+							</div>
+							<ul class="security-detail-list">
+								<li>
+									<strong>Encryption at rest and in transit</strong>
+									<span>Provider access tokens and 2FA secrets are encrypted with AES-256-GCM using an encryption key you generate and hold. Put TLS in front of anything beyond localhost.</span>
+								</li>
+								<li>
+									<strong>Secure authentication</strong>
+									<span>Passwords are stored as one-way hashes. Optional two-factor authentication adds a second layer. You decide who gets an account on your instance.</span>
+								</li>
+								<li>
+									<strong>Read-only financial connections</strong>
+									<span>Account linking through your own Plaid keys is read-only — Moat cannot initiate transactions.</span>
+								</li>
+								<li>
+									<strong>Your database, not ours</strong>
+									<span>Data lives in a Postgres database you run. Moat Finance has no access to your instance. Bank login flows stay with Plaid; Moat stores only encrypted access tokens, never usernames or passwords.</span>
+								</li>
+								<li>
+									<strong>Privacy-first analytics and logging</strong>
+									<span>Product analytics are off unless you configure them. Logs exclude merchant names, transaction descriptions, account numbers, and email addresses. No session recordings, click autocapture, or heatmaps.</span>
+								</li>
+								<li>
+									<strong>You control your data</strong>
+									<span>Export your data or permanently delete your account at any time from Settings. Disconnecting an institution revokes access immediately. Scoped MCP tokens come with an audit log.</span>
+								</li>
+							</ul>
+							<a href="https://github.com/tyler16smith/moat-finance/blob/main/docs/self-hosting.md" class="btn btn-secondary security-card-cta">Read the self-hosting guide</a>
+						</div>
+
+						<div class="security-card security-card-local">
+							<div class="security-card-header">
+								<div class="security-mode-badge badge-local">Desktop</div>
+								<h3>Moat Finance Local</h3>
+							</div>
+							<ul class="security-detail-list">
+								<li>
+									<strong>Data stays on your computer</strong>
+									<span>Your financial profile lives in a local SQLite database. No cloud database. No remote account storage unless you opt in.</span>
+								</li>
+								<li>
+									<strong>Biometric unlock every session</strong>
+									<span>On macOS, Touch ID gates access every time you open the app. Your vault is locked on launch — you authenticate before any data is accessible.</span>
+								</li>
+								<li>
+									<strong>App password protection</strong>
+									<span>Set a local vault password on any platform. Every session requires unlock with your password or biometrics before Moat opens your financial data.</span>
+								</li>
+								<li>
+									<strong>OS keychain for provider tokens</strong>
+									<span>Plaid access tokens on desktop are encrypted with your operating system's secure storage — Keychain on macOS, Credential Manager on Windows, libsecret on Linux.</span>
+								</li>
+								<li>
+									<strong>Isolated app architecture</strong>
+									<span>Context isolation and strict IPC boundaries keep the UI separate from your data layer. All cross-process communication is validated with typed schemas.</span>
+								</li>
+								<li>
+									<strong>Fully offline capable</strong>
+									<span>No cloud dependency for core features. Optional local AI agent access runs on localhost with scoped tokens and an audit log you control.</span>
+								</li>
+							</ul>
+							<a href="download.html" class="btn btn-secondary security-card-cta">Download desktop app</a>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="section section-alt security-principles">
+				<div class="container">
+					<div class="section-header centered reveal">
+						<h2 class="section-title centered">Security principles we follow</h2>
+					</div>
+					<div class="security-principles-grid reveal reveal-delay-1">
+						<div class="security-principle">
+							<h3>Least privilege</h3>
+							<p>Read-only bank connections. Scoped agent tokens. Server-side authorization on every write — UI visibility is never treated as access control.</p>
+						</div>
+						<div class="security-principle">
+							<h3>Defense in depth</h3>
+							<p>Encryption, authentication, access controls, and logging policies work together. Sensitive fields are encrypted even inside an already-secured database.</p>
+						</div>
+						<div class="security-principle">
+							<h3>Transparency</h3>
+							<p>The code is open source under AGPL-3.0, so every query, sync, and MCP tool is <a href="https://github.com/tyler16smith/moat-finance">on GitHub</a> to audit. You can export, disconnect, and delete your data at any time.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="section security-contact">
+				<div class="container security-contact-inner reveal">
+					<h2 class="section-title centered">Questions about security?</h2>
+					<p class="section-description centered">If you found a vulnerability in Moat or have a security concern, contact us at <a href="mailto:support@moatfinance.ai">support@moatfinance.ai</a>. Please report vulnerabilities privately rather than in a public GitHub issue.</p>
+				</div>
+			</section>
+		</main>
+
+		<footer class="footer">
+			<div class="container footer-container">
+				<div class="footer-brand">
+					<div class="logo-with-text">
+						<img class="logo-img" src="public/moat-logo-dark.png" alt="Moat Finance">
+						<span class="logo-text">Moat Finance</span>
+					</div>
+					<p class="footer-tagline">Your financial fortress, self-hosted</p>
+				</div>
+				<div class="footer-links">
+					<div class="footer-col">
+						<strong>Product</strong>
+						<a href="index.html#features">Features</a>
+						<a href="index.html#quickstart">Quickstart</a>
+						<a href="index.html#deploy">Deploy</a>
+						<a href="index.html#compare">Compare</a>
+						<a href="download.html">Download desktop</a>
+						<a href="for/ai-agents.html">AI Agents</a>
+					</div>
+					<div class="footer-col">
+						<strong>Open source</strong>
+						<a href="https://github.com/tyler16smith/moat-finance">GitHub</a>
+						<a href="https://github.com/tyler16smith/moat-finance/blob/main/docs/self-hosting.md">Self-hosting guide</a>
+						<a href="https://github.com/tyler16smith/moat-finance/blob/main/CONTRIBUTING.md">Contributing</a>
+						<a href="https://github.com/tyler16smith/moat-finance/blob/main/LICENSE">License</a>
+					</div>
+					<div class="footer-col">
+						<strong>Trust &amp; Legal</strong>
+						<a href="security.html">Security</a>
+						<a href="privacy.html">Privacy Policy</a>
+						<a href="terms.html">Terms of Service</a>
+					</div>
+					<div class="footer-col">
+						<strong>Contact</strong>
+						<a href="mailto:hello@moatfinance.ai">hello@moatfinance.ai</a>
+						<a href="support.html">Support</a>
+					</div>
+				</div>
+			</div>
+			<div class="footer-bottom">
+				<div class="container">
+					<span>&copy; 2026 Moat Finance LLC. Open source software.</span>
+					<span>Financial clarity should be private, intelligent, and owned by you.</span>
+				</div>
+			</div>
+		</footer>
+
+		<script src="script.js"></script>
+		<script src="attribution.js"></script>
+	</body>
+</html>

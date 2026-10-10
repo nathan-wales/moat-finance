@@ -1,0 +1,14 @@
+{
+	"extends": "../config/tsconfig.base.json",
+	"compilerOptions": {
+		"outDir": "dist",
+		"types": ["node"],
+		"baseUrl": ".",
+		"paths": {
+			"@moat/contracts": ["../contracts/src/index.ts"],
+			"@moat/data-access": ["../data-access/src/index.ts"],
+			"@moat/domain": ["../domain/src/index.ts"]
+		}
+	},
+	"include": ["src/**/*.ts", "src/**/*.d.ts"]
+}

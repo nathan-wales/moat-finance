@@ -1,0 +1,6 @@
+out/
+node_modules/
+resources/sqlcipher-native/
+
+# electron-vite dumps a compiled copy of electron.vite.config.ts here
+electron.vite.config.*.mjs

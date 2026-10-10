@@ -1,0 +1,74 @@
+name: Plaid Golden Desktop Playwright
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  MOAT_E2E: "1"
+  PLAID_CLIENT_ID: golden-client-id
+  PLAID_SECRET: golden-secret
+  PLAID_ENV: sandbox
+  ELECTRON_CACHE: ${{ github.workspace }}/.cache/electron
+  electron_config_cache: ${{ github.workspace }}/.cache/electron
+
+jobs:
+  plaid-golden-desktop-playwright:
+    name: Desktop Playwright Golden
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8.10.0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Cache Electron binary
+        uses: actions/cache@v4
+        with:
+          path: .cache/electron
+          key: electron-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Install dependencies
+        run: |
+          unset ELECTRON_SKIP_BINARY_DOWNLOAD
+          pnpm install --frozen-lockfile
+
+      - name: Download Electron binary
+        run: |
+          unset ELECTRON_SKIP_BINARY_DOWNLOAD
+          pnpm --filter moat-desktop run ensure-electron
+
+      - name: Generate SQLite Prisma client
+        run: pnpm --filter @moat/db-sqlite run db:generate
+
+      - name: Build unpacked desktop
+        run: pnpm --filter moat-desktop run build
+
+      - name: Install xvfb and Electron runtime libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb
+          pnpm --filter moat-desktop exec playwright install-deps
+
+      - name: Run Desktop Playwright Golden
+        run: xvfb-run --auto-servernum pnpm --filter moat-desktop run test:e2e:plaid-golden
+
+      - name: Upload Playwright artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: desktop-playwright-golden
+          path: apps/desktop/test-results
+          if-no-files-found: ignore

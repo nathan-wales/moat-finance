@@ -1,0 +1,26 @@
+# Moat Finance
+
+## Stack
+
+Next.js 15 (App Router), React 19, TypeScript, tRPC, Prisma, Tailwind CSS 4, shadcn/ui, Biome, Zod
+
+## Code Style
+
+- Use `function` declarations for components and handlers
+- Prefer early returns over nested conditionals
+- No comments that explain what code does; only comment non-obvious intent
+- Use Zod schemas for validation; derive types with `z.infer<>`
+
+## Commands
+
+- `npm run dev` — dev server
+- `npm run check` — lint
+- `npm run check:write` — auto-fix
+- `npm run typecheck` — type check
+- `npm run db:studio` — Prisma Studio
+
+## Documentation
+
+See `docs/` for feature specs and architecture details:
+- `docs/README.md` — index of all documentation
+- `docs/architecture.md` — patterns, conventions, file structure

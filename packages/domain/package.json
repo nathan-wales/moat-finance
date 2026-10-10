@@ -1,0 +1,42 @@
+{
+	"name": "@moat/domain",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"main": "src/index.ts",
+	"types": "src/index.ts",
+	"exports": {
+		".": "./src/index.ts",
+		"./federal-rules": "./src/federal-rules/index.ts",
+		"./mileage": "./src/mileage/index.ts",
+		"./real-estate-projection": "./src/forecasts/real-estate-projection.ts",
+		"./derive-mortgage-details": "./src/financial-profile/derive-mortgage-details.ts",
+		"./retirement-constants": "./src/retirement/constants.ts",
+		"./retirement-compute": "./src/retirement/compute-jobs.ts",
+		"./retirement-standing-rules": "./src/retirement/standing-rules/registry.ts",
+		"./retirement-taxes": "./src/retirement/taxes.ts",
+		"./retirement-levers": "./src/retirement/default-lever.ts",
+		"./retirement-social-security": "./src/retirement/social-security.ts",
+		"./scheduling": "./src/scheduling/anniversary.ts",
+		"./asset-history": "./src/dashboard/rollup-monthly-last.ts"
+	},
+	"scripts": {
+		"typecheck": "tsc --noEmit",
+		"test": "tsx --test src"
+	},
+	"dependencies": {
+		"@moat/category-mapping": "workspace:*",
+		"@moat/contracts": "workspace:^",
+		"@moat/data-access": "workspace:*",
+		"@moat/financial-data-providers": "workspace:*",
+		"@moat/reports": "workspace:*",
+		"date-fns": "^4.1.0",
+		"zod": "^3.25.76"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.5",
+		"@types/node": "^20.14.10",
+		"tsx": "^4.21.0",
+		"typescript": "^5.8.2"
+	}
+}

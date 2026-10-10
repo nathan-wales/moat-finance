@@ -1,0 +1,58 @@
+name: Plaid Sandbox Nightly
+
+on:
+  schedule:
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sandbox-smoke:
+    name: Sandbox adapter smoke
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8.10.0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: "1"
+        run: pnpm install --frozen-lockfile
+
+      - name: API Sandbox smoke
+        env:
+          PLAID_CLIENT_ID: ${{ secrets.PLAID_SANDBOX_CLIENT_ID }}
+          PLAID_SECRET: ${{ secrets.PLAID_SANDBOX_SECRET }}
+          PLAID_ENV: sandbox
+        run: |
+          if [ -z "$PLAID_CLIENT_ID" ] || [ -z "$PLAID_SECRET" ]; then
+            echo "PLAID_SANDBOX_CLIENT_ID / PLAID_SANDBOX_SECRET absent; skipping API smoke"
+            exit 0
+          fi
+          pnpm --filter moat-api run test:plaid-sandbox-smoke
+
+      - name: Desktop Sandbox smoke
+        env:
+          PLAID_CLIENT_ID: ${{ secrets.PLAID_SANDBOX_CLIENT_ID }}
+          PLAID_SECRET: ${{ secrets.PLAID_SANDBOX_SECRET }}
+          PLAID_ENV: sandbox
+          ELECTRON_SKIP_BINARY_DOWNLOAD: "1"
+        run: |
+          if [ -z "$PLAID_CLIENT_ID" ] || [ -z "$PLAID_SECRET" ]; then
+            echo "PLAID_SANDBOX_CLIENT_ID / PLAID_SANDBOX_SECRET absent; skipping desktop smoke"
+            exit 0
+          fi
+          pnpm --filter moat-desktop run test:plaid-sandbox-smoke

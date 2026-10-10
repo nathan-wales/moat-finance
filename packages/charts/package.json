@@ -1,0 +1,30 @@
+{
+	"name": "@moat/charts",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"main": "src/index.ts",
+	"types": "src/index.ts",
+	"exports": {
+		".": "./src/index.ts"
+	},
+	"scripts": {
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@moat/contracts": "workspace:*",
+		"@moat/ui": "workspace:*",
+		"date-fns": "^4.1.0",
+		"lucide-react": "^0.577.0",
+		"react": "^19.0.0"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.5",
+		"@types/react": "^19.0.0",
+		"typescript": "^5.8.2"
+	},
+	"peerDependencies": {
+		"react": "^19.0.0",
+		"recharts": "^3.0.0"
+	}
+}

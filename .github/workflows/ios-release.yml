@@ -1,0 +1,76 @@
+name: iOS Release
+
+on:
+  push:
+    tags:
+      - "ios-v*"
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-upload:
+    name: Build and upload to TestFlight
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode 26
+        run: sudo xcode-select -s /Applications/Xcode_26.5.app
+
+      - name: Verify Xcode and iOS SDK
+        run: |
+          xcodebuild -version
+          SDK_VERSION="$(xcrun --sdk iphoneos --show-sdk-version)"
+          echo "iphoneos SDK version: ${SDK_VERSION}"
+          SDK_MAJOR="${SDK_VERSION%%.*}"
+          if [ "${SDK_MAJOR}" -lt 26 ]; then
+            echo "iphoneos SDK ${SDK_VERSION} is below the required iOS 26 SDK"
+            exit 1
+          fi
+
+      - name: Verify tag matches MARKETING_VERSION
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#ios-v}"
+          PBX_VERSION=$(grep -m1 'MARKETING_VERSION' apps/ios/Moat.xcodeproj/project.pbxproj | sed -E 's/.*MARKETING_VERSION = ([^;]+);/\1/')
+          if [ "$TAG_VERSION" != "$PBX_VERSION" ]; then
+            echo "Tag version ($TAG_VERSION) does not match Xcode MARKETING_VERSION ($PBX_VERSION)"
+            exit 1
+          fi
+
+      - name: Validate iOS release secrets
+        env:
+          APPLE_TEAM_ID_RAW: ${{ secrets.APPLE_TEAM_ID }}
+          APP_STORE_CONNECT_KEY_ID_RAW: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+          APP_STORE_CONNECT_ISSUER_ID_RAW: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_PRIVATE_KEY_RAW: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
+          BUILD_CERTIFICATE_BASE64_RAW: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+          P12_PASSWORD_RAW: ${{ secrets.P12_PASSWORD }}
+          PROVISIONING_PROFILE_BASE64_RAW: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
+          KEYCHAIN_PASSWORD_RAW: ${{ secrets.KEYCHAIN_PASSWORD }}
+        run: bash apps/ios/scripts/validate-release-secrets.sh
+
+      - name: Install signing certificate and profile
+        env:
+          BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          PROVISIONING_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        run: bash apps/ios/scripts/install-signing-assets.sh
+
+      - name: Build App Store IPA
+        id: build
+        env:
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_PRIVATE_KEY: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
+        run: bash apps/ios/scripts/build-testflight-ipa.sh
+
+      - name: Upload to TestFlight
+        uses: apple-actions/upload-testflight-build@v3
+        with:
+          app-path: ${{ steps.build.outputs.IPA_PATH }}
+          issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          api-key-id: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+          api-private-key: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}

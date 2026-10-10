@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "PlaidItem" ADD COLUMN "sortOrder" INTEGER NOT NULL DEFAULT 0;

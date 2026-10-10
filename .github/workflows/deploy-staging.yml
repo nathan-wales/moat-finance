@@ -1,0 +1,120 @@
+name: Deploy Staging
+
+on:
+  push:
+    branches: [staging]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: staging-pipeline
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  golden-web:
+    uses: ./.github/workflows/plaid-golden-e2e.yml
+
+  golden-desktop:
+    uses: ./.github/workflows/plaid-golden-desktop-e2e.yml
+
+  deploy-staging:
+    name: Migrate and deploy staging
+    needs: [ci, golden-web, golden-desktop]
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Validate required secrets
+        env:
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID_API: ${{ secrets.VERCEL_PROJECT_ID_API }}
+          VERCEL_PROJECT_ID_MCP: ${{ secrets.VERCEL_PROJECT_ID_MCP }}
+          VERCEL_PROJECT_ID_MARKETING: ${{ secrets.VERCEL_PROJECT_ID_MARKETING }}
+          VERCEL_PROJECT_ID_WEB: ${{ secrets.VERCEL_PROJECT_ID_WEB }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          missing=0
+          for name in AUTH_SECRET DATABASE_URL DIRECT_URL VERCEL_ORG_ID VERCEL_PROJECT_ID_API VERCEL_PROJECT_ID_MCP VERCEL_PROJECT_ID_MARKETING VERCEL_PROJECT_ID_WEB VERCEL_TOKEN; do
+            if [ -z "${!name}" ]; then
+              echo "Missing required secret: $name"
+              missing=1
+            fi
+          done
+          exit "$missing"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8.10.0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        env:
+          # Deploy jobs do not build/run Electron; skip the large binary download that flakes on GH runners.
+          ELECTRON_SKIP_BINARY_DOWNLOAD: "1"
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma client
+        env:
+          DATABASE_URL: postgresql://ci:ci@localhost:5432/moat_finance_ci?sslmode=disable
+          DIRECT_URL: postgresql://ci:ci@localhost:5432/moat_finance_ci?sslmode=disable
+        run: pnpm db:generate
+
+      - name: Apply staging migrations
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+        run: |
+          for name in DATABASE_URL DIRECT_URL; do
+            value="${!name}"
+            if [ -z "$value" ]; then
+              echo "Missing required secret for migrate step: $name"
+              exit 1
+            fi
+            echo "$name is set (length=${#value})"
+          done
+          pnpm db:migrate:deploy
+
+      - name: Deploy API to Vercel preview
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_API }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: bash scripts/vercel-deploy-app.sh apps/api preview "$VERCEL_PROJECT_ID"
+
+      - name: Deploy MCP to Vercel preview
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_MCP }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: bash scripts/vercel-deploy-app.sh apps/mcp preview "$VERCEL_PROJECT_ID"
+
+      - name: Deploy web to Vercel preview
+        env:
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_WEB }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: bash scripts/vercel-deploy-app.sh apps/web preview "$VERCEL_PROJECT_ID"
+
+      - name: Deploy marketing to Vercel preview
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_MARKETING }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: bash scripts/vercel-deploy-app.sh apps/marketing preview "$VERCEL_PROJECT_ID"

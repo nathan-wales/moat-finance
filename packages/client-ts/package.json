@@ -1,0 +1,17 @@
+{
+	"name": "@moat/client-ts",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"main": "index.ts",
+	"exports": {
+		".": {
+			"import": "./index.ts",
+			"types": "./index.ts"
+		}
+	},
+	"files": [
+		"src",
+		"index.ts"
+	]
+}

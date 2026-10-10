@@ -1,0 +1,1029 @@
+// SQLite-specific Prisma schema for apps/desktop.
+// This is intentionally separate from packages/db-postgres/prisma/schema.prisma.
+// SQLite and Postgres have different capabilities; keeping them separate avoids compromises.
+//
+// Key differences from Postgres schema:
+//   - No enums → use String
+//   - No Decimal → use Float
+//   - Boolean is supported (Prisma maps to INTEGER 0/1)
+//   - No $queryRaw Postgres-specific syntax (use SQLite-compatible SQL)
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../src/generated/client"
+  binaryTargets = ["native", "darwin", "darwin-arm64", "windows", "debian-openssl-3.0.x"]
+}
+
+// ─── Users ────────────────────────────────────────────────────────────────────
+
+model LocalUser {
+  id        String   @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  accounts              Account[]
+  transactions          Transaction[]
+  categoryBudgets       CategoryBudget[]
+  transactionRules      TransactionRule[]
+  forecastScenarios     ForecastScenario[]
+  plaidItems            PlaidItem[]
+  investments                       Investment[]
+  realEstateInvestments             RealEstateInvestment[]
+  manualInvestmentBalanceAccruals   ManualInvestmentBalanceAccrual[]
+  accountBalanceHistories           AccountBalanceHistory[]
+  metadata                          UserMetadata[]
+  profileLinksOwned                 ProfileLink[] @relation("ProfileLinkOwner")
+  profileLinksAsProfile             ProfileLink[] @relation("ProfileLinkProfile")
+  retailConnections                 RetailConnection[]
+  retailOrders                      RetailOrder[]
+  retirementPlan                    RetirementPlan?
+  retirementScenarios               RetirementScenario[]
+  retirementStandingRules           RetirementStandingRule[]
+  retirementSpendingCategoryPlans   RetirementSpendingCategoryPlan[]
+  memories                          Memory[]
+  importMappingTemplates            ImportMappingTemplate[]
+  plaidHoldings                     PlaidHolding[]
+  taxDocuments                      TaxDocument[]
+  taxFacts                          TaxFact[]
+  taxFormExtractions                TaxFormExtraction[]
+  taxFactConflicts                  TaxFactConflict[]
+}
+
+model ProfileLink {
+  id            String    @id
+  ownerUserId   String
+  profileUserId String
+  // PERSONAL | FAMILY | BUSINESS
+  kind          String
+  displayName   String
+  // SOLE_PROPRIETOR | SINGLE_MEMBER_LLC | MULTI_MEMBER_LLC_PARTNERSHIP | S_CORPORATION | C_CORPORATION
+  businessType  String?
+  createdAt     DateTime  @default(now())
+  archivedAt    DateTime?
+
+  ownerUser   LocalUser @relation("ProfileLinkOwner", fields: [ownerUserId], references: [id], onDelete: Cascade)
+  profileUser LocalUser @relation("ProfileLinkProfile", fields: [profileUserId], references: [id], onDelete: Cascade)
+
+  @@unique([ownerUserId, profileUserId])
+  @@index([ownerUserId])
+}
+
+model UserMetadata {
+  id        String   @id
+  userId    String
+  key       String
+  valueJson String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user LocalUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, key])
+  @@index([userId])
+}
+
+// ─── Accounts ─────────────────────────────────────────────────────────────────
+
+model Account {
+  id              String   @id
+  userId          String
+  name            String
+  type            String
+  subtype         String?
+  institutionName String?
+  currentBalance  Float?
+  currency        String   @default("USD")
+  mask            String?
+  isHidden        Boolean  @default(false)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user         LocalUser     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+}
+
+// ─── Categories ───────────────────────────────────────────────────────────────
+
+model Category {
+  id             String   @id
+  name           String
+  icon           String?
+  color          String   @default("#71717A")
+  userId         String? // null = system default
+  isHidden       Boolean  @default(false)
+  sortOrder      Int      @default(0)
+  parentCategory String? // FIXED | FLEXIBLE | NON_MONTHLY
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  transactions    Transaction[]
+  categoryBudgets CategoryBudget[]
+  overrides       CategoryOverride[]
+}
+
+model CategoryOverride {
+  id             String   @id
+  userId         String
+  categoryId     String
+  name           String?
+  icon           String?
+  color          String?
+  isHidden       Boolean?
+  isRemoved      Boolean  @default(false)
+  parentCategory String? // FIXED | FLEXIBLE | NON_MONTHLY
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, categoryId])
+  @@index([userId])
+  @@index([categoryId])
+}
+
+// ─── Transactions ─────────────────────────────────────────────────────────────
+
+model Transaction {
+  id                    String    @id
+  userId                String
+  accountId             String?
+  categoryId            String?
+  date                  DateTime
+  postedDate            DateTime?
+  amount                Float
+  merchantName          String?
+  description           String?
+  originalDescription   String?
+  notes                 String?
+  // INCOME | EXPENSE
+  type                  String    @default("EXPENSE")
+  pending               Boolean   @default(false)
+  hidden                Boolean   @default(false)
+  // manual | PLAID | import | etc.
+  source                String    @default("manual")
+  removedAt             DateTime?
+  appliedRuleId         String?
+  // Plaid-specific fields
+  externalTransactionId String?
+  plaidAccountId        String?
+  plaidItemId           String?
+  pendingTransactionId  String?
+  raw                   String?
+  /// Plaid Location object JSON (address, city, region, postal_code, country, lat, lon, store_number)
+  location              String?
+  dedupeFingerprint     String?
+  // Internal transfer pairing: links the two legs of a same-amount transfer
+  // between the user's own connected accounts. autoHiddenAsTransfer marks a
+  // hide performed by the pairing system so user-initiated hides are preserved.
+  transferPairId        String?
+  autoHiddenAsTransfer  Boolean   @default(false)
+  amazonRetailEnrichedAt DateTime?
+  splitGroupId          String?
+  splitParentId         String?
+  splitOriginalAmount   Float?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  user         LocalUser            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  account      Account?             @relation(fields: [accountId], references: [id], onDelete: SetNull)
+  category     Category?            @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  appliedRule  TransactionRule?     @relation(fields: [appliedRuleId], references: [id], onDelete: SetNull)
+  plaidAccount PlaidAccount?        @relation(fields: [plaidAccountId], references: [id], onDelete: SetNull)
+  plaidItem         PlaidItem?           @relation(fields: [plaidItemId], references: [id], onDelete: SetNull)
+  hashtags          TransactionHashtag[]
+  retailOrderItems  RetailOrderItem[]
+
+  @@unique([userId, externalTransactionId])
+  @@index([appliedRuleId])
+  @@index([userId, dedupeFingerprint])
+  @@index([userId, transferPairId])
+  @@index([userId, splitGroupId])
+  @@index([splitParentId])
+}
+
+// ─── Retail sync (extension → desktop localhost bridge) ───────────────────────
+
+model RetailConnection {
+  id           String    @id
+  userId       String
+  retailer     String
+  status       String
+  lastSyncedAt DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  user LocalUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, retailer])
+  @@index([userId])
+}
+
+model RetailOrder {
+  id              String    @id
+  userId          String
+  retailer        String
+  externalOrderId String
+  orderDate       DateTime?
+  orderUrl        String?
+  currency        String    @default("USD")
+  subtotal        Float?
+  tax             Float?
+  shipping        Float?
+  discount        Float?
+  total           Float?
+  sourceUrl       String?
+  scrapedAt       DateTime
+  parserVersion   String
+  pageHash        String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  user  LocalUser         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items RetailOrderItem[]
+
+  @@unique([userId, retailer, externalOrderId])
+  @@index([userId, retailer])
+  @@index([userId, scrapedAt])
+}
+
+model RetailOrderItem {
+  id              String    @id
+  retailOrderId   String
+  transactionId   String?
+  externalItemId  String?
+  title           String
+  quantity        Int?
+  unitPrice       Float?
+  totalPrice      Float?
+  productUrl      String?
+  imageUrl        String?
+  sku             String?
+  asin            String?
+  matchStatus     String    @default("unmatched")
+  matchConfidence Float?
+  matchedAt       DateTime?
+  matchReason     String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  retailOrder RetailOrder  @relation(fields: [retailOrderId], references: [id], onDelete: Cascade)
+  transaction Transaction? @relation(fields: [transactionId], references: [id], onDelete: SetNull)
+
+  @@index([retailOrderId])
+  @@index([transactionId])
+  @@index([matchStatus])
+}
+
+model Hashtag {
+  id             String   @id
+  userId         String
+  name           String
+  normalizedName String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  transactions TransactionHashtag[]
+
+  @@unique([userId, normalizedName])
+  @@index([userId])
+}
+
+model TransactionHashtag {
+  transactionId String
+  hashtagId     String
+  createdAt     DateTime @default(now())
+
+  transaction Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  hashtag     Hashtag     @relation(fields: [hashtagId], references: [id], onDelete: Cascade)
+
+  @@id([transactionId, hashtagId])
+  @@index([hashtagId])
+}
+
+// ─── Budgets ──────────────────────────────────────────────────────────────────
+
+model CategoryBudget {
+  id              String   @id
+  userId          String
+  categoryId      String
+  monthlyGoal     Float
+  alertsEnabled   Boolean  @default(true)
+  alertThresholds String   @default("[75, 100]")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user     LocalUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, categoryId])
+}
+
+// ─── Rules ────────────────────────────────────────────────────────────────────
+
+model TransactionRule {
+  id        String   @id
+  userId    String
+  name      String
+  isActive  Boolean  @default(true)
+  priority  Int      @default(0)
+  // RuleMatch enum value as string: ALL | ANY
+  match     String   @default("ALL")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user             LocalUser            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conditionGroups  RuleConditionGroup[]
+  conditions       RuleCondition[]
+  actions          RuleAction[]
+  transactions     Transaction[]
+}
+
+model RuleConditionGroup {
+  id        String   @id
+  ruleId    String
+  // RuleMatch enum value as string: ALL | ANY
+  match     String   @default("ALL")
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  rule       TransactionRule @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+  conditions RuleCondition[]
+
+  @@index([ruleId, sortOrder])
+}
+
+model RuleCondition {
+  id                String    @id
+  ruleId            String
+  groupId           String
+  // RuleField enum value as string
+  field             String
+  // RuleOperator enum value as string
+  operator          String
+  valueText         String?
+  valueNumber       Float?
+  valueDate         DateTime?
+  secondValueNumber Float?
+  secondValueDate   DateTime?
+  sortOrder         Int       @default(0)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  rule  TransactionRule    @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+  group RuleConditionGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@index([groupId, sortOrder])
+}
+
+model RuleAction {
+  id          String   @id
+  ruleId      String
+  // RuleActionType enum value as string
+  type        String
+  valueText   String?
+  // For ADD_HASHTAG actions
+  hashtagId   String?
+  hashtagName String?
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  rule TransactionRule @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+}
+
+// ─── Financial Profile ────────────────────────────────────────────────────────
+
+model FinancialProfile {
+  id              String   @id
+  userId          String   @unique
+  monthlyIncome   Float?
+  monthlyExpenses Float?
+  savingsGoal     Float?
+  currency        String   @default("USD")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+// ─── Plaid ────────────────────────────────────────────────────────────────────
+
+model PlaidItem {
+  id                   String    @id @default(cuid())
+  plaidItemId          String    @unique
+  userId               String
+  institutionId        String?
+  institutionName      String
+  accessTokenEncrypted Bytes?
+  accessRevokedAt      DateTime?
+  cursor               String?
+  requiresReconnect    Boolean   @default(false)
+  billedProductsJson   String    @default("[]")
+  availableProductsJson String   @default("[]")
+  consentedProductsJson String   @default("[]")
+  lastErrorCode        String?
+  lastErrorMessage     String?
+  lastSyncAt           DateTime?
+  lastSuccessfulSyncAt DateTime?
+  lastHoldingsSyncAt   DateTime?
+  sortOrder            Int       @default(0)
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  user         LocalUser      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accounts     PlaidAccount[]
+  transactions Transaction[]
+}
+
+model PlaidAccount {
+  id                        String    @id @default(cuid())
+  plaidAccountId            String    @unique
+  plaidItemId               String
+  name                      String
+  officialName              String?
+  mask                      String?
+  type                      String
+  subtype                   String?
+  currentBalance            Float?
+  availableBalance          Float?
+  currency                  String    @default("USD")
+  isActive                  Boolean   @default(true)
+  syncEnabled               Boolean   @default(true)
+  isHidden                  Boolean   @default(false)
+  lastBalanceSyncAt         DateTime?
+  transactionsSyncedThrough DateTime?
+  monthlyContribution       Float     @default(0)
+  annualReturnRate          Float     @default(0.07)
+  notes                     String?
+  forecastInputsUserEdited  Boolean   @default(false)
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
+
+  item                  PlaidItem              @relation(fields: [plaidItemId], references: [id], onDelete: Cascade)
+  transactions          Transaction[]
+  realEstateInvestments RealEstateInvestment[]
+  holdings              PlaidHolding[]
+}
+
+model PlaidHolding {
+  id             String    @id @default(cuid())
+  userId         String
+  plaidAccountId String
+  securityId     String
+  name           String?
+  tickerSymbol   String?
+  securityType   String?
+  quantity       Float
+  price          Float?
+  priceAsOf      DateTime?
+  value          Float
+  costBasis      Float?
+  currency       String    @default("USD")
+  syncedAt       DateTime
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  user         LocalUser    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plaidAccount PlaidAccount @relation(fields: [plaidAccountId], references: [id], onDelete: Cascade)
+
+  @@unique([plaidAccountId, securityId])
+  @@index([userId])
+  @@index([plaidAccountId])
+}
+
+// ─── Investments ──────────────────────────────────────────────────────────────
+
+model Investment {
+  id                      String    @id
+  userId                  String
+  // STOCKS | ROTH_IRA | FOUR01K | HSA | REAL_ESTATE | OTHER
+  type                    String
+  name                    String
+  startingBalance         Float     @default(0)
+  monthlyContribution     Float     @default(0)
+  annualReturnRate        Float     @default(0.07)
+  notes                   String?
+  autoUpdateBalance       Boolean   @default(true)
+  lastBalanceAccruedAt    DateTime?
+  nextBalanceAccrualDueAt DateTime?
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+
+  user     LocalUser                         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accruals ManualInvestmentBalanceAccrual[]
+
+  @@index([userId])
+  @@index([nextBalanceAccrualDueAt])
+}
+
+model ManualInvestmentBalanceAccrual {
+  id                  String   @id
+  userId              String
+  investmentId        String
+  previousBalance     Float
+  newBalance          Float
+  contributionApplied Float
+  returnApplied       Float
+  netIncrement        Float
+  periodStart         DateTime
+  periodEnd           DateTime
+  accruedAt           DateTime @default(now())
+
+  user       LocalUser  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  investment Investment @relation(fields: [investmentId], references: [id], onDelete: Cascade)
+
+  @@unique([investmentId, periodEnd])
+  @@index([userId, accruedAt])
+  @@index([investmentId, accruedAt])
+}
+
+// ─── Per-account balance history (charts) ─────────────────────────────────────
+// source: PLAID | APPLE_FINANCEKIT | INVESTMENT
+
+model AccountBalanceHistory {
+  id       String   @id
+  userId   String
+  date     DateTime
+  // PLAID | APPLE_FINANCEKIT | INVESTMENT
+  source   String
+  sourceId String
+  balance  Float
+
+  user LocalUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date, source, sourceId])
+  @@index([userId, source, sourceId, date])
+}
+
+model RealEstateInvestment {
+  id           String @id
+  userId       String
+  name         String
+  // SINGLE_FAMILY | MULTI_FAMILY | CONDO | COMMERCIAL | LAND | OTHER
+  propertyType String
+  // PRIMARY_RESIDENCE | RENTAL | VACATION_HOME | MIXED_USE
+  usageType    String
+
+  purchasePrice         Float?
+  purchaseDate          DateTime?
+  downPayment           Float?
+  closingCosts          Float?
+  rehabCosts            Float?
+  currentEstimatedValue Float     @default(0)
+  currentLoanBalance    Float     @default(0)
+
+  interestRate           Float?
+  loanTermYears          Int?
+  remainingTermMonths    Int?
+  monthlyMortgagePayment Float?
+
+  monthlyRent          Float?
+  otherMonthlyIncome   Float?
+  vacancyRate          Float?
+  totalMonthlyExpenses Float?
+
+  monthlyPropertyTax   Float?
+  monthlyInsurance     Float?
+  monthlyHOA           Float?
+  monthlyUtilities     Float?
+  monthlyMaintenance   Float?
+  monthlyManagement    Float?
+  monthlyOtherExpenses Float?
+
+  appreciationRate  Float?
+  expenseGrowthRate Float?
+  // MODERATE | STANDARD | AGGRESSIVE
+  forecastScenario  String @default("STANDARD")
+
+  linkedPlaidAccountId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user         LocalUser     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plaidAccount PlaidAccount? @relation(fields: [linkedPlaidAccountId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([linkedPlaidAccountId])
+}
+
+// ─── Forecasts ────────────────────────────────────────────────────────────────
+
+model ForecastScenario {
+  id                 String   @id
+  userId             String
+  name               String
+  // custom | conservative | aggressive | etc.
+  type               String   @default("custom")
+  investmentReturn   Float    @default(0)
+  inflationRate      Float    @default(0)
+  salaryGrowth       Float    @default(0)
+  contributionChange Float    @default(0)
+  expenseGrowth      Float    @default(0)
+  isActive           Boolean  @default(true)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  user LocalUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ─── Retirement ───────────────────────────────────────────────────────────────
+
+model RetirementPlan {
+  id     String @id
+  userId String @unique
+
+  primaryBirthYear           Int?
+  targetRetirementAge        Int    @default(65)
+  longevityAge               Int    @default(95)
+  socialSecurityClaimAge     Int    @default(67)
+  socialSecurityMonthlyAtFra Float?
+
+  hasSpouse                        Boolean @default(false)
+  spouseBirthYear                  Int?
+  spouseRetirementAge              Int?
+  spouseLongevityAge               Int?
+  spouseSocialSecurityClaimAge     Int?
+  spouseSocialSecurityMonthlyAtFra Float?
+  annualEmploymentIncome           Float?
+  annualSpouseEmploymentIncome     Float?
+
+  confidenceTarget Float @default(0.85)
+  monteCarloTrials Int   @default(1000)
+
+  // JSON-encoded strings (SQLite has no Json column type)
+  spendingStages      String @default("[]")
+  spendingOverrides   String @default("{}")
+  timelinePreferences String @default("{}")
+  withdrawalOrder     String @default("[\"taxable\",\"taxDeferred\",\"taxFree\"]")
+
+  // Singleton baseline policies. "{}" means unset, which projects exactly as
+  // the engine did before policies existed.
+  contributionPolicy String @default("{}")
+  spendingPolicy     String @default("{}")
+  healthcarePolicy   String @default("{}")
+  taxPolicy          String @default("{}")
+  cashPolicy         String @default("{}")
+  allocationPolicy   String @default("{}")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user          LocalUser                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  scenarios     RetirementScenario[]
+  standingRules RetirementStandingRule[]
+}
+
+model RetirementStandingRule {
+  id     String @id
+  userId String
+  planId String
+  // PENSION | ANNUITY | RECURRING_INCOME | RECURRING_EXPENSE
+  kind   String
+  label  String
+  // JSON-encoded rule params
+  params String
+  // detected | assumed | profile | userEdited
+  source    String  @default("userEdited")
+  enabled   Boolean @default(true)
+  sortOrder Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user LocalUser      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan RetirementPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([planId, sortOrder])
+}
+
+model RetirementScenario {
+  id          String  @id
+  userId      String
+  planId      String
+  name        String
+  description String?
+  color       String?
+  // USER | SUGGESTED | AI | GOAL_SEEK
+  source      String  @default("USER")
+  isPinned    Boolean @default(false)
+  sortOrder   Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   LocalUser                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan   RetirementPlan            @relation(fields: [planId], references: [id], onDelete: Cascade)
+  levers RetirementScenarioLever[]
+
+  @@index([userId])
+  @@index([planId, sortOrder])
+}
+
+model RetirementScenarioLever {
+  id         String  @id
+  scenarioId String
+  type       String
+  // JSON-encoded lever params
+  params     String
+  enabled    Boolean @default(true)
+  sortOrder  Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  scenario RetirementScenario @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
+
+  @@index([scenarioId, sortOrder])
+}
+
+model RetirementSpendingCategoryPlan {
+  id         String @id
+  userId     String
+  categoryId String
+  // REMAINS | DISAPPEARS | CHANGES
+  treatment  String
+  // ESSENTIAL | FLEXIBLE
+  essentiality            String
+  retirementMonthlyAmount Float?
+  isUserEdited            Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user LocalUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, categoryId])
+  @@index([userId])
+}
+
+// ─── Financial Profile Data ───────────────────────────────────────────────────
+
+model FinancialProfileData {
+  id                  String   @id
+  userId              String   @unique
+  profile             String
+  accounts            String
+  incomeSources       String
+  assets              String
+  liabilities         String
+  investments         String
+  insurancePolicies   String
+  taxProfile          String
+  forecastAssumptions String
+  planningNotes       String
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+// ─── Agent Memory ─────────────────────────────────────────────────────────────
+
+model Memory {
+  id        String    @id @default(cuid())
+  userId    String
+  title     String
+  content   String
+  category  String?
+  source    String    @default("manual")
+  metadata  String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  user LocalUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, category])
+  @@index([userId, deletedAt])
+}
+
+model ImportMappingTemplate {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  isDefault Boolean  @default(false)
+  accountId String?
+  mapping   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user LocalUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// ─── AI Reports ─────────────────────────────────────────────────────────────
+
+model AiReport {
+  id            String    @id @default(cuid())
+  userId        String
+  title         String
+  description   String?
+  sanitizedHtml String    @default("")
+  sanitizedCss  String    @default("")
+  // PRIVATE | SHARE_LINK | PUBLIC
+  visibility    String    @default("PRIVATE")
+  shareSlug     String?   @unique
+  document      String?
+  // AGENT | USER | SYSTEM
+  createdBy     String    @default("AGENT")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+
+  shares   AiReportShare[]
+  versions AiReportVersion[]
+
+  @@index([userId])
+  @@index([userId, deletedAt])
+  @@index([shareSlug])
+}
+
+model AiReportShare {
+  id            String    @id @default(cuid())
+  reportId      String
+  userId        String
+  shareSlug     String    @unique
+  title         String
+  description   String?
+  document      String?
+  sanitizedHtml String    @default("")
+  sanitizedCss  String    @default("")
+  isEnabled     Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  revokedAt     DateTime?
+
+  report AiReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  @@index([reportId])
+  @@index([userId])
+  @@index([shareSlug])
+}
+
+model AiReportVersion {
+  id            String   @id @default(cuid())
+  reportId      String
+  title         String
+  description   String?
+  sanitizedHtml String   @default("")
+  sanitizedCss  String   @default("")
+  document      String?
+  createdAt     DateTime @default(now())
+
+  report AiReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  @@index([reportId])
+}
+
+// ─── Local User Prompts (desktop private-only) ─────────────────────────────
+
+model LocalUserPrompt {
+  id           String   @id @default(cuid())
+  title        String
+  description  String?
+  body         String
+  categorySlug String?
+  tags         String   @default("[]")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model LocalPromptPin {
+  id       String   @id @default(cuid())
+  source   String // CURATED | MINE | COMMUNITY
+  promptId String
+  pinnedAt DateTime @default(now())
+
+  @@unique([source, promptId])
+  @@index([source, pinnedAt])
+}
+
+model LocalPromptLaunchStat {
+  id          String @id @default(cuid())
+  source      String // CURATED | MINE | COMMUNITY
+  promptId    String
+  launchCount Int    @default(0)
+
+  @@unique([source, promptId])
+  @@index([source, launchCount])
+}
+
+model LocalPromptLaunchDaily {
+  id         String   @id @default(cuid())
+  source     String // CURATED | MINE | COMMUNITY
+  promptId   String
+  launchDate DateTime
+
+  @@unique([source, promptId, launchDate])
+  @@index([source, launchDate])
+}
+
+model TaxDocument {
+  id                   String   @id
+  userId               String
+  taxYear              Int
+  documentCategory     String
+  formType             String?
+  issuer               String?
+  recipient            String?
+  source               String
+  originalFilename     String
+  mimeType             String
+  uploadedAt           DateTime @default(now())
+  processingState      String
+  parserProvider       String?
+  parserVersion        String?
+  extractionConfidence Float?
+  originalStorageKey   String
+  parsedStorageKey     String?
+  reviewStatus         String
+  userConfirmed        Boolean  @default(false)
+  metadata             String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  user            LocalUser           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  facts           TaxFact[]
+  formExtractions TaxFormExtraction[]
+
+  @@index([userId, taxYear])
+  @@index([userId, processingState])
+}
+
+model TaxFact {
+  id                  String   @id
+  userId              String
+  taxYear             Int
+  category            String
+  type                String
+  key                 String
+  value               String
+  valueType           String
+  unit                String?
+  currency            String?
+  sourceType          String
+  sourceDocumentId    String?
+  sourceTransactionId String?
+  sourceAccountId     String?
+  sourceHoldingId     String?
+  sourceManualEntryId String?
+  sourceRealEstateId  String?
+  sourceForm          String?
+  sourceBox           String?
+  sourcePage          Int?
+  sourceText          String?
+  confidence          Float
+  extractionMethod    String
+  status              String
+  userConfirmed       Boolean  @default(false)
+  metadata            String?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  user           LocalUser    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sourceDocument TaxDocument? @relation(fields: [sourceDocumentId], references: [id], onDelete: SetNull)
+
+  @@index([userId, taxYear])
+  @@index([userId, taxYear, key])
+  @@index([sourceDocumentId])
+}
+
+model TaxFormExtraction {
+  id            String   @id
+  userId        String
+  documentId    String
+  formType      String
+  schemaVersion String
+  payload       String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user     LocalUser   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  document TaxDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@index([userId, documentId])
+}
+
+model TaxFactConflict {
+  id              String   @id
+  userId          String
+  taxYear         Int
+  factKey         String
+  factIds         String
+  preferredFactId String?
+  resolutionState String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user LocalUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, taxYear])
+  @@unique([userId, taxYear, factKey])
+}

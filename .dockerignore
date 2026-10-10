@@ -1,0 +1,46 @@
+# Keep the Docker build context small and free of secrets.
+# Dockerfiles build from the repo root (see docker-compose.yml).
+
+**/node_modules
+**/.next
+**/dist
+**/out
+**/.turbo
+**/coverage
+**/test-results
+**/playwright-report
+**/blob-report
+**/*.log
+**/.DS_Store
+
+# Generated Prisma clients are rebuilt inside the image for the container's platform
+apps/api/generated
+packages/db-sqlite/generated
+
+# Secrets and local env files (env is injected at runtime by docker compose)
+.env
+.env.*
+**/.env
+**/.env.*
+!**/.env.example
+!.env.self-host.example
+**/*.pem
+
+# Not needed to build web/api/mcp
+.git
+.github
+.vscode
+.idea
+apps/ios
+apps/marketing
+apps/desktop/release
+apps/desktop/out
+apps/extension/.output
+apps/extension/.wxt
+# infra/tax-llm is a pnpm workspace member; keep its manifest so the lockfile matches
+infra/*
+!infra/tax-llm
+infra/tax-llm/*
+!infra/tax-llm/package.json
+docs
+specs

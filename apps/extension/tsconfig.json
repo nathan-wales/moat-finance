@@ -1,0 +1,17 @@
+{
+	"extends": "../../packages/config/tsconfig.base.json",
+	"compilerOptions": {
+		"jsx": "react-jsx",
+		"types": ["chrome"],
+		"paths": {
+			"~/*": ["./*"],
+			"@moat/retail-sync": ["../../packages/retail-sync/src/index.ts"],
+			"@moat/contracts": ["../../packages/contracts/src/index.ts"],
+			"@moat/features/retail-orders": [
+				"../../packages/features/src/retail-orders/index.ts"
+			]
+		}
+	},
+	"include": ["**/*.ts", "**/*.tsx", ".wxt/**/*.ts"],
+	"exclude": ["node_modules", ".output"]
+}

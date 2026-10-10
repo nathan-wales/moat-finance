@@ -1,0 +1,33 @@
+{
+	"name": "@moat/tax-llm",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"start:controller": "tsx src/controller/server.ts",
+		"start:worker": "tsx src/worker/index.ts",
+		"build:controller": "esbuild src/controller/server.ts --bundle --platform=node --format=cjs --outfile=dist/controller.cjs --external:@google-cloud/* --external:google-auth-library --external:google-gax",
+		"build:worker": "esbuild src/worker/index.ts --bundle --platform=node --format=cjs --outfile=dist/worker.cjs --external:@google-cloud/* --external:google-auth-library --external:google-gax",
+		"test": "tsx --test src",
+		"typecheck": "tsc --noEmit",
+		"check": "biome check .",
+		"check:write": "biome check --write ."
+	},
+	"dependencies": {
+		"@google-cloud/compute": "^5.2.0",
+		"@google-cloud/pubsub": "^5.2.0",
+		"@google-cloud/secret-manager": "^6.1.0",
+		"@google-cloud/tasks": "^6.2.1",
+		"@moat/contracts": "workspace:*",
+		"@moat/domain": "workspace:*",
+		"google-auth-library": "^10.6.2",
+		"zod": "^3.25.76"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.5",
+		"@types/node": "^20.14.10",
+		"esbuild": "^0.25.12",
+		"tsx": "^4.21.0",
+		"typescript": "^5.8.2"
+	}
+}

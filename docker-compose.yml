@@ -1,0 +1,151 @@
+# Moat Finance — self-hosted stack.
+#
+#   cp .env.self-host.example .env
+#   ./scripts/self-host/generate-secrets.sh
+#   docker compose up -d --build
+#
+# Web: http://localhost:3000   API: http://localhost:3001   MCP: http://localhost:3010/mcp
+# Full guide: docs/self-hosting.md
+
+name: moat
+
+x-app-env: &app-env
+  # Defaults point at the bundled postgres service. Set DATABASE_URL / DIRECT_URL
+  # in .env to use an external database instead.
+  DATABASE_URL: ${DATABASE_URL:-postgresql://moat:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env (run scripts/self-host/generate-secrets.sh)}@postgres:5432/moat?schema=public}
+  DIRECT_URL: ${DIRECT_URL:-postgresql://moat:${POSTGRES_PASSWORD}@postgres:5432/moat?schema=public}
+  NODE_ENV: production
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: moat
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: moat
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U moat -d moat"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    # Not published to the host by default. Uncomment for local psql / pg_dump access.
+    # ports:
+    #   - "127.0.0.1:5432:5432"
+
+  # One-shot: applies committed Prisma migrations, then exits.
+  migrate:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+      target: build
+    image: moat-api-build:local
+    env_file: .env
+    environment:
+      <<: *app-env
+    working_dir: /repo/apps/api
+    command: ["./node_modules/.bin/prisma", "migrate", "deploy"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    image: moat-api:local
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      <<: *app-env
+      PORT: "3001"
+      # Browser-facing origin of the web app (CORS + links). Override in .env when
+      # serving from a real domain.
+      WEB_ORIGIN: ${PUBLIC_WEB_URL:-http://localhost:3000}
+      APP_BASE_URL: ${PUBLIC_WEB_URL:-http://localhost:3000}
+      # Internal origin the API uses to call its own cron endpoints (job kicks).
+      API_INTERNAL_ORIGIN: http://api:3001
+    ports:
+      - "${API_PORT:-3001}:3001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      # NEXT_PUBLIC_* are inlined into the browser bundle at build time.
+      # Changing them requires `docker compose build web`.
+      args:
+        NEXT_PUBLIC_API_URL: ${PUBLIC_API_URL:-http://localhost:3001}
+        NEXT_PUBLIC_MCP_URL: ${PUBLIC_MCP_URL:-http://localhost:3010}/mcp
+        NEXT_PUBLIC_POSTHOG_KEY: ${NEXT_PUBLIC_POSTHOG_KEY:-}
+        NEXT_PUBLIC_POSTHOG_HOST: ${NEXT_PUBLIC_POSTHOG_HOST:-}
+        NEXT_PUBLIC_LOGO_DEV_PUBLISHABLE_KEY: ${NEXT_PUBLIC_LOGO_DEV_PUBLISHABLE_KEY:-}
+        NEXT_PUBLIC_MOAT_RETAIL_EXTENSION_ID: ${NEXT_PUBLIC_MOAT_RETAIL_EXTENSION_ID:-}
+        NEXT_PUBLIC_APP_VERSION: ${NEXT_PUBLIC_APP_VERSION:-self-hosted}
+    image: moat-web:local
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      # Server-side (SSR / NextAuth) calls go straight to the api container.
+      API_URL: http://api:3001
+      NEXT_PUBLIC_API_URL: ${PUBLIC_API_URL:-http://localhost:3001}
+      # Auth.js must trust the Host header behind Docker / a reverse proxy.
+      AUTH_TRUST_HOST: "true"
+      AUTH_URL: ${PUBLIC_WEB_URL:-http://localhost:3000}
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    depends_on:
+      api:
+        condition: service_started
+
+  mcp:
+    build:
+      context: .
+      dockerfile: apps/mcp/Dockerfile
+    image: moat-mcp:local
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      <<: *app-env
+      MCP_PORT: "3010"
+      MCP_BASE_URL: ${PUBLIC_MCP_URL:-http://localhost:3010}
+      WEB_APP_URL: ${PUBLIC_WEB_URL:-http://localhost:3000}
+    ports:
+      - "${MCP_PORT:-3010}:3010"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+
+  # Runs the scheduled jobs from apps/api/vercel.json `crons` (generated into scripts/self-host/crontab).
+  cron:
+    build:
+      context: scripts/self-host
+      dockerfile_inline: |
+        FROM alpine:3.20
+        RUN apk add --no-cache curl
+    image: moat-cron:local
+    restart: unless-stopped
+    environment:
+      CRON_SECRET: ${CRON_SECRET:?Set CRON_SECRET in .env}
+      CRON_API_ORIGIN: http://api:3001
+    volumes:
+      - ./scripts/self-host:/self-host:ro
+    entrypoint: ["/bin/sh", "/self-host/cron-entrypoint.sh"]
+    depends_on:
+      api:
+        condition: service_started
+
+volumes:
+  postgres-data:

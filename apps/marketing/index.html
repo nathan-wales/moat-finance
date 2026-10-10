@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Moat Finance — Open-source, self-hosted personal finance</title>
+		<meta name="description" content="Moat Finance is an open-source, self-hosted personal finance platform. Budgeting, investments, retirement planning, and an MCP server for your AI assistant, running on infrastructure you control.">
+		<meta property="og:title" content="Your finances. Your server.">
+		<meta property="og:description" content="Open-source, self-hosted budgeting, wealth management, and retirement planning with a built-in MCP server.">
+		<meta property="og:type" content="website">
+		<link rel="icon" type="image/x-icon" href="public/favicon.ico">
+		<link rel="canonical" href="https://moatfinance.ai/">
+		<link rel="alternate" href="https://moatfinance.ai/agents" title="For agents">
+		<link rel="stylesheet" href="styles.css">
+	</head>
+	<body class="has-ask-composer">
+
+		<!-- Navigation -->
+		<nav id="nav-header" class="nav" aria-label="Main navigation">
+			<div class="container nav-container">
+				<a href="#top" class="logo-with-text">
+					<img class="logo-img" src="public/moat-logo-light-transparent.png" alt="Moat Finance">
+					<span class="logo-text">Moat Finance</span>
+				</a>
+				<div class="nav-links">
+					<a href="#features" class="nav-link">Features</a>
+					<a href="#quickstart" class="nav-link">Quickstart</a>
+					<a href="#deploy" class="nav-link">Deploy</a>
+					<a href="#compare" class="nav-link">Compare</a>
+					<div class="nav-dropdown">
+						<button type="button" class="nav-link nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">
+							Open source
+							<svg class="nav-dropdown-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+						</button>
+						<div class="nav-dropdown-menu" role="menu">
+							<a href="https://github.com/tyler16smith/moat-finance" class="nav-dropdown-item" role="menuitem">GitHub repository</a>
+							<a href="https://github.com/tyler16smith/moat-finance/blob/main/docs/self-hosting.md" class="nav-dropdown-item" role="menuitem">Self-hosting guide</a>
+							<a href="https://github.com/tyler16smith/moat-finance/blob/main/CONTRIBUTING.md" class="nav-dropdown-item" role="menuitem">Contributing</a>
+							<a href="security.html" class="nav-dropdown-item" role="menuitem">Security</a>
+						</div>
+					</div>
+					<a href="#about" class="nav-link">About</a>
+				</div>
+				<div class="nav-actions">
+					<a href="https://github.com/tyler16smith/moat-finance" class="btn btn-ghost nav-github" aria-label="Moat Finance on GitHub">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.73.5.5 5.73.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5Z"/></svg>
+						GitHub
+					</a>
+					<a href="#get-started" class="btn btn-primary">Get started</a>
+				</div>
+				<button type="button" id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+					<span class="menu-icon"></span>
+				</button>
+			</div>
+			<div id="mobile-menu" class="mobile-menu">
+				<a href="#get-started" class="mobile-link">Get started</a>
+				<a href="#features" class="mobile-link">Features</a>
+				<a href="#quickstart" class="mobile-link">Quickstart</a>
+				<a href="#deploy" class="mobile-link">Deploy</a>
+				<a href="#compare" class="mobile-link">Compare</a>
+				<a href="https://github.com/tyler16smith/moat-finance/blob/main/docs/self-hosting.md" class="mobile-link">Self-hosting guide</a>
+				<a href="https://github.com/tyler16smith/moat-finance/blob/main/CONTRIBUTING.md" class="mobile-link">Contributing</a>
+				<a href="security.html" class="mobile-link">Security</a>
+				<a href="#about" class="mobile-link">About</a>
+				<a href="#get-started" class="mobile-cta btn btn-primary">Get started</a>
+			</div>
+		</nav>
+
+		<div class="audience-toggle-wrap" id="audience-toggle-wrap">
+			<div class="container">
+				<nav class="audience-toggle" aria-label="Audience">
+					<a href="index.html" class="audience-toggle-btn is-active" aria-current="page">For humans</a>
+					<a href="agents.html" class="audience-toggle-btn">For agents</a>
+				</nav>
+			</div>
+		</div>
+
+		<main id="humans-view">
+		<!-- 1. HERO -->
+		<section id="top" class="hero">
+			<div class="container">
+				<div class="hero-content reveal">
+					<div class="eyebrow">SELF-HOSTED &middot; AI-READY</div>
+					<h1 class="hero-title">Open source personal finance app</h1>
+					<p class="hero-subtitle">Moat Finance is an open-source personal finance platform you run yourself. Budgeting, investments, retirement planning, and an MCP server for your AI assistant &mdash; on hardware you control.</p>
+					<div class="hero-ctas">
+						<div class="hero-cta-primary">
+							<a href="#get-started" class="btn btn-primary btn-lg">Get started free</a>
+							<span class="hero-cta-subtext">Free forever &mdash; clone it, fork it, run it anywhere</span>
+						</div>
+						<a href="https://github.com/tyler16smith/moat-finance" class="btn btn-ghost btn-lg">View on GitHub</a>
+					</div>
+					<p class="hero-trust">Open source &middot; Docker or desktop &middot; Your own database &middot; Read-only bank connections &middot; No vendor lock-in</p>
+				</div>
+				<div class="hero-visual reveal reveal-delay-1">
+					<div class="hero-visual-shapes" aria-hidden="true">
+						<span class="hero-shape hero-shape-left"></span>
+						<span class="hero-shape hero-shape-left-inner"></span>
+						<span class="hero-shape hero-shape-right"></span>
+						<span class="hero-shape hero-shape-right-inner"></span>
+					</div>
+					<figure class="hero-visual-frame">
+						<div class="hero-visual-chrome" aria-hidden="true">
+							<span></span><span></span><span></span>
+						</div>
+						<div class="hero-visual-crop">
+							<img
+								src="public/hero-overview.png"
+								alt="Moat Finance overview with portfolio allocation and net worth"
+								width="1024"
+								height="664"
+							>
+						</div>
+					</figure>
+				</div>
+			</div>
+		</section>
+
+		<!-- 2. FIRST THINGS FIRST -->
+		<section id="first-things-first" class="section-first-things" data-first-things>
+			<div class="first-things-pin">
+				<div class="container first-things-container">
+					<div class="first-things-header reveal">
+						<div class="eyebrow">FIRST THINGS FIRST</div>
+						<h2 class="section-title">The three questions everyone asks</h2>
+					</div>
+					<div class="first-things-layout reveal reveal-delay-1">
+						<ol class="first-things-questions" role="tablist" aria-label="The three questions everyone asks">
+							<li role="presentation">
+								<button
+									type="button"
+									class="first-things-question is-active"
+									id="first-things-tab-fit"
+									role="tab"
+									aria-selected="true"
+									aria-controls="first-things-panel-fit"
+									data-first-things-index="0"
+								>
+									<span class="first-things-question-num">01</span>
+									<span class="first-things-question-text">What does it actually do?</span>
+								</button>
+							</li>
+							<li role="presentation">
+								<button
+									type="button"
+									class="first-things-question"
+									id="first-things-tab-secure"
+									role="tab"
+									aria-selected="false"
+									aria-controls="first-things-panel-secure"
+									data-first-things-index="1"
+									tabindex="-1"
+								>
+									<span class="first-things-question-num">02</span>
+									<span class="first-things-question-text">Where does my data live?</span>
+								</button>
+							</li>
+							<li role="presentation">
+								<button
+									type="button"
+									class="first-things-question"
+									id="first-things-tab-cost"
+									role="tab"
+									aria-selected="false"
+									aria-controls="first-things-panel-cost"
+									data-first-things-index="2"
+									tabindex="-1"
+								>
+									<span class="first-things-question-num">03</span>
+									<span class="first-things-question-text">What does it cost?</span>
+								</button>
+							</li>
+						</ol>
+
+						<div class="first-things-answers">
+							<article
+								class="first-things-answer is-active"
+								id="first-things-panel-fit"
+								role="tabpanel"
+								aria-labelledby="first-things-tab-fit"
+								data-first-things-index="0"
+							>
+								<h3 class="first-things-answer-kicker">What does it actually do?</h3>
+								<p class="first-things-answer-lead">A complete personal finance platform you own end to end.</p>
+								<ul class="first-things-bullets">
+									<li>
+										<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+										<strong>Budgeting</strong>
+										<span>Spending, categories, and a rules engine that gets smarter over time</span>
+									</li>
+									<li>
+										<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+										<strong>Wealth management</strong>
+										<span>Accounts, investments, and the full net-worth picture in one place</span>
+									</li>
+									<li>
+										<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+										<strong>Retirement planning</strong>
+										<span>Projections from your real numbers, not generic advice</span>
+									</li>
+									<li>
+										<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+										<strong>Your own MCP server</strong>
+										<span>Let Claude, ChatGPT, or any MCP client query your finances &mdash; through an endpoint you host</span>
+									</li>
+								</ul>
+								<p class="first-things-demo-note">A demo is worth 1,000 bullet points. Click around before you deploy anything.</p>
+								<a href="https://app.moatfinance.ai/overview?demoMode=true" class="btn btn-primary">Try the demo</a>
+							</article>
+
+							<article
+								class="first-things-answer"
+								id="first-things-panel-secure"
+								role="tabpanel"
+								aria-labelledby="first-things-tab-secure"
+								data-first-things-index="1"
+								hidden
+							>
+								<h3 class="first-things-answer-kicker">Where does my data live?</h3>
+								<p class="first-things-answer-lead">Wherever you put it. That&rsquo;s the whole point.</p>
+								<p>Your financial life is the most sensitive data you have. With Moat, it never touches a server you don&rsquo;t control.</p>
+								<ul class="first-things-bullets">
+									<li>
+										<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+										<strong>Self-hosted server</strong>
+										<span>Your Postgres, on your home lab, VPS, or cloud account. Web app and MCP included.</span>
+									</li>
+									<li>
+										<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+										<strong>Desktop app</strong>
+										<span>A local SQLite database on your computer. Unlock with Touch ID. Runs fully offline.</span>
+									</li>
+									<li>
+										<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+										<strong>Read the code</strong>
+										<span>Every query, every sync, every MCP tool is in the repo. Audit it yourself.</span>
+									</li>
+								</ul>
+								<p class="first-things-quiet-link">More detail on our <a href="security.html">security page</a>.</p>
+							</article>
+
+							<article
+								class="first-things-answer"
+								id="first-things-panel-cost"
+								role="tabpanel"
+								aria-labelledby="first-things-tab-cost"
+								data-first-things-index="2"
+								hidden
+							>
+								<h3 class="first-things-answer-kicker">What does it cost?</h3>
+								<p class="first-things-answer-lead">Nothing. It&rsquo;s open source.</p>
+								<p>Self-host it and every feature is free forever. No subscription, no per-account fees, no feature gates. You pay only for the server you run it on.</p>
+								<div class="first-things-plans">
+									<div class="first-things-example">
+										<p class="first-things-example-label">Manual &amp; imports</p>
+										<p><strong>$0</strong>. Import CSVs or add accounts by hand. Categorization, rules, net worth, reporting, planning, and MCP all included.</p>
+									</div>
+									<div class="first-things-example">
+										<p class="first-things-example-label">Live bank syncing</p>
+										<p>Bring your own <strong>Plaid</strong> keys. You pay Plaid directly at their rates &mdash; no markup from us.</p>
+									</div>
+								</div>
+								<p class="first-things-quiet-link">Rather not run a server? <a href="download.html">The desktop app</a> needs no setup at all.</p>
+							</article>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- GET STARTED CHOOSER -->
+		<section id="get-started" class="section section-get-started">
+			<div class="container">
+				<div class="section-header centered reveal">
+					<div class="eyebrow">GET STARTED</div>
+					<h2 class="section-title centered">Run it yourself.<br/>Free forever.</h2>
+					<p class="section-description centered">Your data stays on your hardware and it costs nothing. Pick a server you can reach from anywhere, or the desktop app with nothing to deploy.</p>
+				</div>
+				<div class="privacy-modes-grid reveal reveal-delay-1">
+					<div class="privacy-mode-card get-started-card-recommended">
+						<div class="privacy-mode-header">
+							<div class="privacy-mode-badge badge-cloud">Recommended</div>
+							<h3 class="privacy-mode-title">Self-host</h3>
+							<p class="privacy-mode-tagline"><strong>Free forever</strong> &middot; bring your own keys</p>
+						</div>
+						<p class="privacy-mode-desc">Run Moat with Docker on your own server, or use the desktop app. Add manual accounts and CSV imports with no keys at all, or bring your own Plaid keys for live bank sync and pay Plaid directly.</p>
+						<ul class="privacy-mode-list">
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Every feature, unlimited accounts</li>
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Your data never touches our servers</li>
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Bring your own Plaid keys for live sync</li>
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Your own MCP endpoint for AI assistants</li>
+						</ul>
+						<div class="privacy-mode-footer">
+							<a href="#quickstart" class="btn btn-primary btn-full">Self-host for free</a>
+							<span class="btn-subtext">Docker quickstart below &middot; <a href="download.html">or download the desktop app</a></span>
+						</div>
+					</div>
+					<div class="privacy-mode-card">
+						<div class="privacy-mode-header">
+							<div class="privacy-mode-badge badge-local">Need a hand?</div>
+							<h3 class="privacy-mode-title">Want us to host it?</h3>
+							<p class="privacy-mode-tagline">Ask and we&rsquo;ll talk</p>
+						</div>
+						<p class="privacy-mode-desc">Moat is built to be self-hosted, and there&rsquo;s no paid plan today. If you&rsquo;d really rather not run it yourself, or you&rsquo;re stuck getting it set up, send an email and we&rsquo;ll figure it out.</p>
+						<ul class="privacy-mode-list">
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Setup questions and troubleshooting</li>
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Interest in a hosted version</li>
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Bugs and ideas are best as GitHub issues</li>
+						</ul>
+						<div class="privacy-mode-footer">
+							<a href="mailto:hello@moatfinance.ai?subject=Moat%20hosting" class="btn btn-outline btn-full">Email hello@moatfinance.ai</a>
+							<span class="btn-subtext"><a href="https://github.com/tyler16smith/moat-finance/issues">Or open a GitHub issue</a></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 3. QUICKSTART -->
+		<section id="quickstart" class="section section-alt section-quickstart">
+			<div class="container">
+				<div class="section-header centered reveal">
+					<div class="eyebrow">QUICKSTART</div>
+					<h2 class="section-title centered">Up and running in three commands</h2>
+					<p class="section-description centered">All you need is Docker. Moat starts with the web app, API, MCP server, and a Postgres database.</p>
+				</div>
+				<div class="quickstart-layout reveal reveal-delay-1">
+					<figure class="quickstart-terminal" aria-label="Quickstart commands">
+						<div class="hero-visual-chrome" aria-hidden="true">
+							<span></span><span></span><span></span>
+						</div>
+<pre class="quickstart-code"><code><span class="qs-comment"># 1. Get the code</span>
+<span class="qs-prompt">$</span> git clone https://github.com/tyler16smith/moat-finance.git
+<span class="qs-prompt">$</span> cd moat-finance
+
+<span class="qs-comment"># 2. Configure (generates secrets, fill in optional keys)</span>
+<span class="qs-prompt">$</span> cp .env.self-host.example .env
+<span class="qs-prompt">$</span> ./scripts/self-host/generate-secrets.sh
+
+<span class="qs-comment"># 3. Launch</span>
+<span class="qs-prompt">$</span> docker compose up -d
+
+<span class="qs-comment"># Open http://localhost:3000</span></code></pre>
+					</figure>
+					<ol class="quickstart-steps">
+						<li>
+							<strong>Bring your own keys, or none</strong>
+							<span>Manual accounts and CSV imports work out of the box. Add Plaid keys when you want live syncing.</span>
+						</li>
+						<li>
+							<strong>Put it behind your domain</strong>
+							<span>Run behind Caddy, Traefik, Nginx, or a Cloudflare Tunnel to reach it from your phone.</span>
+						</li>
+						<li>
+							<strong>Connect your AI assistant</strong>
+							<span>Point Claude, ChatGPT, or Cursor at your MCP endpoint and create a scoped access token.</span>
+						</li>
+					</ol>
+				</div>
+				<div class="security-section-cta reveal reveal-delay-2">
+					<a href="https://github.com/tyler16smith/moat-finance/blob/main/docs/self-hosting.md" class="btn btn-secondary">Read the full self-hosting guide</a>
+				</div>
+			</div>
+		</section>
+
+		<!-- 4. THE MISSING PIECE -->
+		<section id="features" class="section section-shift">
+			<div class="container">
+				<div class="section-header centered reveal">
+					<div class="eyebrow">THE MISSING PIECE</div>
+					<h2 class="section-title centered">AI assistants are only as useful as the context they can access.</h2>
+				</div>
+				<div class="shift-grid reveal reveal-delay-1">
+					<div class="shift-card shift-card-problem">
+						<div class="shift-card-icon">
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+						</div>
+						<h3>The problem</h3>
+						<p>Your AI assistant can reason, calculate, and explain tradeoffs. But it can&rsquo;t give truly useful financial advice without understanding your actual financial life.</p>
+						<p>Getting that context today means handing your most sensitive data to yet another closed SaaS company and hoping they handle it well.</p>
+					</div>
+					<div class="shift-card shift-card-solution">
+						<div class="shift-card-icon shift-card-icon-accent">
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3"/><path d="M18.5 5.5 16.4 7.6"/><path d="M21 12h-3"/><path d="M18.5 18.5 16.4 16.4"/><path d="M12 21v-3"/><path d="M5.5 18.5 7.6 16.4"/><path d="M3 12h3"/><path d="M5.5 5.5 7.6 7.6"/><circle cx="12" cy="12" r="3"/></svg>
+						</div>
+						<h3>The solution</h3>
+						<p>Moat Finance gives you a complete, structured financial profile that lives on your own infrastructure &mdash; usable by you, your apps, and your AI assistant.</p>
+						<p>Your agent reasons from your real income, spending, investments, insurance, debt, and goals. The data never leaves your control.</p>
+						<p class="shift-card-tagline">You host the data. Your agent gives you the insight.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 5. FULL FINANCIAL PROFILE -->
+		<section class="section section-data-layer">
+			<div class="container">
+				<div class="section-header centered reveal">
+					<div class="eyebrow">FULL FINANCIAL PROFILE</div>
+					<h2 class="section-title centered">More than budgeting</h2>
+					<p class="section-description centered">Every feature ships in the open-source build. No enterprise edition, no locked tiers.</p>
+				</div>
+				<div class="data-layer-grid reveal reveal-delay-1">
+					<div class="data-layer-card">
+						<div class="data-layer-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div>
+						<strong>Bank Accounts</strong><span>Checking, savings, cash</span>
+					</div>
+					<div class="data-layer-card">
+						<div class="data-layer-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M16 10h2"/><path d="M16 14h2"/></svg></div>
+						<strong>Credit Cards</strong><span>Balances, limits, utilization</span>
+					</div>
+					<div class="data-layer-card">
+						<div class="data-layer-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17 9 11l4 4 8-8"/><path d="M14 7h7v7"/></svg></div>
+						<strong>Investments</strong><span>Stocks, ETFs, portfolios</span>
+					</div>
+					<div class="data-layer-card">
+						<div class="data-layer-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+						<strong>Cash Flow</strong><span>Income, expenses, trends</span>
+					</div>
+					<div class="data-layer-card">
+						<div class="data-layer-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg></div>
+						<strong>Budgets</strong><span>Categories, targets, tracking</span>
+					</div>
+					<div class="data-layer-card">
+						<div class="data-layer-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg></div>
+						<strong>Transactions</strong><span>Categorized, tagged, searchable</span>
+					</div>
+					<div class="data-layer-card">
+						<div class="data-layer-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V9l7-4 7 4v12"/><path d="M9 21v-6h6v6"/></svg></div>
+						<strong>Real Estate</strong><span>Properties, mortgages, equity</span>
+					</div>
+					<div class="data-layer-card">
+						<div class="data-layer-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div>
+						<strong>Retirement</strong><span>401(k), IRA, Roth, projections</span>
+					</div>
+					<div class="data-layer-card">
+						<div class="data-layer-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m13 2-2 8h7l-7 12 2-8H6z"/></svg></div>
+						<strong>Rules Engine</strong><span>Auto-categorize, tag, organize</span>
+					</div>
+					<div class="data-layer-card">
+						<div class="data-layer-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="18" x="4" y="3" rx="2"/><path d="M8 7h8"/><path d="M8 11h8"/><path d="M8 15h2"/></svg></div>
+						<strong>Tax Tags</strong><span>Flag deductibles, prep for filing</span>
+					</div>
+					<div class="data-layer-card">
+						<div class="data-layer-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+						<strong>Life Insurance</strong><span>Coverage, premiums, beneficiaries</span>
+					</div>
+					<div class="data-layer-card">
+						<div class="data-layer-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+						<strong>Health Insurance</strong><span>Plans, HSA, deductibles, benefits</span>
+					</div>
+					<div class="data-layer-card">
+						<div class="data-layer-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+						<strong>Forecasts</strong><span>Net worth, cash flow projections</span>
+					</div>
+					<div class="data-layer-card">
+						<div class="data-layer-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+						<strong>Household</strong><span>Family context, shared finances</span>
+					</div>
+					<div class="data-layer-card data-layer-card-cta">
+						<div class="data-layer-icon data-layer-icon-accent"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></div>
+						<strong>Self-hosted MCP</strong><span>Your endpoint, scoped tokens</span>
+					</div>
+					<div class="data-layer-card">
+						<div class="data-layer-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5 4 4-4 4"/><path d="M19 9H9a4 4 0 0 0 0 8h1"/></svg></div>
+						<strong>Financial Goals</strong><span>Targets, milestones, progress</span>
+					</div>
+					<div class="data-layer-card">
+						<div class="data-layer-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h5"/></svg></div>
+						<strong>AI Reports</strong><span>Persistent, shareable AI insights</span>
+					</div>
+					<div class="data-layer-card">
+						<div class="data-layer-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/></svg></div>
+						<strong>REST API &amp; SDK</strong><span>OpenAPI spec, TypeScript client</span>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 6. DEPLOYMENT OPTIONS -->
+		<section id="deploy" class="section section-alt">
+			<div class="container">
+				<div class="section-header centered reveal">
+					<div class="eyebrow">DEPLOYMENT OPTIONS</div>
+					<h2 class="section-title centered">One codebase.<br/>Run it your way.</h2>
+					<p class="section-description centered">Run a server you can reach from anywhere, or keep everything on a single computer. Same features, same MCP tools.</p>
+				</div>
+				<div class="privacy-modes-grid reveal reveal-delay-1">
+					<div class="privacy-mode-card">
+						<div class="privacy-mode-header">
+							<div class="privacy-mode-badge badge-cloud">Server</div>
+							<h3 class="privacy-mode-title">Self-hosted server</h3>
+							<p class="privacy-mode-tagline">Your cloud, your rules</p>
+						</div>
+						<p class="privacy-mode-desc">Run Moat with Docker on a home server, a NAS, a $5 VPS, or your own cloud account. Access it from any browser, share it with your household, and give your AI assistant a remote MCP endpoint.</p>
+						<ul class="privacy-mode-list">
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Docker Compose deployment</li>
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Your own Postgres database</li>
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Web access from any device</li>
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Multi-user household access</li>
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Optional Plaid sync with your keys</li>
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Remote MCP for AI assistants</li>
+						</ul>
+						<div class="privacy-mode-footer">
+							<a href="#quickstart" class="btn btn-primary btn-full">Deploy with Docker</a>
+						</div>
+					</div>
+					<div class="privacy-mode-card privacy-mode-card-local">
+						<div class="privacy-mode-header">
+							<div class="privacy-mode-badge badge-local">Desktop</div>
+							<h3 class="privacy-mode-title">Local desktop app</h3>
+							<p class="privacy-mode-tagline">Nothing to deploy at all</p>
+						</div>
+						<p class="privacy-mode-desc">Prefer not to run a server? The desktop app keeps your entire financial life in a SQLite file on your computer. It runs fully offline, unlocks with Touch ID, and includes a local MCP server.</p>
+						<ul class="privacy-mode-list">
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Local SQLite database</li>
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Fully offline capable</li>
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>macOS and Windows builds</li>
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Build from source or download</li>
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Local MCP for AI assistants</li>
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>You control backups and exports</li>
+						</ul>
+						<div class="privacy-mode-footer">
+							<a href="download.html" class="btn btn-outline btn-full">Download desktop app</a>
+						</div>
+					</div>
+				</div>
+				<div class="privacy-compare reveal reveal-delay-2">
+					<table class="privacy-compare-table">
+						<thead>
+							<tr><th>Feature</th><th>Self-hosted server</th><th>Desktop app</th></tr>
+						</thead>
+						<tbody>
+							<tr><td>Web access from any device</td><td class="yes">Yes</td><td class="no">No</td></tr>
+							<tr><td>Multi-user household</td><td class="yes">Yes</td><td class="no">No</td></tr>
+							<tr><td>Offline mode</td><td class="partial">LAN only</td><td class="yes">Yes</td></tr>
+							<tr><td>Database</td><td>Postgres</td><td>SQLite</td></tr>
+							<tr><td>Plaid sync (your keys)</td><td class="yes">Yes</td><td class="partial">Optional</td></tr>
+							<tr><td>AI assistant (MCP)</td><td class="yes">Remote</td><td class="yes">Local</td></tr>
+							<tr><td>Requires</td><td>Docker</td><td>Nothing</td></tr>
+							<tr><td>Data location</td><td>Your server</td><td>Your computer</td></tr>
+						</tbody>
+					</table>
+				</div>
+				<p class="compare-footnote centered reveal">Don&rsquo;t want to run a server? The desktop app needs nothing at all. Want us to host it? <a href="mailto:hello@moatfinance.ai?subject=Moat%20hosting">Email us</a>.</p>
+			</div>
+		</section>
+
+		<!-- 7. AI ASSISTANT -->
+		<section class="section section-agent">
+			<div class="container">
+				<div class="agent-layout">
+					<div class="agent-copy reveal">
+						<div class="eyebrow">AI ASSISTANT INTEGRATION</div>
+						<h2 class="section-title">Give your agent<br>real financial context</h2>
+						<p class="section-description">Most AI financial advice is generic because the agent doesn&rsquo;t know your real financial life. Moat changes that without shipping your data to a third party.</p>
+						<p class="section-description">Your Moat instance exposes your accounts, transactions, budgets, investments, insurance, debt, goals, and forecasts through an MCP server you host. Issue scoped tokens, review every call in the audit log, and revoke access anytime.</p>
+						<div class="mcp-badge">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>
+							Powered by MCP &mdash; Model Context Protocol
+						</div>
+					</div>
+					<div class="agent-questions reveal reveal-delay-1">
+						<div class="agent-questions-label">Ask your agent:</div>
+						<div class="agent-question-list">
+							<div class="agent-question"><span class="agent-q-icon">?</span>"Can I afford to buy a house next year?"</div>
+							<div class="agent-question"><span class="agent-q-icon">?</span>"Am I saving enough for retirement?"</div>
+							<div class="agent-question"><span class="agent-q-icon">?</span>"Which subscriptions should I cancel?"</div>
+							<div class="agent-question"><span class="agent-q-icon">?</span>"Should I choose the HSA plan or the lower-deductible PPO?"</div>
+							<div class="agent-question"><span class="agent-q-icon">?</span>"How much cash should I keep with my income volatility?"</div>
+							<div class="agent-question"><span class="agent-q-icon">?</span>"What will my net worth look like in 10 years if I increase retirement contributions by 3%?"</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 8. RULES ENGINE -->
+		<section class="section section-alt section-rules">
+			<div class="container">
+				<div class="rules-layout">
+					<div class="rules-copy reveal">
+						<div class="eyebrow">RULES ENGINE</div>
+						<h2 class="section-title">Built for people<br>who want control</h2>
+						<p class="section-description">If you self-host, you probably like things exactly the way you like them. Moat&rsquo;s rules engine keeps your data clean without manual cleanup.</p>
+						<p class="section-description">Create rules that automatically categorize transactions, tag expenses, flag tax-related spending, and keep your budget accurate.</p>
+						<p class="rules-tagline">The more rules you create, the smarter your financial profile becomes.</p>
+					</div>
+					<div class="rules-examples reveal reveal-delay-1">
+						<div class="rules-example-label">Example rules</div>
+						<div class="rule-card">
+							<div class="rule-condition"><span class="rule-pill rule-if">IF</span> merchant contains "Netflix"</div>
+							<div class="rule-action"><span class="rule-pill rule-then">THEN</span> categorize as <strong>Subscriptions</strong></div>
+						</div>
+						<div class="rule-card">
+							<div class="rule-condition"><span class="rule-pill rule-if">IF</span> merchant contains "restaurant" or "dining"</div>
+							<div class="rule-action"><span class="rule-pill rule-then">THEN</span> tag as <strong>Business meal</strong> for tax review</div>
+						</div>
+						<div class="rule-card">
+							<div class="rule-condition"><span class="rule-pill rule-if">IF</span> amount &gt; $1,000 and type is income</div>
+							<div class="rule-action"><span class="rule-pill rule-then">THEN</span> categorize as <strong>Salary</strong></div>
+						</div>
+						<div class="rule-card">
+							<div class="rule-condition"><span class="rule-pill rule-if">IF</span> merchant contains "charity" or "donation"</div>
+							<div class="rule-action"><span class="rule-pill rule-then">THEN</span> tag as <strong>Charitable donation</strong> for tax season</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 9. COMPARISON -->
+		<section id="compare" class="section section-compare">
+			<div class="container">
+				<div class="section-header centered reveal">
+					<div class="eyebrow">HOW MOAT FINANCE COMPARES</div>
+					<h2 class="section-title centered">Own the whole stack</h2>
+					<p class="section-description centered">How self-hosted Moat stacks up against closed personal finance apps and building your own.</p>
+				</div>
+				<div class="compare-table-wrap reveal reveal-delay-1">
+					<div class="compare-table-scroll">
+						<table class="compare-table">
+							<thead>
+								<tr>
+									<th class="compare-feature-col">Feature</th>
+									<th class="compare-moat-col" style="color: black;"><strong>Moat Finance</strong></th>
+									<th>Monarch</th>
+									<th>YNAB</th>
+									<th>ChatGPT</th>
+									<th>Build Your Own</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr><td>Open source</td><td class="compare-moat-col"><span class="compare-yes">Yes</span></td><td><span class="compare-no">No</span></td><td><span class="compare-no">No</span></td><td><span class="compare-no">No</span></td><td><span class="compare-yes">Yes</span></td></tr>
+								<tr><td>Self-hostable</td><td class="compare-moat-col"><span class="compare-yes">Yes</span></td><td><span class="compare-no">No</span></td><td><span class="compare-no">No</span></td><td><span class="compare-no">No</span></td><td><span class="compare-yes">Yes</span></td></tr>
+								<tr><td>You own the database</td><td class="compare-moat-col"><span class="compare-yes">Yes</span></td><td><span class="compare-no">No</span></td><td><span class="compare-no">No</span></td><td><span class="compare-no">No</span></td><td><span class="compare-yes">Yes</span></td></tr>
+								<tr><td>Free to use</td><td class="compare-moat-col"><span class="compare-yes">Yes</span></td><td><span class="compare-no">No</span></td><td><span class="compare-no">No</span></td><td><span class="compare-no">No</span></td><td><span class="compare-maybe">Your time</span></td></tr>
+								<tr><td>Budgeting</td><td class="compare-moat-col"><span class="compare-yes">Yes</span></td><td><span class="compare-yes">Yes</span></td><td><span class="compare-yes">Yes</span></td><td><span class="compare-yes">Yes</span></td><td><span class="compare-maybe">If built</span></td></tr>
+								<tr><td>Net worth &amp; investments</td><td class="compare-moat-col"><span class="compare-yes">Yes</span></td><td><span class="compare-yes">Yes</span></td><td><span class="compare-maybe">Limited</span></td><td><span class="compare-yes">Yes</span></td><td><span class="compare-maybe">If built</span></td></tr>
+								<tr><td>Rules-based transaction system</td><td class="compare-moat-col"><span class="compare-yes">Yes</span></td><td><span class="compare-maybe">Partial</span></td><td><span class="compare-maybe">Category rules</span></td><td><span class="compare-maybe">Limited</span></td><td><span class="compare-maybe">If built</span></td></tr>
+								<tr><td>Insurance &amp; HSA context</td><td class="compare-moat-col"><span class="compare-yes">Yes</span></td><td><span class="compare-no">Not core</span></td><td><span class="compare-no">Not core</span></td><td><span class="compare-no">Not core</span></td><td><span class="compare-maybe">If built</span></td></tr>
+								<tr><td>Self-hosted MCP server</td><td class="compare-moat-col"><span class="compare-yes">Yes</span></td><td><span class="compare-no">No</span></td><td><span class="compare-no">No</span></td><td><span class="compare-no">No</span></td><td><span class="compare-maybe">If built</span></td></tr>
+								<tr><td>Fully offline desktop mode</td><td class="compare-moat-col"><span class="compare-yes">Yes</span></td><td><span class="compare-no">No</span></td><td><span class="compare-no">No</span></td><td><span class="compare-no">No</span></td><td><span class="compare-yes">Yes</span></td></tr>
+								<tr><td>Read-only account connections</td><td class="compare-moat-col"><span class="compare-yes">Yes</span></td><td><span class="compare-yes">Yes</span></td><td><span class="compare-yes">Yes</span></td><td><span class="compare-yes">Yes</span></td><td><span class="compare-maybe">Depends</span></td></tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<p class="compare-footnote centered reveal">Competitor features can change. This comparison reflects publicly available information at the time of writing.</p>
+				<div class="byo-section reveal reveal-delay-1">
+					<h3 class="byo-title">Could you build this yourself? Yes. Now you don&rsquo;t have to.</h3>
+					<p class="byo-copy">With AI today you could build your own finance app: wire up Plaid, design a schema, build a rules engine, add forecasting, write an MCP server, and handle encryption. Or you could fork a codebase that already does all of it.</p>
+					<div class="byo-cost-compare">
+						<div class="byo-cost-card">
+							<strong>Build from scratch</strong>
+							<span>Weeks of development, AI tokens, security decisions, and ongoing maintenance &mdash; all on you</span>
+						</div>
+						<div class="byo-cost-divider">vs</div>
+						<div class="byo-cost-card byo-cost-card-moat">
+							<strong>Fork Moat Finance</strong>
+							<span>Already built and maintained in the open. Customize what you want, upstream what you think others need.</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 10. SECURITY -->
+		<section id="security" class="section section-alt section-security">
+			<div class="container">
+				<div class="section-header centered reveal">
+					<div class="eyebrow">SECURITY</div>
+					<h2 class="section-title centered">Privacy you can verify</h2>
+					<p class="section-description centered">Closed apps ask you to trust them. Open source lets you check.</p>
+				</div>
+				<div class="security-grid reveal reveal-delay-1">
+					<div class="security-card">
+						<div class="security-card-header">
+							<div class="security-mode-badge badge-cloud">Server</div>
+							<h3>Self-hosted server</h3>
+						</div>
+						<ul class="security-list">
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Data stays in a database you run</li>
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Sensitive fields encrypted with keys you hold</li>
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Optional two-factor authentication</li>
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Read-only bank connections via your Plaid keys</li>
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Scoped MCP tokens with a full audit log</li>
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Product analytics off unless you configure it</li>
+						</ul>
+					</div>
+					<div class="security-card security-card-local">
+						<div class="security-card-header">
+							<div class="security-mode-badge badge-local">Desktop</div>
+							<h3>Local desktop app</h3>
+						</div>
+						<ul class="security-list">
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Local SQLite database, data never leaves your computer</li>
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Fully offline capable, no cloud dependency</li>
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Touch ID or password unlock</li>
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Local-only MCP for AI assistants</li>
+							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>You control your backups and exports</li>
+						</ul>
+					</div>
+				</div>
+				<div class="security-section-cta reveal reveal-delay-2">
+					<a href="security.html" class="btn btn-secondary">Explore full security overview</a>
+				</div>
+			</div>
+		</section>
+
+		<!-- 11. ABOUT -->
+		<section id="about" class="section section-about">
+			<div class="container">
+				<div class="about-layout">
+					<div class="about-copy reveal">
+						<div class="eyebrow">ABOUT MOAT FINANCE</div>
+						<h2 class="section-title">Why it&rsquo;s open source</h2>
+						<div class="about-text">
+							<p>Moat Finance started because I was frustrated with my budgeting app. I wanted better rules, cleaner transactions, and a system that helped me prepare for tax season.</p>
+							<p>Then AI assistants got useful, and I realized the missing piece wasn&rsquo;t another chatbot. It was the financial context behind the chatbot.</p>
+							<p>But the more context an agent needs, the more you&rsquo;re asked to trust whoever holds it. Your income, your debt, your insurance, your family&rsquo;s plans &mdash; that shouldn&rsquo;t live on a server you can&rsquo;t inspect, run by a company that can change its pricing or shut down.</p>
+							<p>So Moat is open source. Run it yourself. Read every line. Fork it if you want it to work differently.</p>
+							<p>Financial clarity should be private, intelligent, and owned by you.</p>
+						</div>
+					</div>
+					<div class="about-questions reveal reveal-delay-1">
+						<div class="about-questions-label">Get involved:</div>
+						<ul class="about-question-list">
+							<li><a href="https://github.com/tyler16smith/moat-finance">Star the repo</a> to follow releases</li>
+							<li><a href="https://github.com/tyler16smith/moat-finance/issues">Open an issue</a> for bugs and feature ideas</li>
+							<li><a href="https://github.com/tyler16smith/moat-finance/blob/main/CONTRIBUTING.md">Read the contributing guide</a> and send a PR</li>
+							<li><a href="https://github.com/tyler16smith/moat-finance/discussions">Join the discussion</a> and share your setup</li>
+						</ul>
+						<div class="about-tagline">Built in the open. Owned by its users.</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 12. FINAL CTA -->
+		<section class="section section-final-cta">
+			<div class="container">
+				<div class="final-cta-content reveal">
+					<h2 class="final-cta-title">Your money. Your server.<br>Your agent&rsquo;s context.</h2>
+					<p class="final-cta-desc">Clone the repo, run one command, and own your financial data for good.</p>
+					<div class="final-cta-actions">
+						<div class="final-cta-primary">
+							<a href="#get-started" class="btn btn-primary btn-xl">Get started free</a>
+							<span class="btn-subtext">Free and open source</span>
+						</div>
+						<a href="https://github.com/tyler16smith/moat-finance" class="btn btn-ghost btn-xl">View on GitHub</a>
+					</div>
+					<p class="final-cta-sub">Open source &middot; Self-hosted &middot; AI-ready</p>
+					<p class="final-cta-sub">Questions? <a href="mailto:hello@moatfinance.ai">hello@moatfinance.ai</a></p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<footer class="footer">
+			<div class="container footer-container">
+				<div class="footer-brand">
+					<div class="logo-with-text">
+						<img class="logo-img" src="public/moat-logo-dark.png" alt="Moat Finance">
+						<span class="logo-text">Moat Finance</span>
+					</div>
+					<p class="footer-tagline">Your financial fortress, self-hosted</p>
+				</div>
+				<div class="footer-links">
+					<div class="footer-col">
+						<strong>Product</strong>
+						<a href="#features">Features</a>
+						<a href="#quickstart">Quickstart</a>
+						<a href="#deploy">Deploy</a>
+						<a href="#compare">Compare</a>
+						<a href="download.html">Download desktop</a>
+						<a href="for/ai-agents.html">AI Agents</a>
+					</div>
+					<div class="footer-col">
+						<strong>Open source</strong>
+						<a href="https://github.com/tyler16smith/moat-finance">GitHub</a>
+						<a href="https://github.com/tyler16smith/moat-finance/blob/main/docs/self-hosting.md">Self-hosting guide</a>
+						<a href="https://github.com/tyler16smith/moat-finance/blob/main/CONTRIBUTING.md">Contributing</a>
+						<a href="https://github.com/tyler16smith/moat-finance/blob/main/LICENSE">License</a>
+					</div>
+					<div class="footer-col">
+						<strong>Trust &amp; Legal</strong>
+						<a href="security.html">Security</a>
+						<a href="privacy.html">Privacy Policy</a>
+						<a href="terms.html">Terms of Service</a>
+					</div>
+					<div class="footer-col">
+						<strong>Contact</strong>
+						<a href="mailto:hello@moatfinance.ai">hello@moatfinance.ai</a>
+						<a href="support.html">Support</a>
+					</div>
+				</div>
+			</div>
+			<div class="footer-bottom">
+				<div class="container">
+					<span>&copy; 2026 Moat Finance LLC. Open source software.</span>
+					<span>Financial clarity should be private, intelligent, and owned by you.</span>
+				</div>
+			</div>
+		</footer>
+		</main>
+
+		<div class="ask-composer" id="ask-composer">
+			<div class="ask-composer-inner">
+				<div class="ask-composer-menu" id="ask-composer-menu" role="menu" aria-hidden="true">
+					<a
+						class="ask-composer-option"
+						id="ask-composer-option-chatgpt"
+						href="https://chatgpt.com/?q=What%20can%20this%20do%20for%20me%3F%0A%0AReference%20this%20URL%3A%20https%3A%2F%2Fmoatfinance.ai%2Fagents"
+						rel="noopener noreferrer"
+						role="menuitem"
+						target="_blank"
+					>
+						<span class="ask-composer-option-mark ask-composer-option-mark-chatgpt" aria-hidden="true">
+							<img src="public/logo-chatgpt.png" alt="" width="16" height="16">
+						</span>
+						Send to ChatGPT
+						<span class="ask-composer-option-trailing" aria-hidden="true">
+							<svg class="ask-composer-option-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+							<span class="ask-composer-option-enter">↵</span>
+						</span>
+					</a>
+					<a
+						class="ask-composer-option"
+						id="ask-composer-option-claude"
+						href="https://claude.ai/new?q=What%20can%20this%20do%20for%20me%3F%0A%0AReference%20this%20URL%3A%20https%3A%2F%2Fmoatfinance.ai%2Fagents"
+						rel="noopener noreferrer"
+						role="menuitem"
+						target="_blank"
+					>
+						<span class="ask-composer-option-mark ask-composer-option-mark-claude" aria-hidden="true">
+							<img src="public/logo-claude.png" alt="" width="16" height="16">
+						</span>
+						Send to Claude
+						<span class="ask-composer-option-trailing" aria-hidden="true">
+							<svg class="ask-composer-option-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+							<span class="ask-composer-option-enter">↵</span>
+						</span>
+					</a>
+					<a
+						class="ask-composer-option"
+						id="ask-composer-option-gemini"
+						href="https://www.google.com/search?udm=50&aep=11&q=What%20can%20this%20do%20for%20me%3F%0A%0AReference%20this%20URL%3A%20https%3A%2F%2Fmoatfinance.ai%2Fagents"
+						rel="noopener noreferrer"
+						role="menuitem"
+						target="_blank"
+					>
+						<span class="ask-composer-option-mark ask-composer-option-mark-gemini" aria-hidden="true">
+							<img src="public/logo-gemini.png" alt="" width="16" height="16">
+						</span>
+						Send to Gemini
+						<span class="ask-composer-option-trailing" aria-hidden="true">
+							<svg class="ask-composer-option-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+							<span class="ask-composer-option-enter">↵</span>
+						</span>
+					</a>
+				</div>
+				<form
+					class="ask-composer-bar"
+					id="ask-composer-bar"
+				>
+					<label class="ask-composer-field">
+						<input
+							class="ask-composer-input"
+							id="ask-composer-input"
+							type="text"
+							name="ask"
+							autocomplete="off"
+							enterkeyhint="send"
+							aria-label="Ask about Moat Finance"
+							aria-controls="ask-composer-menu"
+							aria-autocomplete="list"
+						>
+						<span class="ask-composer-placeholder" id="ask-composer-placeholder" aria-hidden="true">What can this do for me?</span>
+					</label>
+					<button
+						type="submit"
+						class="ask-composer-send"
+						id="ask-composer-send"
+						aria-label="Send"
+						aria-expanded="false"
+						aria-haspopup="menu"
+						aria-controls="ask-composer-menu"
+						disabled
+					>
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+					</button>
+				</form>
+			</div>
+		</div>
+
+		<script src="script.js"></script>
+		<script src="attribution.js"></script>
+	</body>
+</html>

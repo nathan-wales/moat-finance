@@ -1,0 +1,47 @@
+{
+	"include": [
+		"electron.vite.config.ts",
+		"src/main/**/*.ts",
+		"src/preload/**/*.ts",
+		"src/shared/**/*.ts"
+	],
+	"exclude": ["src/main/**/*.test.ts"],
+	"compilerOptions": {
+		"target": "ES2022",
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"strict": true,
+		"noEmit": true,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"verbatimModuleSyntax": true,
+		"isolatedModules": true,
+		"resolveJsonModule": true,
+		"lib": ["ES2022", "DOM"],
+		"types": ["node"],
+		"baseUrl": ".",
+		"paths": {
+			"@moat/category-mapping": [
+				"../../packages/category-mapping/src/index.ts"
+			],
+			"@moat/db-sqlite": ["../../packages/db-sqlite/src/index.ts"],
+			"@moat/plaid-golden-ledger": [
+				"../../packages/plaid-golden-ledger/src/index.ts"
+			],
+			"@moat/domain": ["../../packages/domain/src/index.ts"],
+			"@moat/domain/retirement-compute": [
+				"../../packages/domain/src/retirement/compute-jobs.ts"
+			],
+			"@moat/data-access": ["../../packages/data-access/src/index.ts"],
+			"@moat/financial-data-providers/plaid-investments": [
+				"../../packages/financial-data-providers/src/providers/plaid/investments/index.ts"
+			],
+			"@moat/runtime": ["../../packages/runtime/src/index.ts"],
+			"@moat/mcp-contracts": ["../../packages/mcp-contracts/src/index.ts"],
+			"@moat/contracts": ["../../packages/contracts/src/index.ts"],
+			"@moat/events": ["../../packages/events/src/index.ts"],
+			"@moat/logging": ["../../packages/logging/src/index.ts"],
+			"@moat/retail-sync": ["../../packages/retail-sync/src/index.ts"]
+		}
+	}
+}

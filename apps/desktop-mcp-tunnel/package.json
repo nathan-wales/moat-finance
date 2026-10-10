@@ -1,0 +1,25 @@
+{
+	"name": "@moat/desktop-mcp-tunnel",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "wrangler dev",
+		"deploy": "wrangler deploy --env production",
+		"typecheck": "tsc --noEmit",
+		"check": "biome check .",
+		"check:write": "biome check --write .",
+		"test": "tsx --test src/*.test.ts"
+	},
+	"dependencies": {
+		"@moat/contracts": "workspace:*",
+		"@moat/mcp-contracts": "workspace:*"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.5",
+		"@cloudflare/workers-types": "^5.20260925.1",
+		"tsx": "^4.21.0",
+		"typescript": "^5.8.2",
+		"wrangler": "^4.40.0"
+	}
+}

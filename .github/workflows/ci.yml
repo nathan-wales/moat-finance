@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  # Called by deploy-staging.yml and deploy-production.yml before they deploy.
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  # When called from a deploy workflow, github.workflow is the caller's name, so
+  # the group never collides with a plain push/PR run. Only PR runs are cancelled:
+  # cancelling a called run would fail the deploy pipeline that is waiting on it.
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  # Placeholder values so env validation and Prisma config resolve. No database
+  # or external service is contacted: the contract tests are pure unit tests.
+  AUTH_SECRET: ci-auth-secret
+  CRON_SECRET: ci-cron-secret
+  DATABASE_URL: postgresql://ci:ci@localhost:5432/moat_ci?sslmode=disable
+  DIRECT_URL: postgresql://ci:ci@localhost:5432/moat_ci?sslmode=disable
+  ENCRYPTION_KEY: "0000000000000000000000000000000000000000000000000000000000000000"
+  NEXT_PUBLIC_API_URL: http://localhost:3001
+  SKIP_ENV_VALIDATION: "true"
+  TZ: UTC
+  # CI does not run Electron; skip the large binary download.
+  ELECTRON_SKIP_BINARY_DOWNLOAD: "1"
+
+jobs:
+  ci:
+    name: Lint, typecheck, test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8.10.0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          # Matches the Dockerfiles (NODE_VERSION=22).
+          node-version: 22
+          cache: pnpm
+
+      # apps/api postinstall runs `prisma generate` (needs no live database).
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # The desktop typecheck needs the SQLite Prisma client.
+      - name: Generate SQLite Prisma client
+        run: pnpm --filter @moat/db-sqlite run db:generate
+
+      - name: Lint (Biome)
+        run: pnpm ci:lint
+
+      - name: Typecheck (web, api, mcp, desktop)
+        run: pnpm ci:typecheck
+
+      - name: API contract tests
+        run: pnpm --filter moat-api run test:api-contracts

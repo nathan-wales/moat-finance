@@ -1,0 +1,11 @@
+{
+	"name": "moat-tax-llm-runtime",
+	"private": true,
+	"dependencies": {
+		"@google-cloud/compute": "^5.2.0",
+		"@google-cloud/pubsub": "^5.2.0",
+		"@google-cloud/secret-manager": "^6.1.0",
+		"@google-cloud/tasks": "^6.2.1",
+		"google-auth-library": "^10.6.2"
+	}
+}

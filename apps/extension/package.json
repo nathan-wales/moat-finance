@@ -1,0 +1,36 @@
+{
+	"name": "moat-finance-extension",
+	"description": "Moat Finance Chrome Extension",
+	"private": true,
+	"version": "0.1.0",
+	"type": "module",
+	"scripts": {
+		"dev": "wxt",
+		"build": "wxt build",
+		"check": "biome check .",
+		"typecheck": "tsc --noEmit",
+		"zip": "wxt zip",
+		"zip:development": "wxt zip --mode development"
+	},
+	"dependencies": {
+		"@moat/contracts": "workspace:*",
+		"@moat/features": "workspace:*",
+		"@moat/retail-sync": "workspace:*",
+		"@moat/ui": "workspace:*",
+		"lucide-react": "^0.577.0",
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0",
+		"sonner": "^2.0.7",
+		"zod": "^3.25.76"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.5",
+		"@types/chrome": "^0.0.326",
+		"@types/node": "^20.14.10",
+		"@types/react": "^19.0.0",
+		"@types/react-dom": "^19.0.0",
+		"@wxt-dev/module-react": "^1.1.3",
+		"typescript": "^5.8.2",
+		"wxt": "^0.20.7"
+	}
+}

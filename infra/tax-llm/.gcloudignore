@@ -1,0 +1,14 @@
+.git
+.gitignore
+node_modules
+src
+vm
+scripts
+*.md
+*.test.ts
+.biome.json
+tsconfig.json
+versions.env
+dist/controller.js
+dist/worker.js
+dist/worker.cjs

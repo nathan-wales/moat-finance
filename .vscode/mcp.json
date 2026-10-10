@@ -1,0 +1,34 @@
+{
+	"inputs": [
+		{
+			"type": "promptString",
+			"id": "moat-dev-token",
+			"description": "Moat MCP personal access token (dev server)",
+			"password": true
+		},
+		{
+			"type": "promptString",
+			"id": "moat-local-token",
+			"description": "Moat MCP personal access token (desktop local server)",
+			"password": true
+		}
+	],
+	"servers": {
+		"moat-local": {
+			"url": "http://localhost:3010/mcp",
+			"headers": {
+				"Authorization": "Bearer ${input:moat-dev-token}"
+			}
+		},
+		"moat-finance-local": {
+			"url": "http://localhost:3030/mcp",
+			"headers": {
+				"Authorization": "Bearer ${input:moat-local-token}"
+			}
+		},
+		"moat-prod": {
+			"command": "npx",
+			"args": ["-y", "mcp-remote", "https://mcp.moatfinance.ai/mcp"]
+		}
+	}
+}

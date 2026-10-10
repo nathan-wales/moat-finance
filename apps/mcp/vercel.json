@@ -1,0 +1,9 @@
+{
+	"$schema": "https://openapi.vercel.sh/vercel.json",
+	"buildCommand": "cd ../.. && pnpm run build --filter=@moat/mcp",
+	"installCommand": "pnpm install",
+	"rewrites": [{ "source": "/(.*)", "destination": "/api/$1" }],
+	"git": {
+		"deploymentEnabled": false
+	}
+}

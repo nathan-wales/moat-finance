@@ -1,0 +1,39 @@
+{
+	"include": [
+		"src/renderer/src/**/*.ts",
+		"src/renderer/src/**/*.tsx",
+		"src/shared/**/*.ts"
+	],
+	"compilerOptions": {
+		"target": "ES2022",
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"strict": true,
+		"noEmit": true,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"verbatimModuleSyntax": true,
+		"isolatedModules": true,
+		"resolveJsonModule": true,
+		"jsx": "react-jsx",
+		"lib": ["ES2022", "DOM", "DOM.Iterable"],
+		"types": [],
+		"baseUrl": ".",
+		"paths": {
+			"~/*": ["./src/renderer/src/*"],
+			"@moat/ui": ["../../packages/ui/src/index.ts"],
+			"@moat/ui/*": ["../../packages/ui/src/*"],
+			"@moat/charts": ["../../packages/charts/src/index.ts"],
+			"@moat/charts/*": ["../../packages/charts/src/*"],
+			"@moat/features": ["../../packages/features/src/index.ts"],
+			"@moat/features/*": ["../../packages/features/src/*"],
+			"@moat/contracts": ["../../packages/contracts/src/index.ts"],
+			"@moat/contracts/*": ["../../packages/contracts/src/*"],
+			"@moat/domain/asset-history": [
+				"../../packages/domain/src/dashboard/rollup-monthly-last.ts"
+			],
+			"@moat/community-tips": ["../../packages/community-tips/src/index.ts"],
+			"@moat/community-tips/*": ["../../packages/community-tips/src/*"]
+		}
+	}
+}

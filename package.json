@@ -1,0 +1,44 @@
+{
+	"name": "moat",
+	"private": true,
+	"license": "AGPL-3.0-only",
+	"version": "0.1.81",
+	"packageManager": "pnpm@8.10.0",
+	"scripts": {
+		"dev": "node scripts/dev.mjs",
+		"dev:with-extension": "node scripts/dev.mjs --ext true",
+		"build": "turbo run build",
+		"lint": "turbo run check",
+		"lint:fix": "pnpm --filter moat-web run check:write && pnpm --filter moat-api run check:write && pnpm --filter moat-desktop run check:write && pnpm --filter @moat/mcp run check:write && pnpm --filter @moat/desktop-mcp-tunnel run check:write",
+		"test": "pnpm --filter moat-api run test:api-contracts && pnpm --filter @moat/ui run test && pnpm --filter @moat/plaid-golden-ledger test && pnpm --filter moat-api run test:plaid-golden && pnpm --filter moat-desktop run test && pnpm --filter moat-desktop run test:plaid-golden && pnpm --filter @moat/desktop-mcp-tunnel run test && pnpm --filter @moat/domain test && pnpm --filter @moat/db-sqlite test && pnpm --filter @moat/category-mapping test && pnpm --filter @moat/financial-data-providers test",
+		"typecheck": "turbo run typecheck",
+		"ci:lint": "turbo run check --filter=moat-web --filter=moat-api --filter=@moat/mcp --filter=moat-desktop --filter=@moat/desktop-mcp-tunnel",
+		"ci:analytics": "node scripts/check-analytics-usage.mjs",
+		"ci:typecheck": "turbo run typecheck --filter=moat-web --filter=moat-api --filter=@moat/mcp --filter=moat-desktop",
+		"ci:build:cloud": "turbo run build --filter=moat-web --filter=moat-api --filter=@moat/mcp",
+		"db:generate": "pnpm --filter moat-api exec prisma generate",
+		"db:validate": "pnpm --filter moat-api exec prisma validate",
+		"db:migrate:deploy": "pnpm --filter moat-api exec prisma migrate deploy",
+		"db:migrate:dev": "pnpm --filter moat-api exec prisma migrate dev",
+		"db:studio": "pnpm --filter moat-api run db:studio",
+		"db:push": "pnpm --filter moat-api run db:push",
+		"db:migrate": "pnpm --filter moat-api run db:migrate",
+		"sync:branches": "./scripts/sync-branches.sh",
+		"release:cloud": "./scripts/release-cloud.sh",
+		"release:desktop": "./scripts/release-desktop.sh",
+		"release:ios": "./scripts/release-ios.sh",
+		"release:emergency": "./scripts/release-emergency.sh"
+	},
+	"devDependencies": {
+		"turbo": "^1.12.4"
+	},
+	"pnpm": {
+		"neverBuiltDependencies": [
+			"better-sqlite3-multiple-ciphers"
+		]
+	},
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	]
+}

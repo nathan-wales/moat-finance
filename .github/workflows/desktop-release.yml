@@ -1,0 +1,289 @@
+name: Desktop Release
+
+on:
+  push:
+    tags:
+      - "desktop-v*"
+
+permissions:
+  contents: write
+  actions: write
+
+env:
+  ELECTRON_CACHE: ${{ github.workspace }}/.cache/electron
+
+jobs:
+  build-mac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 8.10.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Cache Electron binary
+        uses: actions/cache@v4
+        with:
+          path: .cache/electron
+          key: electron-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm --filter moat-desktop run typecheck
+      - run: pnpm --filter moat-desktop run check
+
+      - name: Validate macOS release secrets
+        env:
+          CSC_LINK_RAW: ${{ secrets.CSC_LINK }}
+          CSC_KEY_PASSWORD_RAW: ${{ secrets.CSC_KEY_PASSWORD }}
+          APPLE_ID_RAW: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD_RAW: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID_RAW: ${{ secrets.APPLE_TEAM_ID }}
+          PLAID_CLIENT_ID_RAW: ${{ secrets.PLAID_CLIENT_ID }}
+          PLAID_SECRET_RAW: ${{ secrets.PLAID_SECRET }}
+          PLAID_ENV_RAW: ${{ secrets.PLAID_ENV }}
+        run: bash apps/desktop/scripts/validate-release-secrets.sh mac
+
+      - name: Build macOS distributable
+        env:
+          CSC_LINK_RAW: ${{ secrets.CSC_LINK }}
+          CSC_KEY_PASSWORD_RAW: ${{ secrets.CSC_KEY_PASSWORD }}
+          APPLE_ID_RAW: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD_RAW: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID_RAW: ${{ secrets.APPLE_TEAM_ID }}
+          PLAID_CLIENT_ID: ${{ secrets.PLAID_CLIENT_ID }}
+          PLAID_SECRET: ${{ secrets.PLAID_SECRET }}
+          PLAID_ENV: ${{ secrets.PLAID_ENV }}
+        run: |
+          echo "$CSC_LINK_RAW" | base64 --decode > "$RUNNER_TEMP/moat-desktop-cert.p12"
+          export CSC_LINK="$RUNNER_TEMP/moat-desktop-cert.p12"
+          export CSC_KEY_PASSWORD="$CSC_KEY_PASSWORD_RAW"
+          export APPLE_ID="$APPLE_ID_RAW"
+          export APPLE_APP_SPECIFIC_PASSWORD="$APPLE_APP_SPECIFIC_PASSWORD_RAW"
+          export APPLE_TEAM_ID="$APPLE_TEAM_ID_RAW"
+          # Default release builds to production Plaid unless PLAID_ENV secret overrides.
+          export PLAID_ENV="${PLAID_ENV:-production}"
+          echo "Building signed and notarized macOS distributable"
+          # dist:mac imports CSC_LINK into a keychain, then unsets it so
+          # electron-builder 26.x does not hit SecKeychainUnlock (issue 10066).
+          pnpm --filter moat-desktop run dist:mac
+
+      - name: Stage mac release artifacts
+        run: node apps/desktop/scripts/collect-release-artifacts.mjs apps/desktop/dist "$RUNNER_TEMP/release-artifacts"
+
+      - name: Validate macOS updater artifacts
+        run: node apps/desktop/scripts/validate-mac-updater-artifacts.mjs "$RUNNER_TEMP/release-artifacts"
+
+      - name: Upload mac artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: mac-artifacts
+          path: ${{ runner.temp }}/release-artifacts/*
+
+  # Disabled until Windows code signing certificates are ready.
+  # Remove `if: false` and add build-windows to publish needs to re-enable.
+  build-windows:
+    if: false
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          eol: lf
+
+      - name: Configure git line endings
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 8.10.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Cache Electron binary
+        uses: actions/cache@v4
+        with:
+          path: .cache/electron
+          key: electron-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm --filter moat-desktop run typecheck
+
+      - name: Enforce LF consistency
+        run: git ls-files --eol | grep -E "crlf" || true
+
+      - run: pnpm --filter moat-desktop run check
+
+      - name: Validate Windows release secrets
+        env:
+          WIN_CSC_LINK_RAW: ${{ secrets.WIN_CSC_LINK }}
+          WIN_CSC_KEY_PASSWORD_RAW: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
+          PLAID_CLIENT_ID_RAW: ${{ secrets.PLAID_CLIENT_ID }}
+          PLAID_SECRET_RAW: ${{ secrets.PLAID_SECRET }}
+          PLAID_ENV_RAW: ${{ secrets.PLAID_ENV }}
+        run: bash apps/desktop/scripts/validate-release-secrets.sh win
+
+      - name: Build Windows distributable
+        env:
+          WIN_CSC_LINK_RAW: ${{ secrets.WIN_CSC_LINK }}
+          WIN_CSC_KEY_PASSWORD_RAW: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
+          PLAID_CLIENT_ID: ${{ secrets.PLAID_CLIENT_ID }}
+          PLAID_SECRET: ${{ secrets.PLAID_SECRET }}
+          PLAID_ENV: ${{ secrets.PLAID_ENV }}
+        run: |
+          echo "$WIN_CSC_LINK_RAW" | base64 --decode > "$RUNNER_TEMP/moat-desktop-cert.p12"
+          export CSC_LINK="$RUNNER_TEMP/moat-desktop-cert.p12"
+          export CSC_KEY_PASSWORD="$WIN_CSC_KEY_PASSWORD_RAW"
+          export PLAID_ENV="${PLAID_ENV:-production}"
+          echo "Building signed Windows distributable"
+          pnpm --filter moat-desktop run dist:win
+
+      - name: Stage windows release artifacts
+        run: node apps/desktop/scripts/collect-release-artifacts.mjs apps/desktop/dist "$RUNNER_TEMP/release-artifacts"
+
+      - name: Upload windows artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-artifacts
+          path: ${{ runner.temp }}/release-artifacts/*
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 8.10.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Cache Electron binary
+        uses: actions/cache@v4
+        with:
+          path: .cache/electron
+          key: electron-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm --filter moat-desktop run typecheck
+      - run: pnpm --filter moat-desktop run check
+
+      - name: Validate Linux release secrets
+        env:
+          PLAID_CLIENT_ID_RAW: ${{ secrets.PLAID_CLIENT_ID }}
+          PLAID_SECRET_RAW: ${{ secrets.PLAID_SECRET }}
+          PLAID_ENV_RAW: ${{ secrets.PLAID_ENV }}
+        run: bash apps/desktop/scripts/validate-release-secrets.sh linux
+
+      - name: Build Linux distributable
+        env:
+          PLAID_CLIENT_ID: ${{ secrets.PLAID_CLIENT_ID }}
+          PLAID_SECRET: ${{ secrets.PLAID_SECRET }}
+          PLAID_ENV: ${{ secrets.PLAID_ENV }}
+        run: |
+          export PLAID_ENV="${PLAID_ENV:-production}"
+          pnpm --filter moat-desktop run dist:linux
+
+      - name: Stage linux release artifacts
+        run: node apps/desktop/scripts/collect-release-artifacts.mjs apps/desktop/dist "$RUNNER_TEMP/release-artifacts"
+
+      - name: Upload linux artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-artifacts
+          path: ${{ runner.temp }}/release-artifacts/*
+
+  publish:
+    needs: [build-mac, build-linux]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify tag matches package.json version
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#desktop-v}"
+          PKG_VERSION=$(node -p "require('./apps/desktop/package.json').version")
+          if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
+            echo "Tag version ($TAG_VERSION) does not match apps/desktop/package.json ($PKG_VERSION)"
+            exit 1
+          fi
+
+      - name: Validate publish secrets
+        env:
+          R2_ACCOUNT_ID_RAW: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID_RAW: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY_RAW: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET_RAW: ${{ secrets.R2_BUCKET }}
+        run: bash apps/desktop/scripts/validate-release-secrets.sh publish
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: "*-artifacts"
+          merge-multiple: true
+          path: release-assets
+
+      - name: List release assets
+        run: find release-assets -maxdepth 1 -type f | sort
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          mapfile -t ASSETS < <(find release-assets -maxdepth 1 -type f | sort)
+          if [ "${#ASSETS[@]}" -eq 0 ]; then
+            echo "No release assets found"
+            exit 1
+          fi
+
+          echo "Publishing ${#ASSETS[@]} asset(s) to GitHub Release ${TAG}:"
+          printf '  %s\n' "${ASSETS[@]}"
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release ${TAG} already exists; uploading assets"
+          else
+            gh release create "$TAG" \
+              --title "Moat Finance Desktop ${TAG}" \
+              --generate-notes \
+              --prerelease
+          fi
+
+          gh release upload "$TAG" "${ASSETS[@]}" --clobber
+
+      - name: Install AWS CLI
+        run: pip install awscli
+
+      - name: Publish downloads to R2
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_ENDPOINT_URL: https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          DOWNLOADS_BASE: https://downloads.moatfinance.ai
+          RELEASE_RETENTION_COUNT: "6"
+        run: node apps/desktop/scripts/publish-downloads.mjs release-assets "${{ github.ref_name }}"
+
+      - name: Prune old workflow artifacts
+        if: success()
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          ARTIFACT_RETENTION_BUILDS: "2"
+        run: node scripts/prune-github-actions-artifacts.mjs

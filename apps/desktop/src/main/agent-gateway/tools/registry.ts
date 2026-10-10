@@ -1,0 +1,181 @@
+import { isShippedMcpToolName, type McpToolName } from "@moat/mcp-contracts";
+import { getProfileSummaryTool, listAccountsTool } from "./accounts";
+import { listAssetsTool, listRealEstateTool } from "./assets";
+import { submitFeedbackTool } from "./feedback";
+import {
+	applyRuleHistoricalTool,
+	createRuleTool,
+	deleteCategoryBudgetTool,
+	deleteRuleTool,
+	deleteTransactionTool,
+	setTransactionHashtagsTool,
+	toggleRuleTool,
+	updateRuleTool,
+	updateTransactionCategoryTool,
+	updateTransactionTool,
+	updateTransactionTypeTool,
+	upsertCategoryBudgetTool,
+} from "./financial-writes";
+import {
+	commitTransactionImportTool,
+	previewTransactionImportTool,
+} from "./import";
+import {
+	createImportTemplateTool,
+	deleteImportTemplateTool,
+	listImportTemplatesTool,
+	updateImportTemplateTool,
+} from "./import-templates";
+import { getMemoriesTool, saveMemoryTool } from "./memories";
+import {
+	createNotificationRuleTool,
+	deleteNotificationRuleTool,
+	listNotificationRulesTool,
+	pauseNotificationRuleTool,
+	updateNotificationRuleTool,
+} from "./notifications";
+import {
+	getCashFlowTool,
+	getFinancialOverviewTool,
+	getInvestmentHoldingsTool,
+	getLiabilitiesTool,
+	getNetWorthTool,
+	listRecurringBillsTool,
+} from "./overview";
+import {
+	createReportTool,
+	deleteReportTool,
+	listReportsTool,
+	shareReportTool,
+	unshareReportTool,
+	updateReportTool,
+} from "./reports";
+import {
+	compareRetirementScenariosTool,
+	createRetirementScenarioTool,
+	deleteRetirementScenarioTool,
+	getRetirementPlanTool,
+	listRetirementScenariosTool,
+	projectRetirementScenarioTool,
+	runRetirementStressTestTool,
+	solveRetirementGoalTool,
+	updateRetirementScenarioTool,
+} from "./retirement";
+import {
+	applyRulesPreviewTool,
+	explainForecastTool,
+	getForecastTool,
+	listRulesTool,
+} from "./rules-forecast";
+import {
+	getBudgetStatusTool,
+	getSpendingBreakdownTool,
+} from "./spending-budget";
+import {
+	getTaxBusinessSummaryTool,
+	getTaxDeductionSummaryTool,
+	getTaxDocumentTool,
+	getTaxEstimatedPaymentsTool,
+	getTaxFactTool,
+	getTaxIncomeSummaryTool,
+	getTaxInvestmentSummaryTool,
+	getTaxItemsNeedingReviewTool,
+	getTaxMissingInformationTool,
+	getTaxPriorYearCarryforwardsTool,
+	getTaxReadinessTool,
+	getTaxRealEstateSummaryTool,
+	getTaxRetirementSummaryTool,
+	getTaxWithholdingSummaryTool,
+	getTaxYearSummaryTool,
+	listTaxDocumentsTool,
+	listTaxFactsTool,
+	searchTaxDataTool,
+} from "./taxes";
+import { listTransactionsTool, searchTransactionsTool } from "./transactions";
+import type { LocalToolImplementation } from "./types";
+
+export const localToolImplementations = {
+	"moat.getProfileSummary": getProfileSummaryTool,
+	"moat.getFinancialOverview": getFinancialOverviewTool,
+	"moat.listAccounts": listAccountsTool,
+	"moat.listTransactions": listTransactionsTool,
+	"moat.searchTransactions": searchTransactionsTool,
+	"moat.getSpendingBreakdown": getSpendingBreakdownTool,
+	"moat.getBudgetStatus": getBudgetStatusTool,
+	"moat.listRecurringBills": listRecurringBillsTool,
+	"moat.getLiabilities": getLiabilitiesTool,
+	"moat.getNetWorth": getNetWorthTool,
+	"moat.listRealEstate": listRealEstateTool,
+	"moat.listAssets": listAssetsTool,
+	"moat.getCashFlow": getCashFlowTool,
+	"moat.getInvestmentHoldings": getInvestmentHoldingsTool,
+	"moat.getForecast": getForecastTool,
+	"moat.explainForecast": explainForecastTool,
+	"moat.getRetirementPlan": getRetirementPlanTool,
+	"moat.listRetirementScenarios": listRetirementScenariosTool,
+	"moat.projectRetirementScenario": projectRetirementScenarioTool,
+	"moat.compareRetirementScenarios": compareRetirementScenariosTool,
+	"moat.runRetirementStressTest": runRetirementStressTestTool,
+	"moat.solveRetirementGoal": solveRetirementGoalTool,
+	"moat.createRetirementScenario": createRetirementScenarioTool,
+	"moat.updateRetirementScenario": updateRetirementScenarioTool,
+	"moat.deleteRetirementScenario": deleteRetirementScenarioTool,
+	"moat.getTaxYearSummary": getTaxYearSummaryTool,
+	"moat.getTaxReadiness": getTaxReadinessTool,
+	"moat.listTaxDocuments": listTaxDocumentsTool,
+	"moat.getTaxDocument": getTaxDocumentTool,
+	"moat.listTaxFacts": listTaxFactsTool,
+	"moat.getTaxFact": getTaxFactTool,
+	"moat.getTaxIncomeSummary": getTaxIncomeSummaryTool,
+	"moat.getTaxWithholdingSummary": getTaxWithholdingSummaryTool,
+	"moat.getTaxInvestmentSummary": getTaxInvestmentSummaryTool,
+	"moat.getTaxRealEstateSummary": getTaxRealEstateSummaryTool,
+	"moat.getTaxDeductionSummary": getTaxDeductionSummaryTool,
+	"moat.getTaxRetirementSummary": getTaxRetirementSummaryTool,
+	"moat.getTaxBusinessSummary": getTaxBusinessSummaryTool,
+	"moat.getTaxEstimatedPayments": getTaxEstimatedPaymentsTool,
+	"moat.getTaxPriorYearCarryforwards": getTaxPriorYearCarryforwardsTool,
+	"moat.getTaxMissingInformation": getTaxMissingInformationTool,
+	"moat.getTaxItemsNeedingReview": getTaxItemsNeedingReviewTool,
+	"moat.searchTaxData": searchTaxDataTool,
+	"moat.listTransactionRules": listRulesTool,
+	"moat.createTransactionRule": createRuleTool,
+	"moat.updateTransactionRule": updateRuleTool,
+	"moat.deleteTransactionRule": deleteRuleTool,
+	"moat.setTransactionRuleEnabled": toggleRuleTool,
+	"moat.previewRuleMatches": applyRulesPreviewTool,
+	"moat.applyRuleToPastTransactions": applyRuleHistoricalTool,
+	"moat.updateTransactionCategory": updateTransactionCategoryTool,
+	"moat.updateTransaction": updateTransactionTool,
+	"moat.updateTransactionType": updateTransactionTypeTool,
+	"moat.setTransactionHashtags": setTransactionHashtagsTool,
+	"moat.hideTransaction": deleteTransactionTool,
+	"moat.previewTransactionImport": previewTransactionImportTool,
+	"moat.commitTransactionImport": commitTransactionImportTool,
+	"moat.listImportTemplates": listImportTemplatesTool,
+	"moat.createImportTemplate": createImportTemplateTool,
+	"moat.updateImportTemplate": updateImportTemplateTool,
+	"moat.deleteImportTemplate": deleteImportTemplateTool,
+	"moat.setCategoryBudget": upsertCategoryBudgetTool,
+	"moat.deleteCategoryBudget": deleteCategoryBudgetTool,
+	"moat.getSavedFinancialContext": getMemoriesTool,
+	"moat.saveFinancialContext": saveMemoryTool,
+	"moat.listReports": listReportsTool,
+	"moat.createReport": createReportTool,
+	"moat.updateReport": updateReportTool,
+	"moat.deleteReport": deleteReportTool,
+	"moat.shareReport": shareReportTool,
+	"moat.unshareReport": unshareReportTool,
+	"moat.submitFeedback": submitFeedbackTool,
+	"moat.listNotificationRules": listNotificationRulesTool,
+	"moat.createNotificationRule": createNotificationRuleTool,
+	"moat.updateNotificationRule": updateNotificationRuleTool,
+	"moat.setNotificationRulePaused": pauseNotificationRuleTool,
+	"moat.deleteNotificationRule": deleteNotificationRuleTool,
+} as const satisfies Partial<Record<McpToolName, LocalToolImplementation>>;
+
+export function getLocalRegisteredTools(): LocalToolImplementation[] {
+	return Object.values(localToolImplementations).filter((tool) =>
+		isShippedMcpToolName(tool.contract.name),
+	);
+}

@@ -1,0 +1,43 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "moat-desktop-mcp-tunnel",
+	"main": "src/index.ts",
+	"compatibility_date": "2026-09-01",
+	"compatibility_flags": ["nodejs_compat"],
+	"durable_objects": {
+		"bindings": [
+			{
+				"name": "DESKTOP_MCP_TUNNEL",
+				"class_name": "DesktopMcpTunnel"
+			}
+		]
+	},
+	"migrations": [
+		{
+			"tag": "v1",
+			"new_sqlite_classes": ["DesktopMcpTunnel"]
+		}
+	],
+	"vars": {
+		"TUNNEL_PUBLIC_ORIGIN": "http://localhost:8787",
+		"MOAT_API_URL": "http://localhost:3001",
+		"MCP_ISSUER": "http://localhost:3002",
+		"DESKTOP_TUNNEL_JWT_PUBLIC_KEY": ""
+	},
+	"env": {
+		"production": {
+			"vars": {
+				"TUNNEL_PUBLIC_ORIGIN": "https://tunnel.moatfinance.ai",
+				"MOAT_API_URL": "https://api.moatfinance.ai",
+				"MCP_ISSUER": "https://mcp.moatfinance.ai",
+				"DESKTOP_TUNNEL_JWT_PUBLIC_KEY": ""
+			},
+			"routes": [
+				{
+					"pattern": "tunnel.moatfinance.ai",
+					"custom_domain": true
+				}
+			]
+		}
+	}
+}

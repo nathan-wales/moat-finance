@@ -1,0 +1,68 @@
+{
+	"name": "@moat/features",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"main": "src/index.ts",
+	"types": "src/index.ts",
+	"exports": {
+		".": "./src/index.ts",
+		"./budget": "./src/budget/index.ts",
+		"./categories": "./src/categories/index.ts",
+		"./overview": "./src/overview/index.ts",
+		"./insights": "./src/insights/index.ts",
+		"./spending": "./src/spending/index.ts",
+		"./transactions": "./src/transactions/index.ts",
+		"./rules": "./src/rules/index.ts",
+		"./financial-profile": "./src/financial-profile/index.ts",
+		"./investments": "./src/investments/index.ts",
+		"./moat-mode": "./src/moat-mode/index.ts",
+		"./scenarios": "./src/scenarios/index.ts",
+		"./what-if": "./src/what-if/index.ts",
+		"./appearance": "./src/appearance/index.ts",
+		"./profile-switcher": "./src/profile-switcher/index.ts",
+		"./ai-reports": "./src/ai-reports/index.ts",
+		"./onboarding": "./src/onboarding/index.ts",
+		"./retirement": "./src/retirement/index.ts",
+		"./taxes": "./src/taxes/index.ts",
+		"./mileage": "./src/mileage/index.ts",
+		"./mcp": "./src/mcp/index.ts",
+		"./setup-guide": "./src/setup-guide/index.ts",
+		"./notifications": "./src/notifications/index.ts",
+		"./community-tips": "./src/community-tips/index.ts",
+		"./import": "./src/import/index.ts",
+		"./retail-orders": "./src/retail-orders/index.ts"
+	},
+	"scripts": {
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@moat/ai-prompts": "workspace:*",
+		"@moat/category-mapping": "workspace:*",
+		"@moat/charts": "workspace:*",
+		"@moat/community-tips": "workspace:*",
+		"@moat/contracts": "workspace:*",
+		"@moat/domain": "workspace:*",
+		"@moat/mcp-contracts": "workspace:*",
+		"@moat/reports": "workspace:*",
+		"@moat/ui": "workspace:*",
+		"@tanstack/react-query": "^5.69.0",
+		"date-fns": "^4.1.0",
+		"framer-motion": "^12.38.0",
+		"leaflet": "^1.9.4",
+		"lucide-react": "^0.577.0",
+		"react": "^19.0.0",
+		"recharts": "^2.15.0",
+		"sonner": "^2.0.7",
+		"zustand": "^5.0.12"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.5",
+		"@types/leaflet": "^1.9.22",
+		"@types/react": "^19.0.0",
+		"typescript": "^5.8.2"
+	},
+	"peerDependencies": {
+		"react": "^19.0.0"
+	}
+}

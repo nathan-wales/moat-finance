@@ -1,0 +1,31 @@
+{
+	"name": "@moat/plaid-golden-ledger",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"main": "src/index.ts",
+	"types": "src/index.ts",
+	"exports": {
+		".": "./src/index.ts",
+		"./audit": "./src/audit.ts",
+		"./mock": "./src/mock-server.ts"
+	},
+	"scripts": {
+		"typecheck": "tsc --noEmit",
+		"test": "tsx --test $(find src -name '*.test.ts' | sort)",
+		"start-mock:web": "tsx src/start-mock-web.ts",
+		"start-mock:desktop": "tsx src/start-mock-desktop.ts"
+	},
+	"dependencies": {
+		"@moat/category-mapping": "workspace:*",
+		"@moat/domain": "workspace:*",
+		"jsonwebtoken": "^9.0.2"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.5",
+		"@types/jsonwebtoken": "^9.0.6",
+		"@types/node": "^20.14.10",
+		"tsx": "^4.21.0",
+		"typescript": "^5.8.2"
+	}
+}

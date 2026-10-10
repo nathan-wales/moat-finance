@@ -1,0 +1,8 @@
+# Copy to .dev.vars for `wrangler dev`. Do not commit .dev.vars.
+# TUNNEL_INTROSPECT_SECRET must match the API process.
+TUNNEL_INTROSPECT_SECRET=dev-tunnel-introspect-secret
+
+# SPKI public key, base64. Pair with API DESKTOP_TUNNEL_JWT_PRIVATE_KEY.
+# Generate: node --experimental-strip-types scripts is unnecessary; use
+# `crypto.subtle.generateKey({ name: "Ed25519" }, true, ["sign", "verify"])`.
+DESKTOP_TUNNEL_JWT_PUBLIC_KEY=

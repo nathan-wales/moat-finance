@@ -1,0 +1,14 @@
+[data-sonner-toast] [data-close-button] {
+	/* biome-ignore lint/complexity/noImportantStyles: override Sonner inline close-button positioning */
+	left: auto !important;
+	/* biome-ignore lint/complexity/noImportantStyles: override Sonner inline close-button positioning */
+	right: 0 !important;
+	/* biome-ignore lint/complexity/noImportantStyles: override Sonner inline close-button positioning */
+	transform: translate(40%, -40%) !important;
+}
+
+[data-sonner-toast][data-type="error"] [data-close-button] {
+	background: var(--error-bg);
+	border-color: var(--error-border);
+	color: var(--error-text);
+}

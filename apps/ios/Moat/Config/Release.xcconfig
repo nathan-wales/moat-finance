@@ -1,0 +1,23 @@
+// Release configuration
+
+// API Configuration
+API_BASE_URL = https:\/\/api.moatfinance.ai
+WEB_BASE_URL = https:\/\/moatfinance.ai
+
+// App Configuration
+PRODUCT_BUNDLE_IDENTIFIER = com.moatfinance.app
+
+// Google Sign-In Configuration (iOS OAuth client for com.moatfinance.app)
+// Must match the iOS client in Google Cloud Console and AUTH_GOOGLE_ID_IOS on the API.
+// Override in Secrets.xcconfig if using a different release client.
+GID_CLIENT_ID = 418506358288-hqetoqk5dvneagvqm29sfda2tlavk6p6.apps.googleusercontent.com
+GID_REVERSED_CLIENT_ID = com.googleusercontent.apps.418506358288-hqetoqk5dvneagvqm29sfda2tlavk6p6
+
+// Institution logos (optional — initials fallback when empty)
+LOGO_DEV_PUBLISHABLE_KEY =
+
+// PostHog (optional — set in Secrets.xcconfig)
+POSTHOG_API_KEY =
+POSTHOG_HOST = https:\/\/app.posthog.com
+
+#include? "Secrets.xcconfig"

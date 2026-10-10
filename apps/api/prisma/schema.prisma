@@ -1,0 +1,3096 @@
+generator client {
+    provider      = "prisma-client-js"
+    engineType    = "library"
+    output        = "../generated/prisma"
+    binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+    provider  = "postgresql"
+    url       = env("DATABASE_URL")
+    directUrl = env("DIRECT_URL")
+}
+
+// ─── Auth Models (NextAuth) ───────────────────────────────────────────────────
+
+model Account {
+    id                       String  @id @default(cuid())
+    userId                   String
+    type                     String
+    provider                 String
+    providerAccountId        String
+    refresh_token            String? @db.Text
+    access_token             String? @db.Text
+    expires_at               Int?
+    token_type               String?
+    scope                    String?
+    id_token                 String? @db.Text
+    session_state            String?
+    refresh_token_expires_in Int?
+    user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([provider, providerAccountId])
+}
+
+model Session {
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+    id            String    @id @default(cuid())
+    name          String?
+    email         String?   @unique
+    emailVerified DateTime?
+    image         String?
+    username      String?   @unique
+    password      String?
+
+    trialStartedAt                     DateTime           @default(now())
+    trialEndsAt                        DateTime           @default(dbgenerated("(now() + interval '30 days')"))
+    subscriptionStatus                 SubscriptionStatus @default(NONE)
+    // Authoritative consumer tier. `subscriptionPlan` is retained only so
+    // released desktop/iOS builds keep parsing cached billing snapshots.
+    subscriptionTier                   SubscriptionTier   @default(FREE)
+    scheduledSubscriptionTier          SubscriptionTier?
+    scheduledSubscriptionTierAt        DateTime?
+    syncedAccountSelectionRequiredAt   DateTime?
+    subscriptionPlan                   SubscriptionPlan   @default(NONE)
+    syncAccessStatus                   SyncAccessStatus   @default(ACTIVE)
+    subscriptionCurrentPeriodStart     DateTime?
+    subscriptionCurrentPeriodEnd       DateTime?
+    subscriptionCancelAtPeriodEnd      Boolean            @default(false)
+    subscriptionCanceledAt             DateTime?
+    subscriptionProviderCustomerId     String?            @unique
+    subscriptionProviderSubscriptionId String?            @unique
+    subscriptionProviderPriceId        String?
+    subscriptionLastWebhookEventId     String?
+    subscriptionInterval               String?
+    /// Deprecated. Account count is no longer a billing quantity; this is kept
+    /// only so released clients can validate cached billing snapshots.
+    subscriptionBilledSyncedAccountCount Int              @default(0)
+    referralCode                       String?            @unique
+    referredByUserId                   String?
+    referralBonusDaysGranted           Int                @default(0)
+    successfulReferralCount            Int                @default(0)
+
+    // 2FA fields
+    twoFactorEnabled     Boolean @default(false)
+    twoFactorSecret      String? @db.Text
+    twoFactorBackupCodes String? @db.Text
+    twoFactorVerified    Boolean @default(false)
+
+    accounts                     Account[]
+    sessions                     Session[]
+    authSessions                 AuthSession[]
+    transactions                 Transaction[]
+    investments                  Investment[]
+    realEstateInvestments        RealEstateInvestment[]
+    forecastScenarios            ForecastScenario[]
+    hashtags                     Hashtag[]
+    rules                        TransactionRule[]
+    settings                     UserSettings?
+    categories                   Category[]
+    categoryOverrides            CategoryOverride[]
+    categoryBudgets              CategoryBudget[]
+    demoOverlaySessions          DemoOverlaySession[]
+    plaidItems                   PlaidItem[]
+    plaidAccounts                PlaidAccount[]
+    plaidHoldings                PlaidHolding[]
+    financialConnections         FinancialConnection[]
+    financialAccounts            FinancialAccount[]
+    twoFactorTokens              TwoFactorToken[]
+    refreshTokens                RefreshToken[]
+    balanceSnapshots             BalanceSnapshot[]
+    accountBalanceHistories      AccountBalanceHistory[]
+    retailConnections            RetailConnection[]
+    retailOrders                 RetailOrder[]
+    householdInvitesOwned        HouseholdInvite[]           @relation("HouseholdInviteOwner")
+    householdMembershipsOwned    HouseholdMembership[]       @relation("HouseholdMembershipOwner")
+    householdMembershipsAsMember HouseholdMembership[]       @relation("HouseholdMembershipMember")
+    profileLinksOwned            ProfileLink[]               @relation("ProfileLinkOwner")
+    profileLinksAsProfile        ProfileLink[]               @relation("ProfileLinkProfile")
+    dashboardWidgets             DashboardWidget[]
+    financialProfileData         FinancialProfileData?
+    referredBy                   User?                       @relation("UserReferrals", fields: [referredByUserId], references: [id], onDelete: SetNull)
+    referrals                    User[]                      @relation("UserReferrals")
+    referralRedemptionsSent      ReferralRedemption[]        @relation("ReferralRedemptionsSent")
+    referralRedemptionReceived   ReferralRedemption?         @relation("ReferralRedemptionReceived")
+    memories                     Memory[]
+    importMappingTemplates       ImportMappingTemplate[]
+    agentConversations           AgentConversation[]
+    mcpPersonalAccessTokens      McpPersonalAccessToken[]
+    mcpOAuthAuthorizationCodes   McpOAuthAuthorizationCode[]
+    mcpOAuthAccessTokens         McpOAuthAccessToken[]
+    mcpToolCalls                 McpToolCall[]
+    desktopMcpTunnels            DesktopMcpTunnel[]
+    aiReports                    AiReport[]
+    aiReportShares               AiReportShare[]
+    createdPrompts               UserPrompt[]              @relation("PromptCreator")
+    reviewedPrompts              UserPrompt[]              @relation("PromptReviewer")
+    reviewedPromptRevisions      PromptRevision[]          @relation("PromptRevisionReviewer")
+    promptPins                   PromptPin[]
+    promptLaunchDailies          PromptLaunchDaily[]
+    appleFinanceKitAccounts      AppleFinanceKitAccount[]
+    inviteCodeRedemption         InviteCodeRedemption?
+    inviteCodeAttempts           InviteCodeAttempt[]
+    betaAccessRequests           BetaAccessRequest[]
+    communityTipsAuthored        CommunityTip[]            @relation("CommunityTipAuthor")
+    communityTipsReviewed        CommunityTip[]            @relation("CommunityTipReviewer")
+    communityTipLikes            CommunityTipLike[]
+    notificationRules            NotificationRule[]
+    notificationPreference       NotificationPreference?
+    notificationDeliveries       NotificationDelivery[]
+    devicePushTokens             DevicePushToken[]
+    notificationSuggestions              NotificationSuggestion[]
+    expectedRecurringEvents              ExpectedRecurringEvent[]
+    manualInvestmentBalanceAccruals      ManualInvestmentBalanceAccrual[]
+    desktopAuthPairs             DesktopAuthPair[]
+    retirementPlan                       RetirementPlan?
+    retirementScenarios                  RetirementScenario[]
+    retirementStandingRules              RetirementStandingRule[]
+    retirementSpendingCategoryPlans      RetirementSpendingCategoryPlan[]
+    taxDocuments                         TaxDocument[]
+    taxFacts                             TaxFact[]
+    taxFormExtractions                   TaxFormExtraction[]
+    taxFactConflicts                     TaxFactConflict[]
+    taxLlmExtractionJobs                 TaxLlmExtractionJob[]
+    mileageTrips                         MileageTrip[]
+    marketingAttribution                 MarketingAttribution?
+
+    @@index([referredByUserId])
+}
+
+model MarketingAttribution {
+    id     String @id @default(cuid())
+    userId String @unique
+
+    firstChannel     String
+    firstPath        String
+    firstTouchedAt   DateTime
+    firstUtmSource   String?
+    firstUtmMedium   String?
+    firstUtmCampaign String?
+    firstUtmTerm     String?
+    firstUtmContent  String?
+
+    latestChannel     String
+    latestPath        String
+    latestTouchedAt   DateTime
+    latestUtmSource   String?
+    latestUtmMedium   String?
+    latestUtmCampaign String?
+    latestUtmTerm     String?
+    latestUtmContent  String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+    identifier String
+    token      String   @unique
+    expires    DateTime
+
+    @@unique([identifier, token])
+}
+
+model TwoFactorToken {
+    id      String   @id @default(cuid())
+    userId  String
+    token   String   @unique
+    expires DateTime
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([expires])
+}
+
+model RefreshToken {
+    id         String    @id @default(cuid())
+    userId     String
+    sessionId  String? // Links to AuthSession for revocation tracking
+    token      String    @unique
+    expiresAt  DateTime
+    createdAt  DateTime  @default(now())
+    revokedAt  DateTime?
+    deviceInfo String?   @db.Text // JSON: { platform, appVersion, deviceId }
+
+    user    User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+    session AuthSession? @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([userId, revokedAt])
+    @@index([sessionId])
+    @@index([token])
+    @@index([expiresAt])
+}
+
+model AuthSession {
+    id           String    @id @default(cuid())
+    userId       String
+    createdAt    DateTime  @default(now())
+    lastActiveAt DateTime  @default(now())
+    expiresAt    DateTime
+    revokedAt    DateTime?
+    deviceInfo   String?   @db.Text // JSON: { platform, appVersion, deviceId, userAgent }
+    ipAddress    String?
+
+    user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+    refreshTokens RefreshToken[]
+
+    @@index([userId])
+    @@index([userId, revokedAt])
+    @@index([expiresAt])
+    @@index([lastActiveAt])
+}
+
+// ─── MCP Gateway Auth And Audit ───────────────────────────────────────────────
+
+model McpPersonalAccessToken {
+    id          String    @id @default(cuid())
+    userId      String
+    name        String
+    tokenPrefix String
+    tokenHash   String    @unique
+    scopes      String[]  @default([])
+    clientName  String?
+    expiresAt   DateTime?
+    revokedAt   DateTime?
+    lastUsedAt  DateTime?
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+
+    user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+    toolCalls McpToolCall[]
+
+    @@index([userId])
+    @@index([userId, revokedAt])
+    @@index([expiresAt])
+    @@index([tokenHash])
+}
+
+model McpOAuthClient {
+    id                String    @id @default(cuid())
+    clientId          String    @unique
+    clientSecretHash  String?
+    name              String
+    clientProfile     String
+    redirectUris      String[]  @default([])
+    scopes            String[]  @default([])
+    grants            String[]  @default(["authorization_code", "refresh_token"])
+    requestsPerMinute Int       @default(60)
+    createdAt         DateTime  @default(now())
+    updatedAt         DateTime  @updatedAt
+    revokedAt         DateTime?
+
+    authorizationCodes McpOAuthAuthorizationCode[]
+    accessTokens       McpOAuthAccessToken[]
+    toolCalls          McpToolCall[]
+
+    @@index([clientProfile])
+    @@index([revokedAt])
+}
+
+model McpOAuthAuthorizationCode {
+    id                  String    @id @default(cuid())
+    userId              String
+    oauthClientId       String
+    codeHash            String    @unique
+    codeChallenge       String
+    codeChallengeMethod String
+    redirectUri         String
+    scopes              String[]  @default([])
+    desktopPublicTunnelId String?
+    expiresAt           DateTime
+    consumedAt          DateTime?
+    createdAt           DateTime  @default(now())
+    ipAddress           String?
+    userAgent           String?   @db.Text
+
+    user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+    oauthClient McpOAuthClient @relation(fields: [oauthClientId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([oauthClientId])
+    @@index([expiresAt])
+    @@index([consumedAt])
+}
+
+model McpOAuthAccessToken {
+    id                    String    @id @default(cuid())
+    userId                String
+    oauthClientId         String
+    tokenPrefix           String
+    tokenHash             String    @unique
+    refreshTokenHash      String?   @unique
+    refreshTokenExpiresAt DateTime?
+    scopes                String[]  @default([])
+    desktopPublicTunnelId String?
+    expiresAt             DateTime
+    revokedAt             DateTime?
+    lastUsedAt            DateTime?
+    createdAt             DateTime  @default(now())
+    updatedAt             DateTime  @updatedAt
+
+    user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+    oauthClient McpOAuthClient @relation(fields: [oauthClientId], references: [id], onDelete: Cascade)
+    toolCalls   McpToolCall[]
+
+    @@index([userId])
+    @@index([desktopPublicTunnelId])
+    @@index([oauthClientId])
+    @@index([userId, revokedAt])
+    @@index([expiresAt])
+    @@index([refreshTokenExpiresAt])
+    @@index([tokenHash])
+}
+
+model DesktopMcpTunnel {
+    id             String    @id @default(cuid())
+    userId         String
+    deviceId       String
+    publicTunnelId String    @unique
+    label          String?
+    revokedAt      DateTime?
+    createdAt      DateTime  @default(now())
+    updatedAt      DateTime  @updatedAt
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, deviceId])
+    @@index([userId])
+}
+
+model McpToolCall {
+    id                    String   @id @default(cuid())
+    userId                String?
+    householdId           String?
+    personalAccessTokenId String?
+    oauthAccessTokenId    String?
+    oauthClientId         String?
+    clientName            String?
+    clientProfile         String?
+    toolName              String
+    requiredScopes        String[] @default([])
+    grantedScopes         String[] @default([])
+    inputHash             String?
+    inputSummary          Json?
+    outputSummary         Json?
+    status                String
+    durationMs            Int
+    errorCode             String?
+    rateLimited           Boolean  @default(false)
+    createdAt             DateTime @default(now())
+
+    user                User?                   @relation(fields: [userId], references: [id], onDelete: SetNull)
+    personalAccessToken McpPersonalAccessToken? @relation(fields: [personalAccessTokenId], references: [id], onDelete: SetNull)
+    oauthAccessToken    McpOAuthAccessToken?    @relation(fields: [oauthAccessTokenId], references: [id], onDelete: SetNull)
+    oauthClient         McpOAuthClient?         @relation(fields: [oauthClientId], references: [id], onDelete: SetNull)
+
+    @@index([userId, createdAt])
+    @@index([personalAccessTokenId, createdAt])
+    @@index([oauthAccessTokenId, createdAt])
+    @@index([oauthClientId, createdAt])
+    @@index([toolName, createdAt])
+    @@index([status, createdAt])
+}
+
+// ─── Financial Data ───────────────────────────────────────────────────────────
+
+enum TransactionType {
+    INCOME
+    EXPENSE
+}
+
+enum HouseholdInviteStatus {
+    PENDING
+    ACCEPTED
+    REVOKED
+    EXPIRED
+}
+
+enum HouseholdMembershipStatus {
+    ACTIVE
+    REMOVED
+}
+
+enum ProfileKind {
+    PERSONAL
+    FAMILY
+    BUSINESS
+}
+
+enum BusinessType {
+    SOLE_PROPRIETOR
+    SINGLE_MEMBER_LLC
+    MULTI_MEMBER_LLC_PARTNERSHIP
+    S_CORPORATION
+    C_CORPORATION
+}
+
+model ProfileLink {
+    id                     String        @id @default(cuid())
+    ownerUserId            String
+    profileUserId          String
+    kind                   ProfileKind
+    displayName            String
+    includeInOwnerNetWorth Boolean       @default(false)
+    businessType           BusinessType?
+    createdAt              DateTime      @default(now())
+    archivedAt             DateTime?
+    // Distinct from archivedAt: archived means the user hid the profile and it
+    // drops out of every list, while a restricted profile stays visible and
+    // read-only so the owner can see their data and an upgrade path.
+    entitlementRestrictedAt DateTime?
+
+    ownerUser              User                           @relation("ProfileLinkOwner", fields: [ownerUserId], references: [id], onDelete: Cascade)
+    profileUser            User                           @relation("ProfileLinkProfile", fields: [profileUserId], references: [id], onDelete: Cascade)
+    householdAccessGrants  HouseholdProfileAccess[]
+    householdInviteGrants  HouseholdInviteProfileAccess[]
+
+    @@unique([ownerUserId, profileUserId])
+    @@index([ownerUserId])
+    @@index([ownerUserId, archivedAt])
+}
+
+enum SubscriptionStatus {
+    NONE
+    ACTIVE
+    PAST_DUE
+    CANCELED
+    UNPAID
+}
+
+enum SubscriptionTier {
+    FREE
+    LITE
+    PRO
+    BUSINESS_OWNER
+}
+
+/// Deprecated in favor of SubscriptionTier + subscriptionInterval. Still written
+/// so released desktop and iOS builds can validate cached billing snapshots.
+enum SubscriptionPlan {
+    NONE
+    MONTHLY
+    ANNUAL
+    COMPLIMENTARY
+}
+
+enum SyncAccessStatus {
+    ACTIVE
+    PAUSED_TRIAL_EXPIRED
+}
+
+model HouseholdInvite {
+    id           String                @id @default(cuid())
+    ownerUserId  String
+    inviteeName  String
+    inviteeEmail String
+    tokenHash    String
+    status       HouseholdInviteStatus @default(PENDING)
+    expiresAt    DateTime
+    sentAt       DateTime?
+    acceptedAt   DateTime?
+    revokedAt    DateTime?
+    createdAt    DateTime              @default(now())
+    updatedAt    DateTime              @updatedAt
+
+    ownerUser     User                           @relation("HouseholdInviteOwner", fields: [ownerUserId], references: [id], onDelete: Cascade)
+    profileAccess HouseholdInviteProfileAccess[]
+
+    @@unique([tokenHash])
+    @@index([ownerUserId, status, expiresAt])
+    @@index([inviteeEmail])
+}
+
+model HouseholdMembership {
+    id           String                    @id @default(cuid())
+    ownerUserId  String
+    memberUserId String
+    status       HouseholdMembershipStatus @default(ACTIVE)
+    createdAt    DateTime                  @default(now())
+    updatedAt    DateTime                  @updatedAt
+    removedAt    DateTime?
+
+    ownerUser     User                      @relation("HouseholdMembershipOwner", fields: [ownerUserId], references: [id], onDelete: Cascade)
+    memberUser    User                      @relation("HouseholdMembershipMember", fields: [memberUserId], references: [id], onDelete: Cascade)
+    profileAccess HouseholdProfileAccess[]
+
+    @@unique([ownerUserId, memberUserId])
+    @@index([ownerUserId])
+    @@index([ownerUserId, status])
+    @@index([memberUserId])
+    @@index([memberUserId, status])
+}
+
+model HouseholdInviteProfileAccess {
+    id            String   @id @default(cuid())
+    inviteId      String
+    profileLinkId String
+    createdAt     DateTime @default(now())
+
+    invite      HouseholdInvite @relation(fields: [inviteId], references: [id], onDelete: Cascade)
+    profileLink ProfileLink     @relation(fields: [profileLinkId], references: [id], onDelete: Cascade)
+
+    @@unique([inviteId, profileLinkId])
+    @@index([inviteId])
+    @@index([profileLinkId])
+}
+
+model HouseholdProfileAccess {
+    id            String   @id @default(cuid())
+    membershipId  String
+    profileLinkId String
+    createdAt     DateTime @default(now())
+
+    membership  HouseholdMembership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+    profileLink ProfileLink         @relation(fields: [profileLinkId], references: [id], onDelete: Cascade)
+
+    @@unique([membershipId, profileLinkId])
+    @@index([membershipId])
+    @@index([profileLinkId])
+}
+
+enum TransactionSource {
+    CSV
+    PLAID
+    MX
+    FINICITY
+    MANUAL
+    APPLE_FINANCEKIT
+}
+
+enum AppleFinanceKitAccountStatus {
+    ACTIVE
+    DISCONNECTED
+}
+
+enum FinancialDataProvider {
+    PLAID
+    MX
+    FINICITY
+}
+
+enum ConnectionStatus {
+    ACTIVE
+    DEGRADED
+    REAUTH_REQUIRED
+    DISCONNECTED
+    ERROR
+    MIGRATING
+}
+
+enum SyncTrigger {
+    WEBHOOK
+    SCHEDULED
+    USER_REFRESH
+    INITIAL_LINK
+    BACKFILL
+    PROVIDER_SWITCH
+}
+
+enum SyncStatus {
+    PENDING
+    RUNNING
+    SUCCESS
+    FAILED
+    PARTIAL_SUCCESS
+    SKIPPED
+}
+
+enum ProviderWebhookStatus {
+    RECEIVED
+    VERIFIED
+    REJECTED
+    QUEUED
+    PROCESSED
+    FAILED
+    IGNORED_DUPLICATE
+}
+
+enum ProviderSyncJobStatus {
+    PENDING
+    RUNNING
+    SUCCESS
+    FAILED
+    CANCELLED
+}
+
+enum InstitutionMatchConfidence {
+    MANUAL
+    HIGH
+    MEDIUM
+    LOW
+    UNMATCHED
+}
+
+enum InstitutionCategory {
+    BANK
+    CREDIT_CARD
+    INVESTMENT
+    CREDIT_UNION
+    FINTECH
+    CRYPTO
+    LOAN
+    PAYROLL
+    UNKNOWN
+}
+
+model Transaction {
+    id     String @id @default(cuid())
+    userId String
+
+    // Legacy compatibility — kept for backward compat during rollout
+    date DateTime
+
+    // App canonical timeline date for Plaid-imported rows.
+    // Sourced from Plaid `date` field for sorting/display uniformity.
+    // NOT guaranteed to be bank settlement date in every institution context.
+    postedDate DateTime?
+
+    // Plaid `authorized_date` — distinct from postedDate, do not conflate
+    authorizedDate DateTime?
+
+    // Money
+    amount                 Decimal @db.Decimal(14, 2)
+    isoCurrencyCode        String?
+    unofficialCurrencyCode String?
+
+    // App classification
+    type                TransactionType
+    category            String          @default("OTHER")
+    categoryId          String?
+    description         String?
+    originalDescription String?
+    notes               String?
+    merchantName        String?
+    account             String?
+    paymentChannel      String?
+
+    // Import/source tracking
+    importId                 String?
+    // v1 uniqueness: [userId, externalTransactionId]
+    // Future: may need [userId, source, externalTransactionId] for multi-provider normalization
+    source                   TransactionSource      @default(CSV)
+    externalTransactionId    String?
+    pendingTransactionId     String?
+    plaidAccountId           String?
+    plaidItemId              String?
+    appleFinanceKitAccountId String?
+    financialConnectionId    String?
+    financialAccountId       String?
+    dataProvider             FinancialDataProvider?
+    providerAccountId        String?
+    providerTransactionId    String?
+    accountFingerprint       String?
+    dedupeFingerprint        String?
+    sourceAccountId          String?
+    importBatchId            String?
+    pending                  Boolean                @default(false)
+    hidden                   Boolean                @default(false)
+    removedAt                DateTime?
+    /// Plaid Location object (address, city, region, postal_code, country, lat, lon, store_number)
+    location                 Json?
+    raw                      Json?
+    rawProviderPayload       Json?
+
+    // Split tracking for app-managed split rows.
+    splitGroupId        String?
+    splitParentId       String?
+    splitOriginalAmount Decimal? @db.Decimal(14, 2)
+
+    // Internal transfer pairing: links the two legs of a same-amount transfer
+    // between the user's own connected accounts. autoHiddenAsTransfer marks a
+    // hide performed by the pairing system so user-initiated hides are preserved.
+    transferPairId       String?
+    autoHiddenAsTransfer Boolean @default(false)
+
+    // Set when Amazon extension scrape data is linked onto this bank row.
+    amazonRetailEnrichedAt DateTime?
+
+    // Rule that was applied to this transaction (one-to-one relationship)
+    appliedRuleId String?
+
+    user                   User                         @relation(fields: [userId], references: [id], onDelete: Cascade)
+    hashtags               TransactionHashtag[]
+    ruleApplications       TransactionRuleApplication[]
+    retailOrderItems       RetailOrderItem[]
+    categoryRef            Category?                    @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+    plaidAccount           PlaidAccount?                @relation(fields: [plaidAccountId], references: [id], onDelete: SetNull)
+    plaidItem              PlaidItem?                   @relation(fields: [plaidItemId], references: [id], onDelete: SetNull)
+    appleFinanceKitAccount AppleFinanceKitAccount?      @relation(fields: [appleFinanceKitAccountId], references: [id], onDelete: SetNull)
+    financialAccount       FinancialAccount?            @relation(fields: [financialAccountId], references: [id], onDelete: SetNull)
+    financialConnection    FinancialConnection?         @relation(fields: [financialConnectionId], references: [id], onDelete: SetNull)
+    appliedRule            TransactionRule?             @relation("AppliedToTransaction", fields: [appliedRuleId], references: [id], onDelete: SetNull)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@unique([userId, externalTransactionId], name: "unique_external_tx")
+    @@index([userId, date])
+    @@index([userId, postedDate])
+    @@index([userId, authorizedDate])
+    @@index([userId, type])
+    @@index([userId, category])
+    @@index([userId, categoryId])
+    @@index([userId, source])
+    @@index([plaidAccountId])
+    @@index([plaidItemId])
+    @@index([appleFinanceKitAccountId])
+    @@index([financialConnectionId])
+    @@index([financialAccountId])
+    @@index([dataProvider])
+    @@index([providerAccountId])
+    @@index([providerTransactionId])
+    @@index([dedupeFingerprint])
+    @@index([appliedRuleId])
+    @@index([userId, splitGroupId])
+    @@index([splitParentId])
+    @@index([userId, type, date])
+    @@index([userId, type, categoryId, date])
+    @@index([userId, hidden, date])
+    @@index([userId, removedAt])
+    @@index([userId, transferPairId])
+    @@index([userId, type, amount, postedDate])
+}
+
+enum CategoryParent {
+    FIXED
+    FLEXIBLE
+    NON_MONTHLY
+}
+
+model Category {
+    id             String          @id @default(cuid())
+    userId         String?
+    name           String
+    icon           String?
+    color          String          @default("#71717A")
+    isDefault      Boolean          @default(false)
+    isHidden       Boolean          @default(false)
+    sortOrder      Int             @default(0)
+    parentCategory CategoryParent?
+
+    user         User?              @relation(fields: [userId], references: [id], onDelete: Cascade)
+    transactions Transaction[]
+    budgets      CategoryBudget[]
+    overrides    CategoryOverride[]
+
+    @@index([userId])
+    @@index([userId, isHidden])
+}
+
+model CategoryOverride {
+    id             String          @id @default(cuid())
+    userId         String
+    categoryId     String
+    name           String?
+    icon           String?
+    color          String?
+    isHidden       Boolean?
+    isRemoved      Boolean          @default(false)
+    parentCategory CategoryParent?
+    createdAt      DateTime        @default(now())
+    updatedAt      DateTime        @updatedAt
+
+    user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, categoryId])
+    @@index([userId])
+    @@index([categoryId])
+}
+
+model CategoryBudget {
+    id              String   @id @default(cuid())
+    userId          String
+    categoryId      String
+    monthlyGoal     Decimal  @db.Decimal(14, 2)
+    alertsEnabled   Boolean  @default(true)
+    alertThresholds Json     @default("[75, 100]")
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+
+    user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, categoryId])
+    @@index([userId])
+}
+
+model Hashtag {
+    id             String   @id @default(cuid())
+    userId         String
+    name           String
+    normalizedName String
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+
+    user         User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    transactions TransactionHashtag[]
+    ruleActions  TransactionRuleAction[]
+
+    @@unique([userId, normalizedName])
+    @@index([userId])
+}
+
+model TransactionHashtag {
+    transactionId String
+    hashtagId     String
+    createdAt     DateTime @default(now())
+
+    transaction Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+    hashtag     Hashtag     @relation(fields: [hashtagId], references: [id], onDelete: Cascade)
+
+    @@id([transactionId, hashtagId])
+    @@index([hashtagId])
+}
+
+// ─── Rules Engine ─────────────────────────────────────────────────────────────
+
+enum RuleField {
+    MERCHANT
+    DESCRIPTION
+    AMOUNT
+    CATEGORY
+    DATE
+    ACCOUNT
+    NOTES
+}
+
+enum RuleOperator {
+    CONTAINS
+    NOT_CONTAINS
+    STARTS_WITH
+    ENDS_WITH
+    EQUALS
+    NOT_EQUALS
+    GREATER_THAN
+    GREATER_THAN_OR_EQUAL
+    LESS_THAN
+    LESS_THAN_OR_EQUAL
+    IS_EMPTY
+    IS_NOT_EMPTY
+    BEFORE
+    AFTER
+    ON
+    BETWEEN
+}
+
+enum RuleActionType {
+    SET_CATEGORY
+    SET_DESCRIPTION
+    SET_TYPE
+    ADD_HASHTAG
+}
+
+enum RuleApplyModePreference {
+    ALWAYS_ASK
+    APPLY_HISTORICAL
+    FUTURE_ONLY
+}
+
+enum RuleExecutionPreference {
+    ALWAYS_ASK
+    APPLY_HISTORICAL
+    FUTURE_ONLY
+}
+
+enum RuleMatch {
+    ALL
+    ANY
+}
+
+model TransactionRule {
+    id                  String                   @id @default(cuid())
+    userId              String
+    name                String
+    isActive            Boolean                  @default(true)
+    priority            Int
+    match               RuleMatch                @default(ALL)
+    applyModePreference RuleApplyModePreference?
+    createdAt           DateTime                 @default(now())
+    updatedAt           DateTime                 @updatedAt
+
+    user                User                         @relation(fields: [userId], references: [id], onDelete: Cascade)
+    conditionGroups     TransactionRuleConditionGroup[]
+    conditions          TransactionRuleCondition[]
+    actions             TransactionRuleAction[]
+    applications        TransactionRuleApplication[]
+    appliedTransactions Transaction[]                @relation("AppliedToTransaction")
+
+    @@index([userId, isActive, priority])
+}
+
+model TransactionRuleConditionGroup {
+    id        String    @id @default(cuid())
+    ruleId    String
+    sortOrder Int
+    match     RuleMatch @default(ALL)
+
+    rule       TransactionRule            @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+    conditions TransactionRuleCondition[]
+
+    @@index([ruleId, sortOrder])
+}
+
+model TransactionRuleCondition {
+    id                String       @id @default(cuid())
+    ruleId            String
+    groupId           String
+    sortOrder         Int
+    field             RuleField
+    operator          RuleOperator
+    valueText         String?
+    valueNumber       Float?
+    valueDate         DateTime?
+    secondValueText   String?
+    secondValueNumber Float?
+    secondValueDate   DateTime?
+
+    rule  TransactionRule               @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+    group TransactionRuleConditionGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+    @@index([ruleId, sortOrder])
+    @@index([groupId, sortOrder])
+}
+
+model TransactionRuleAction {
+    id        String         @id @default(cuid())
+    ruleId    String
+    sortOrder Int
+    type      RuleActionType
+    valueText String?
+    hashtagId String?
+
+    rule    TransactionRule @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+    hashtag Hashtag?        @relation(fields: [hashtagId], references: [id], onDelete: SetNull)
+
+    @@index([ruleId, sortOrder])
+}
+
+model TransactionRuleApplication {
+    id                    String   @id @default(cuid())
+    transactionId         String
+    ruleId                String
+    appliedAt             DateTime @default(now())
+    wasHistoricalBackfill Boolean  @default(false)
+
+    transaction Transaction     @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+    rule        TransactionRule @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+
+    @@index([transactionId])
+    @@index([ruleId])
+}
+
+model UserSettings {
+    id                            String                  @id @default(cuid())
+    userId                        String                  @unique
+    ruleExecutionPreference       RuleExecutionPreference @default(ALWAYS_ASK)
+    hasCompletedInitialOnboarding Boolean                 @default(false)
+    onboardingGoals               String[]                @default([])
+    currentAge                    Int?
+    retirementAge                 Int?
+    referralSource                String?
+    referralSourceOther           String?
+    inviteCodeGatePassedAt        DateTime?
+    memoryEnabled                 Boolean                 @default(true)
+    showCommunityTipsOnTransactions Boolean               @default(true)
+    setupGuideDismissedAt         DateTime?
+    setupGuideCompletedSteps      String[]                @default([])
+    extensionMetadata             Json?
+    createdAt                     DateTime                @default(now())
+    updatedAt                     DateTime                @updatedAt
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ─── Financial Profile ──────────────────────────────────────────────────────
+
+model FinancialProfileData {
+    id     String @id @default(cuid())
+    userId String @unique
+
+    profile             Json
+    accounts            Json
+    incomeSources       Json
+    assets              Json
+    liabilities         Json
+    investments         Json
+    insurancePolicies   Json
+    taxProfile          Json
+    forecastAssumptions Json
+    planningNotes       Json
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([userId])
+}
+
+// ─── Investments ──────────────────────────────────────────────────────────────
+
+enum InvestmentType {
+    STOCKS
+    REAL_ESTATE
+    ROTH_IRA
+    FOUR01K
+    HSA
+    OTHER
+}
+
+enum RealEstatePropertyType {
+    SINGLE_FAMILY
+    MULTI_FAMILY
+    CONDO
+    COMMERCIAL
+    LAND
+    OTHER
+}
+
+enum RealEstateUsageType {
+    PRIMARY_RESIDENCE
+    RENTAL
+    VACATION_HOME
+    MIXED_USE
+}
+
+enum RealEstateForecastScenario {
+    MODERATE
+    STANDARD
+    AGGRESSIVE
+}
+
+model Investment {
+    id                       String         @id @default(cuid())
+    userId                   String
+    type                     InvestmentType
+    name                     String
+    startingBalance          Float          @default(0)
+    monthlyContribution      Float          @default(0)
+    annualReturnRate         Float          @default(0.07)
+    notes                    String?
+    autoUpdateBalance        Boolean        @default(true)
+    lastBalanceAccruedAt     DateTime?
+    nextBalanceAccrualDueAt  DateTime?
+
+    user    User                              @relation(fields: [userId], references: [id], onDelete: Cascade)
+    accruals ManualInvestmentBalanceAccrual[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([userId])
+    @@index([nextBalanceAccrualDueAt])
+}
+
+model ManualInvestmentBalanceAccrual {
+    id                   String   @id @default(cuid())
+    userId               String
+    investmentId         String
+    previousBalance      Float
+    newBalance           Float
+    contributionApplied  Float
+    returnApplied        Float
+    netIncrement         Float
+    periodStart          DateTime
+    periodEnd            DateTime
+    accruedAt            DateTime @default(now())
+
+    user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    investment Investment @relation(fields: [investmentId], references: [id], onDelete: Cascade)
+
+    @@unique([investmentId, periodEnd])
+    @@index([userId, accruedAt])
+    @@index([investmentId, accruedAt])
+}
+
+model RealEstateInvestment {
+    id     String @id @default(cuid())
+    userId String
+
+    name         String
+    propertyType RealEstatePropertyType
+    usageType    RealEstateUsageType
+
+    purchasePrice Float?
+    purchaseDate  DateTime?
+    downPayment   Float?
+    closingCosts  Float?
+    rehabCosts    Float?
+
+    currentEstimatedValue Float
+    currentLoanBalance    Float
+
+    interestRate           Float?
+    loanTermYears          Int?
+    remainingTermMonths    Int?
+    monthlyMortgagePayment Float?
+
+    monthlyRent        Float?
+    otherMonthlyIncome Float?
+    vacancyRate        Float?
+
+    totalMonthlyExpenses Float?
+
+    monthlyPropertyTax   Float?
+    monthlyInsurance     Float?
+    monthlyHOA           Float?
+    monthlyUtilities     Float?
+    monthlyMaintenance   Float?
+    monthlyManagement    Float?
+    monthlyOtherExpenses Float?
+
+    appreciationRate  Float?
+    expenseGrowthRate Float?
+
+    forecastScenario RealEstateForecastScenario @default(STANDARD)
+
+    linkedPlaidAccountId String?
+    linkedPlaidAccount   PlaidAccount? @relation(fields: [linkedPlaidAccountId], references: [id], onDelete: SetNull)
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([userId])
+    @@index([linkedPlaidAccountId])
+}
+
+// ─── Demo Mode ────────────────────────────────────────────────────────────────
+
+model DemoOverlaySession {
+    id         String  @id @default(cuid())
+    sessionKey String  @unique
+    userId     String?
+    demoUserId String
+    isActive   Boolean @default(true)
+
+    expiresAt DateTime
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    investmentsJson Json?
+    propertiesJson  Json?
+    scenariosJson   Json?
+    uiStateJson     Json?
+
+    user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([expiresAt])
+}
+
+// ─── Scenario Modeling ────────────────────────────────────────────────────────
+
+enum ScenarioType {
+    CONSERVATIVE
+    STANDARD
+    AGGRESSIVE
+    CUSTOM
+}
+
+model ForecastScenario {
+    id                 String       @id @default(cuid())
+    userId             String
+    name               String
+    type               ScenarioType @default(CUSTOM)
+    investmentReturn   Float        @default(0.07)
+    inflationRate      Float        @default(0.03)
+    salaryGrowth       Float        @default(0.03)
+    contributionChange Float        @default(0.0)
+    expenseGrowth      Float        @default(0.03)
+    isActive           Boolean      @default(false)
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([userId])
+}
+
+// ─── Retirement ───────────────────────────────────────────────────────────────
+
+enum RetirementScenarioSource {
+    USER
+    SUGGESTED
+    AI
+    GOAL_SEEK
+}
+
+enum RetirementSpendingTreatment {
+    REMAINS
+    DISAPPEARS
+    CHANGES
+}
+
+enum RetirementSpendingEssentiality {
+    ESSENTIAL
+    FLEXIBLE
+}
+
+/// Per-user retirement inputs that cannot be derived from transactions,
+/// accounts, or the financial profile. Everything derivable stays derived.
+model RetirementPlan {
+    id     String @id @default(cuid())
+    userId String @unique
+
+    primaryBirthYear           Int?
+    targetRetirementAge        Int      @default(65)
+    longevityAge               Int      @default(95)
+    socialSecurityClaimAge     Int      @default(67)
+    socialSecurityMonthlyAtFra Decimal? @db.Decimal(14, 2)
+
+    hasSpouse                        Boolean  @default(false)
+    spouseBirthYear                  Int?
+    spouseRetirementAge              Int?
+    spouseLongevityAge               Int?
+    spouseSocialSecurityClaimAge     Int?
+    spouseSocialSecurityMonthlyAtFra Decimal? @db.Decimal(14, 2)
+    /// Annual employment income override; null derives from trailing cash flow.
+    annualEmploymentIncome           Decimal? @db.Decimal(14, 2)
+    annualSpouseEmploymentIncome     Decimal? @db.Decimal(14, 2)
+
+    confidenceTarget Float @default(0.85)
+    monteCarloTrials Int   @default(1000)
+
+    /// RetirementSpendingStage[] — ageFrom, ageTo, monthlyAmount, label
+    spendingStages Json @default("[]")
+    /// Nullable per-field overrides of the derived retirement spending estimate
+    spendingOverrides Json @default("{}")
+    /// Which milestones the user has dismissed or pinned on the timeline
+    timelinePreferences Json @default("{}")
+    /// Ordered withdrawal sequencing across taxable / taxDeferred / taxFree
+    withdrawalOrder Json @default("[\"taxable\",\"taxDeferred\",\"taxFree\"]")
+
+    /// Singleton baseline policies. Each is a Zod-validated blob; an empty
+    /// object means "unset", and an unset policy projects exactly as the engine
+    /// did before policies existed.
+    /// ContributionPolicy — per-person 401(k)/IRA/HSA modes, match tiers, gross comp
+    contributionPolicy Json @default("{}")
+    /// SpendingPolicy — % of current lifestyle at retirement, go-go/slow-go/no-go phases
+    spendingPolicy Json @default("{}")
+    /// HealthcarePolicy — pre-Medicare premium, Medicare start + cost, healthcare inflation
+    healthcarePolicy Json @default("{}")
+    /// TaxPolicy — current/retirement state, Roth conversion strategy
+    taxPolicy Json @default("{}")
+    /// CashPolicy — target reserve and where excess cash and RMD proceeds go
+    cashPolicy Json @default("{}")
+    /// AllocationPolicy — target equity share and glide path
+    allocationPolicy Json @default("{}")
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    user         User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    scenarios    RetirementScenario[]
+    standingRules RetirementStandingRule[]
+
+    @@index([userId])
+}
+
+/// A baseline assumption that stands until changed: a pension, an annuity, a
+/// recurring income or expense. Levers answer "what if"; standing rules
+/// describe how the household's financial life normally works. Mirrors
+/// `RetirementScenarioLever`'s `{ kind, params }` shape so both can share one
+/// registry mechanism.
+model RetirementStandingRule {
+    id     String @id @default(cuid())
+    userId String
+    planId String
+    /// RetirementStandingRuleKind, e.g. "PENSION", "RECURRING_EXPENSE"
+    kind   String
+    label  String
+    /// Zod-validated params for that discriminant
+    params Json
+    /// Where the numbers came from: detected | assumed | profile | userEdited
+    source    String  @default("userEdited")
+    enabled   Boolean @default(true)
+    sortOrder Int     @default(0)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    user User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+    plan RetirementPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([planId, sortOrder])
+}
+
+model RetirementScenario {
+    id          String                   @id @default(cuid())
+    userId      String
+    planId      String
+    name        String
+    description String?
+    color       String?
+    source      RetirementScenarioSource @default(USER)
+    isPinned    Boolean                  @default(false)
+    sortOrder   Int                      @default(0)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    user   User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    plan   RetirementPlan            @relation(fields: [planId], references: [id], onDelete: Cascade)
+    levers RetirementScenarioLever[]
+
+    @@index([userId])
+    @@index([planId, sortOrder])
+}
+
+model RetirementScenarioLever {
+    id         String @id @default(cuid())
+    scenarioId String
+    /// RetirementLeverType discriminant, e.g. "retire_at_age", "max_roth_ira"
+    type       String
+    /// Zod-validated params for that discriminant
+    params     Json
+    enabled    Boolean @default(true)
+    sortOrder  Int     @default(0)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    scenario RetirementScenario @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
+
+    @@index([scenarioId, sortOrder])
+}
+
+/// Per-category retirement spending classification. Reuses the existing
+/// Category taxonomy rather than introducing a parallel one.
+model RetirementSpendingCategoryPlan {
+    id           String                         @id @default(cuid())
+    userId       String
+    categoryId   String
+    treatment    RetirementSpendingTreatment
+    essentiality RetirementSpendingEssentiality
+    /// Overrides the derived retirement monthly amount when the user disagrees
+    retirementMonthlyAmount Decimal? @db.Decimal(14, 2)
+    isUserEdited            Boolean  @default(false)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, categoryId])
+    @@index([userId])
+}
+
+// ─── Provider-Agnostic Financial Connections ────────────────────────────────
+
+model FinancialConnection {
+    id       String                @id @default(cuid())
+    userId   String
+    provider FinancialDataProvider
+
+    canonicalInstitutionId String?
+    providerInstitutionId  String?
+    providerConnectionId   String
+    providerCustomerId     String?
+
+    providerAccessTokenEncrypted  String? @db.Text
+    providerRefreshTokenEncrypted String? @db.Text
+    syncCursorEncrypted           String? @db.Text
+
+    status ConnectionStatus @default(ACTIVE)
+
+    lastSuccessfulSyncAt      DateTime?
+    lastTransactionSyncAt     DateTime?
+    lastBalanceSyncAt         DateTime?
+    lastRealtimeBalanceSyncAt DateTime?
+    lastHoldingsSyncAt        DateTime?
+    lastWebhookAt             DateTime?
+    lastErrorAt               DateTime?
+    lastErrorCode             String?
+    lastErrorMessage          String?
+    consecutiveFailures       Int       @default(0)
+
+    metadata Json?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    user                 User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+    canonicalInstitution CanonicalInstitution? @relation(fields: [canonicalInstitutionId], references: [id], onDelete: SetNull)
+    accounts             FinancialAccount[]
+    transactions         Transaction[]
+    syncAttempts         ProviderSyncAttempt[]
+    syncJobs             ProviderSyncJob[]
+
+    @@unique([provider, providerConnectionId])
+    @@index([userId])
+    @@index([provider])
+    @@index([canonicalInstitutionId])
+    @@index([status])
+}
+
+model AppleFinanceKitAccount {
+    id                String                       @id @default(cuid())
+    userId            String
+    externalAccountId String
+    displayName       String
+    institutionName   String                       @default("Apple Wallet")
+    accountType       String
+    accountSubtype    String?
+    currency          String                       @default("USD")
+    currentBalance    Float?
+    availableBalance  Float?
+    status            AppleFinanceKitAccountStatus @default(ACTIVE)
+    accountHidden     Boolean                      @default(false)
+    isActive          Boolean                      @default(true)
+    lastSyncedAt      DateTime?
+    createdAt         DateTime                     @default(now())
+    updatedAt         DateTime                     @updatedAt
+
+    user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+    transactions Transaction[]
+
+    @@unique([userId, externalAccountId])
+    @@index([userId])
+    @@index([userId, status])
+}
+
+model FinancialAccount {
+    id                     String                @id @default(cuid())
+    userId                 String
+    connectionId           String
+    provider               FinancialDataProvider
+    canonicalInstitutionId String?
+    providerAccountId      String
+
+    name             String
+    officialName     String?
+    mask             String?
+    type             String
+    subtype          String?
+    currentBalance   Float?
+    availableBalance Float?
+    currency         String  @default("USD")
+
+    accountFingerprint String?
+    rawProviderPayload Json?
+    isActive           Boolean   @default(true)
+    syncEnabled        Boolean   @default(true)
+    lastBalanceSyncAt  DateTime?
+    transactionsSyncedThrough DateTime?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    user                 User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+    connection           FinancialConnection   @relation(fields: [connectionId], references: [id], onDelete: Cascade)
+    canonicalInstitution CanonicalInstitution? @relation(fields: [canonicalInstitutionId], references: [id], onDelete: SetNull)
+    transactions         Transaction[]
+
+    @@unique([connectionId, providerAccountId])
+    @@index([userId])
+    @@index([connectionId])
+    @@index([provider])
+    @@index([canonicalInstitutionId])
+    @@index([providerAccountId])
+    @@index([accountFingerprint])
+}
+
+model ProviderWebhookEvent {
+    id       String                @id @default(cuid())
+    provider FinancialDataProvider
+
+    providerEventId      String?
+    providerConnectionId String?
+    eventType            String
+    eventCode            String?
+
+    status ProviderWebhookStatus @default(RECEIVED)
+
+    idempotencyKey    String?
+    headers           Json?
+    rawPayload        Json
+    normalizedPayload Json?
+
+    receivedAt   DateTime  @default(now())
+    processedAt  DateTime?
+    errorMessage String?
+
+    syncAttempts ProviderSyncAttempt[]
+    syncJobs     ProviderSyncJob[]
+
+    @@unique([provider, providerEventId])
+    @@unique([provider, idempotencyKey])
+    @@index([provider])
+    @@index([providerConnectionId])
+    @@index([eventType])
+    @@index([receivedAt])
+}
+
+model ProviderSyncAttempt {
+    id String @id @default(cuid())
+
+    connectionId   String
+    provider       FinancialDataProvider
+    trigger        SyncTrigger
+    webhookEventId String?
+
+    status      SyncStatus @default(PENDING)
+    startedAt   DateTime?
+    completedAt DateTime?
+
+    addedCount    Int @default(0)
+    modifiedCount Int @default(0)
+    removedCount  Int @default(0)
+    accountCount  Int @default(0)
+    holdingCount  Int @default(0)
+
+    providerRequestCount Int     @default(0)
+    errorCode            String?
+    errorMessage         String?
+    metadata             Json?
+
+    userId                String?
+    syncType              String?
+    syncMode              String?
+    reason                String?
+    endpointsCalled       Json?
+    estimatedCostCategory String?
+
+    createdAt DateTime @default(now())
+
+    connection   FinancialConnection   @relation(fields: [connectionId], references: [id], onDelete: Cascade)
+    webhookEvent ProviderWebhookEvent? @relation(fields: [webhookEventId], references: [id], onDelete: SetNull)
+
+    @@index([connectionId])
+    @@index([provider])
+    @@index([status])
+    @@index([createdAt])
+    @@index([webhookEventId])
+    @@index([userId, trigger, createdAt])
+}
+
+model ProviderSyncJob {
+    id             String                @id @default(cuid())
+    userId         String
+    connectionId   String
+    provider       FinancialDataProvider
+    webhookEventId String?
+    syncType       String
+    syncMode       String?
+    trigger        SyncTrigger
+    reason         String?
+    status         ProviderSyncJobStatus @default(PENDING)
+    attempts       Int                   @default(0)
+    maxAttempts    Int                   @default(3)
+    scheduledAt    DateTime              @default(now())
+    startedAt      DateTime?
+    completedAt    DateTime?
+    errorMessage   String?
+    metadata       Json?
+    createdAt      DateTime              @default(now())
+    updatedAt      DateTime              @updatedAt
+
+    connection   FinancialConnection   @relation(fields: [connectionId], references: [id], onDelete: Cascade)
+    webhookEvent ProviderWebhookEvent? @relation(fields: [webhookEventId], references: [id], onDelete: SetNull)
+
+    @@index([status, scheduledAt])
+    @@index([connectionId])
+    @@index([userId])
+    @@index([webhookEventId])
+}
+
+model CanonicalInstitution {
+    id String @id @default(cuid())
+
+    key         String              @unique
+    displayName String
+    legalName   String?
+    aliases     String[]            @default([])
+    domains     String[]            @default([])
+    logoUrl     String?
+    website     String?
+    category    InstitutionCategory @default(UNKNOWN)
+    countryCode String?
+
+    parentInstitutionId String?
+
+    isActive  Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    parentInstitution    CanonicalInstitution?           @relation("InstitutionHierarchy", fields: [parentInstitutionId], references: [id], onDelete: SetNull)
+    childInstitutions    CanonicalInstitution[]          @relation("InstitutionHierarchy")
+    providerMappings     InstitutionProviderMapping[]
+    providerPreferences  InstitutionProviderPreference[]
+    financialConnections FinancialConnection[]
+    financialAccounts    FinancialAccount[]
+
+    @@index([displayName])
+    @@index([category])
+    @@index([parentInstitutionId])
+}
+
+model InstitutionProviderMapping {
+    id String @id @default(cuid())
+
+    canonicalInstitutionId  String?
+    provider                FinancialDataProvider
+    providerInstitutionId   String
+    providerInstitutionName String
+    providerInstitutionUrl  String?
+    providerLogoUrl         String?
+
+    countryCodes      String[] @default([])
+    supportedProducts String[] @default([])
+    supportsOAuth     Boolean?
+    status            String?
+
+    matchConfidence InstitutionMatchConfidence @default(UNMATCHED)
+    matchMethod     String?
+    needsReview     Boolean                    @default(false)
+
+    raw Json
+
+    firstSeenAt  DateTime @default(now())
+    lastSeenAt   DateTime @default(now())
+    lastSyncedAt DateTime @default(now())
+    isActive     Boolean  @default(true)
+
+    canonicalInstitution CanonicalInstitution? @relation(fields: [canonicalInstitutionId], references: [id], onDelete: SetNull)
+
+    @@unique([provider, providerInstitutionId])
+    @@index([canonicalInstitutionId])
+    @@index([provider])
+    @@index([providerInstitutionName])
+    @@index([needsReview])
+}
+
+model InstitutionProviderPreference {
+    id String @id @default(cuid())
+
+    canonicalInstitutionId String
+    productSet             String
+
+    primaryProvider   FinancialDataProvider
+    fallbackProviders FinancialDataProvider[] @default([])
+
+    confidence       InstitutionMatchConfidence
+    reason           String?
+    isManualOverride Boolean                    @default(false)
+    isActive         Boolean                    @default(true)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    canonicalInstitution CanonicalInstitution @relation(fields: [canonicalInstitutionId], references: [id], onDelete: Cascade)
+
+    @@unique([canonicalInstitutionId, productSet])
+    @@index([canonicalInstitutionId])
+    @@index([primaryProvider])
+}
+
+// ─── Plaid Integration ────────────────────────────────────────────────────────
+
+model PlaidItem {
+    id                        String    @id @default(cuid())
+    userId                    String
+    plaidItemId               String    @unique
+    institutionId             String?
+    institutionName           String
+    accessTokenEncrypted      String?   @db.Text
+    accessRevokedAt           DateTime?
+    cursor                    String?   @db.Text
+    requiresReconnect         Boolean   @default(false)
+    billedProducts            String[]  @default([])
+    availableProducts         String[]  @default([])
+    consentedProducts         String[]  @default([])
+    lastErrorCode             String?
+    lastErrorMessage          String?
+    lastSyncAt                DateTime?
+    lastSuccessfulSyncAt      DateTime?
+    lastTransactionSyncAt     DateTime?
+    lastBalanceSyncAt         DateTime?
+    lastRealtimeBalanceSyncAt DateTime?
+    lastHoldingsSyncAt        DateTime?
+    lastProviderWebhookAt     DateTime?
+    sortOrder                 Int       @default(0)
+
+    user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+    plaidAccounts PlaidAccount[]
+    transactions  Transaction[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([userId])
+    @@index([requiresReconnect])
+    @@index([accessRevokedAt])
+}
+
+model PlaidAccount {
+    id                       String    @id @default(cuid())
+    userId                   String
+    plaidItemId              String
+    plaidAccountId           String    @unique
+    name                     String
+    officialName             String?
+    mask                     String?
+    type                     String
+    subtype                  String?
+    currentBalance           Float?
+    availableBalance         Float?
+    currency                 String    @default("USD")
+    monthlyContribution      Float     @default(0)
+    annualReturnRate         Float     @default(0.07)
+    notes                    String?
+    forecastInputsUserEdited Boolean   @default(false)
+    investmentHidden         Boolean   @default(false)
+    accountHidden            Boolean   @default(false)
+    isActive                 Boolean   @default(true)
+    syncEnabled              Boolean   @default(true)
+    lastBalanceSyncAt        DateTime?
+    transactionsSyncedThrough DateTime?
+
+    user                  User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    plaidItem             PlaidItem              @relation(fields: [plaidItemId], references: [id], onDelete: Cascade)
+    transactions          Transaction[]
+    realEstateInvestments RealEstateInvestment[]
+    holdings              PlaidHolding[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([userId])
+    @@index([plaidItemId])
+}
+
+/// Per-security positions from Plaid Investments (/investments/holdings/get).
+/// Security metadata is denormalized onto the row because Plaid returns it with
+/// every holdings response and it is only ever read for display.
+model PlaidHolding {
+    id             String    @id @default(cuid())
+    userId         String
+    plaidAccountId String
+    securityId     String
+    name           String?
+    tickerSymbol   String?
+    securityType   String?
+    quantity       Float
+    price          Float?
+    priceAsOf      DateTime?
+    value          Float
+    costBasis      Float?
+    currency       String    @default("USD")
+    syncedAt       DateTime
+
+    user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+    plaidAccount PlaidAccount @relation(fields: [plaidAccountId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@unique([plaidAccountId, securityId])
+    @@index([userId])
+    @@index([plaidAccountId])
+}
+
+// ─── Balance Snapshots ────────────────────────────────────────────────────────
+
+enum BalanceSnapshotSource {
+    PLAID
+    INVESTMENT
+    REAL_ESTATE
+}
+
+model BalanceSnapshot {
+    id       String                @id @default(cuid())
+    userId   String
+    date     DateTime
+    source   BalanceSnapshotSource
+    sourceId String
+    balance  Float
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, date, source, sourceId])
+    @@index([userId, date])
+    @@index([userId, source, sourceId])
+}
+
+// ─── Per-account balance history (charts) ─────────────────────────────────────
+
+enum AccountBalanceHistorySource {
+    PLAID
+    APPLE_FINANCEKIT
+    INVESTMENT
+}
+
+model AccountBalanceHistory {
+    id       String                       @id @default(cuid())
+    userId   String
+    date     DateTime
+    source   AccountBalanceHistorySource
+    sourceId String
+    balance  Float
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, date, source, sourceId])
+    @@index([userId, source, sourceId, date])
+}
+
+// ─── Retail Sync ─────────────────────────────────────────────────────────────
+
+model RetailConnection {
+    id           String    @id @default(cuid())
+    userId       String
+    retailer     String
+    status       String
+    lastSyncedAt DateTime?
+    createdAt    DateTime  @default(now())
+    updatedAt    DateTime  @updatedAt
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, retailer])
+    @@index([userId])
+}
+
+model RetailOrder {
+    id              String    @id @default(cuid())
+    userId          String
+    retailer        String
+    externalOrderId String
+    orderDate       DateTime?
+    orderUrl        String?
+    currency        String    @default("USD")
+    subtotal        Decimal?  @db.Decimal(14, 2)
+    tax             Decimal?  @db.Decimal(14, 2)
+    shipping        Decimal?  @db.Decimal(14, 2)
+    discount        Decimal?  @db.Decimal(14, 2)
+    total           Decimal?  @db.Decimal(14, 2)
+    sourceUrl       String?
+    scrapedAt       DateTime
+    parserVersion   String
+    pageHash        String?
+    createdAt       DateTime  @default(now())
+    updatedAt       DateTime  @updatedAt
+
+    user  User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+    items RetailOrderItem[]
+
+    @@unique([userId, retailer, externalOrderId])
+    @@index([userId, retailer])
+    @@index([userId, scrapedAt])
+}
+
+model RetailOrderItem {
+    id              String    @id @default(cuid())
+    retailOrderId   String
+    transactionId   String?
+    externalItemId  String?
+    title           String
+    quantity        Int?
+    unitPrice       Decimal?  @db.Decimal(14, 2)
+    totalPrice      Decimal?  @db.Decimal(14, 2)
+    productUrl      String?
+    imageUrl        String?
+    sku             String?
+    asin            String?
+    matchStatus     String    @default("unmatched")
+    matchConfidence Decimal?  @db.Decimal(5, 4)
+    matchedAt       DateTime?
+    matchReason     String?
+    createdAt       DateTime  @default(now())
+    updatedAt       DateTime  @updatedAt
+
+    retailOrder RetailOrder  @relation(fields: [retailOrderId], references: [id], onDelete: Cascade)
+    transaction Transaction? @relation(fields: [transactionId], references: [id], onDelete: SetNull)
+
+    @@index([retailOrderId])
+    @@index([transactionId])
+    @@index([matchStatus])
+}
+
+model ReferralRedemption {
+    id                  String   @id @default(cuid())
+    referrerUserId      String
+    referredUserId      String   @unique
+    qualifiedAt         DateTime @default(now())
+    bonusDaysToReferrer Int      @default(7)
+    bonusDaysToReferred Int      @default(7)
+    createdAt           DateTime @default(now())
+
+    referrer User @relation("ReferralRedemptionsSent", fields: [referrerUserId], references: [id], onDelete: Cascade)
+    referred User @relation("ReferralRedemptionReceived", fields: [referredUserId], references: [id], onDelete: Cascade)
+
+    @@index([referrerUserId])
+}
+
+model InviteCode {
+    id              String    @id @default(cuid())
+    code            String    @unique
+    description     String?
+    isActive        Boolean   @default(true)
+    maxRedemptions  Int?
+    redemptionCount Int       @default(0)
+    expiresAt       DateTime?
+    createdAt       DateTime  @default(now())
+    updatedAt       DateTime  @updatedAt
+
+    redemptions        InviteCodeRedemption[]
+    desktopRedemptions DesktopInviteCodeRedemption[]
+}
+
+model InviteCodeRedemption {
+    id           String   @id @default(cuid())
+    inviteCodeId String
+    userId       String   @unique
+    redeemedAt   DateTime @default(now())
+
+    inviteCode InviteCode @relation(fields: [inviteCodeId], references: [id], onDelete: Cascade)
+    user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([inviteCodeId])
+}
+
+model InviteCodeAttempt {
+    id        String   @id @default(cuid())
+    userId    String
+    wasValid  Boolean  @default(false)
+    createdAt DateTime @default(now())
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId, createdAt])
+}
+
+model DesktopInviteCodeRedemption {
+    id               String   @id @default(cuid())
+    inviteCodeId     String
+    desktopDeviceId  String   @unique
+    redeemedAt       DateTime @default(now())
+
+    inviteCode InviteCode @relation(fields: [inviteCodeId], references: [id], onDelete: Cascade)
+
+    @@index([inviteCodeId])
+}
+
+model DesktopInviteCodeAttempt {
+    id               String   @id @default(cuid())
+    desktopDeviceId  String
+    wasValid         Boolean  @default(false)
+    createdAt        DateTime @default(now())
+
+    @@index([desktopDeviceId, createdAt])
+}
+
+// ─── Dashboard Customization ──────────────────────────────────────────────────
+
+model DashboardWidget {
+    id         String  @id @default(cuid())
+    userId     String
+    widgetType String // e.g., "net-worth-chart", "spending-by-category"
+    order      Int // 0-based position in the grid
+    isVisible  Boolean @default(true)
+    config     Json? // Widget-specific configuration (timeframe, accounts, etc.)
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([userId, order])
+    @@index([userId, isVisible])
+}
+
+// ─── Agent Memory ─────────────────────────────────────────────────────────────
+
+model Memory {
+    id        String    @id @default(cuid())
+    userId    String
+    title     String
+    content   String    @db.Text
+    category  String? // preference, financial_goal, account_context, budgeting_rule, tax_context, insurance_context, household_context, business_context, other
+    source    String // manual, agent, mcp
+    metadata  Json?
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    deletedAt DateTime?
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([userId, category])
+    @@index([userId, deletedAt])
+}
+
+model ImportMappingTemplate {
+    id        String   @id @default(cuid())
+    userId    String
+    name      String
+    isDefault Boolean  @default(false)
+    accountId String?
+    mapping   Json
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+}
+
+// ─── Agent Models (Moat Finance AI) ────────────────────────────────────────────────────
+
+model AgentConversation {
+    id          String   @id @default(cuid())
+    userId      String
+    householdId String?
+    title       String?
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    user           User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+    messages       AgentMessage[]
+    runs           AgentRun[]
+    timelineBlocks AgentTimelineBlock[]
+    widgetActions  AgentWidgetAction[]
+
+    @@index([userId])
+    @@index([householdId])
+}
+
+model AgentMessage {
+    id             String           @id @default(cuid())
+    conversationId String
+    role           AgentMessageRole
+    content        String           @db.Text
+    metadata       Json?
+    createdAt      DateTime         @default(now())
+
+    conversation AgentConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+    @@index([conversationId])
+}
+
+model AgentRun {
+    id                    String         @id @default(cuid())
+    conversationId        String
+    userId                String
+    householdId           String?
+    clientRequestId       String?
+    status                AgentRunStatus
+    kind                  AgentRunKind   @default(chat)
+    model                 String?
+    provider              String?
+    providerResponseId    String?
+    promptVersion         String?
+    agentVersion          String?
+    toolRegistryVersion   String?
+    streamProtocolVersion String?
+    inputTokens           Int?
+    outputTokens          Int?
+    errorCode             String?
+    errorMessage          String?        @db.Text
+    createdAt             DateTime       @default(now())
+    startedAt             DateTime?
+    completedAt           DateTime?
+    cancelledAt           DateTime?
+
+    conversation   AgentConversation    @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+    steps          AgentRunStep[]
+    toolCalls      AgentToolCall[]
+    timelineBlocks AgentTimelineBlock[]
+    widgetActions  AgentWidgetAction[]
+
+    @@unique([userId, clientRequestId])
+    @@index([conversationId])
+    @@index([userId])
+    @@index([householdId])
+}
+
+model AgentRunStep {
+    id                 String             @id @default(cuid())
+    runId              String
+    stepIndex          Int
+    type               AgentRunStepType
+    status             AgentRunStepStatus
+    providerResponseId String?
+    input              Json?
+    output             Json?
+    errorCode          String?
+    errorMessage       String?            @db.Text
+    createdAt          DateTime           @default(now())
+    completedAt        DateTime?
+
+    run            AgentRun             @relation(fields: [runId], references: [id], onDelete: Cascade)
+    toolCalls      AgentToolCall[]
+    timelineBlocks AgentTimelineBlock[]
+    widgetActions  AgentWidgetAction[]
+
+    @@unique([runId, stepIndex])
+    @@index([runId])
+}
+
+model AgentToolCall {
+    id           String              @id @default(cuid())
+    runId        String
+    stepId       String?
+    toolCallId   String
+    toolName     String
+    input        Json?
+    output       Json?
+    status       AgentToolCallStatus
+    errorCode    String?
+    errorMessage String?             @db.Text
+    createdAt    DateTime            @default(now())
+    completedAt  DateTime?
+
+    run  AgentRun      @relation(fields: [runId], references: [id], onDelete: Cascade)
+    step AgentRunStep? @relation(fields: [stepId], references: [id], onDelete: SetNull)
+
+    @@unique([runId, toolCallId])
+    @@index([runId])
+    @@index([stepId])
+    @@index([toolName])
+}
+
+model AgentTimelineBlock {
+    id             String  @id @default(cuid())
+    conversationId String
+    runId          String?
+    stepId         String?
+
+    role String
+    type String
+
+    content String? @db.Text
+    data    Json?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    conversation AgentConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+    run          AgentRun?         @relation(fields: [runId], references: [id], onDelete: SetNull)
+    step         AgentRunStep?     @relation(fields: [stepId], references: [id], onDelete: SetNull)
+
+    @@index([conversationId])
+    @@index([runId])
+    @@index([stepId])
+}
+
+model AgentWidgetAction {
+    id String @id @default(cuid())
+
+    conversationId String
+    widgetId       String
+    runId          String?
+    stepId         String?
+
+    userId      String
+    householdId String?
+
+    actionType String
+    input      Json
+    output     Json?
+
+    status String
+
+    clientRequestId String?
+
+    createdAt   DateTime  @default(now())
+    completedAt DateTime?
+
+    conversation AgentConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+    run          AgentRun?         @relation(fields: [runId], references: [id], onDelete: SetNull)
+    step         AgentRunStep?     @relation(fields: [stepId], references: [id], onDelete: SetNull)
+
+    @@unique([widgetId, actionType, clientRequestId])
+    @@index([conversationId])
+    @@index([widgetId])
+    @@index([userId])
+    @@index([householdId])
+    @@index([runId])
+    @@index([stepId])
+}
+
+enum AgentMessageRole {
+    user
+    assistant
+    system
+    tool
+}
+
+enum AgentRunStatus {
+    queued
+    running
+    completed
+    failed
+    cancelled
+    waiting_for_user
+}
+
+enum AgentRunKind {
+    chat
+    widget_action
+}
+
+enum AgentRunStepType {
+    model_response
+    tool_execution
+    user_input_required
+}
+
+enum AgentRunStepStatus {
+    running
+    completed
+    failed
+    cancelled
+}
+
+enum AgentToolCallStatus {
+    running
+    completed
+    failed
+    skipped
+    cancelled
+}
+
+// ─── AI Reports ───────────────────────────────────────────────────────────────
+
+enum ReportVisibility {
+    PRIVATE
+    SHARE_LINK
+    PUBLIC
+}
+
+model AiReport {
+    id            String           @id @default(cuid())
+    userId        String
+    title         String
+    description   String?
+    // V1 legacy fields (kept for backward compatibility)
+    sanitizedHtml String           @db.Text
+    sanitizedCss  String           @db.Text
+    visibility    ReportVisibility @default(PRIVATE)
+    shareSlug     String?          @unique
+    // V2 Canvas fields
+    document      Json?
+    createdBy     String           @default("AGENT")
+    createdAt     DateTime         @default(now())
+    updatedAt     DateTime         @updatedAt
+    deletedAt     DateTime?
+
+    user     User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+    versions AiReportVersion[]
+    shares   AiReportShare[]
+
+    @@index([userId])
+    @@index([visibility])
+    @@index([shareSlug])
+    @@index([userId, deletedAt])
+}
+
+model AiReportShare {
+    id            String    @id @default(cuid())
+    reportId      String
+    userId        String
+    shareSlug     String    @unique
+    title         String
+    description   String?
+    document      Json?
+    // V1 legacy snapshot fields
+    sanitizedHtml String    @db.Text
+    sanitizedCss  String    @db.Text
+    isEnabled     Boolean   @default(true)
+    createdAt     DateTime  @default(now())
+    updatedAt     DateTime  @updatedAt
+    revokedAt     DateTime?
+
+    report AiReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+    user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([reportId])
+    @@index([userId])
+    @@index([shareSlug])
+}
+
+model AiReportVersion {
+    id            String   @id @default(cuid())
+    reportId      String
+    title         String
+    description   String?
+    // V1 legacy
+    sanitizedHtml String   @db.Text
+    sanitizedCss  String   @db.Text
+    // V2 Canvas
+    document      Json?
+    createdAt     DateTime @default(now())
+
+    report AiReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+    @@index([reportId])
+}
+
+// ─── Feedback ─────────────────────────────────────────────────────────────────
+
+model Feedback {
+    id          String         @id @default(cuid())
+    userId      String?
+    householdId String?
+    type        FeedbackType   @default(GENERAL)
+    source      FeedbackSource
+    status      FeedbackStatus @default(NEW)
+
+    message    String  @db.Text
+    route      String?
+    appVersion String?
+    platform   String?
+    userAgent  String? @db.Text
+    metadata   Json?
+
+    screenshotUrl      String?
+    screenshotPath     String?
+    screenshotMimeType String?
+
+    githubIssueNumber Int?
+    githubIssueUrl    String?
+    githubSyncStatus  GitHubSyncStatus?
+    githubSyncError   String?           @db.Text
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([userId])
+    @@index([householdId])
+    @@index([source])
+    @@index([status])
+    @@index([createdAt])
+}
+
+enum FeedbackType {
+    GENERAL
+    BUG
+    FEATURE_REQUEST
+    UX_FEEDBACK
+    MCP_TOOL_ISSUE
+    INCORRECT_RESULT
+    OTHER
+}
+
+enum FeedbackSource {
+    WEB_APP
+    DESKTOP_APP
+    MCP
+}
+
+enum FeedbackStatus {
+    NEW
+    REVIEWED
+    PLANNED
+    IN_PROGRESS
+    RESOLVED
+    CLOSED
+}
+
+enum GitHubSyncStatus {
+    NOT_SYNCED
+    SYNCED
+    FAILED
+}
+
+model WindowsWaitlist {
+    id        String   @id @default(uuid())
+    email     String   @unique
+    createdAt DateTime @default(now())
+    ipAddress String?
+    userAgent String?
+
+    @@index([email])
+}
+
+enum BetaAllowlistSource {
+    SEED
+    MANUAL
+}
+
+enum BetaAccessRequestStatus {
+    PENDING
+    REVIEWED
+}
+
+model BetaAllowlist {
+    id        String              @id @default(cuid())
+    email     String              @unique
+    source    BetaAllowlistSource @default(MANUAL)
+    createdAt DateTime            @default(now())
+
+    @@index([email])
+}
+
+model BetaAccessRequest {
+    id        String                  @id @default(cuid())
+    email     String                  @unique
+    reason    String                  @db.Text
+    userId    String?
+    status    BetaAccessRequestStatus @default(PENDING)
+    createdAt DateTime                @default(now())
+
+    user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+    @@index([email])
+    @@index([status])
+}
+
+model DesktopVaultRecoveryRegistration {
+    id               String   @id @default(cuid())
+    recoveryDeviceId String   @unique
+    emailHash        String
+    createdAt        DateTime @default(now())
+    updatedAt        DateTime @updatedAt
+
+    @@index([emailHash])
+}
+
+model DesktopVaultRecoveryCode {
+    id               String    @id @default(cuid())
+    recoveryDeviceId String
+    codeHash         String
+    expiresAt        DateTime
+    attemptCount     Int       @default(0)
+    consumedAt       DateTime?
+    createdAt        DateTime  @default(now())
+
+    @@index([recoveryDeviceId, expiresAt])
+}
+
+model DesktopVaultRecoveryToken {
+    id               String    @id @default(cuid())
+    recoveryDeviceId String
+    tokenHash        String    @unique
+    expiresAt        DateTime
+    consumedAt       DateTime?
+    createdAt        DateTime  @default(now())
+
+    @@index([recoveryDeviceId, expiresAt])
+}
+
+/// Short-lived PKCE pairing row for desktop → web Google sign-in.
+/// Tokens are never stored here; claim mints AuthSession tokens once.
+model DesktopAuthPair {
+    id            String    @id @default(cuid())
+    pairId        String    @unique
+    codeChallenge String
+    userId        String?
+    deviceInfo    String?   @db.Text
+    expiresAt     DateTime
+    claimedAt     DateTime?
+    createdAt     DateTime  @default(now())
+    updatedAt     DateTime  @updatedAt
+
+    user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([expiresAt])
+    @@index([userId])
+}
+
+// ─── Community Prompt Library ─────────────────────────────────────────────────
+
+enum PromptVisibility {
+    PRIVATE
+    PUBLIC
+}
+
+enum PromptReviewStatus {
+    NOT_SUBMITTED
+    PENDING
+    CHANGES_REQUESTED
+    APPROVED
+    REJECTED
+}
+
+enum PromptModerationAction {
+    SUBMITTED
+    WITHDRAWN
+    APPROVED
+    CHANGES_REQUESTED
+    REJECTED
+    UNPUBLISHED
+}
+
+enum PromptLibrarySource {
+    CURATED
+    MINE
+    COMMUNITY
+}
+
+model PromptCategory {
+    id        String   @id @default(cuid())
+    slug      String   @unique
+    label     String
+    sortOrder Int      @default(0)
+    isActive  Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    prompts   UserPrompt[]
+    revisions PromptRevision[]
+}
+
+model UserPrompt {
+    id                      String             @id @default(cuid())
+    creatorId               String
+    title                   String
+    description             String?
+    body                    String             @db.Text
+    categoryId              String?
+    tags                    String[]
+    visibility              PromptVisibility   @default(PRIVATE)
+    reviewStatus            PromptReviewStatus @default(NOT_SUBMITTED)
+    moderationFeedback      String?            @db.Text
+    rejectionReason         String?            @db.Text
+    submittedAt             DateTime?
+    reviewedAt              DateTime?
+    reviewedById            String?
+    publishedAt             DateTime?
+    requiredConnections     String[]           @default([])
+    requiredDataScopes      String[]           @default([])
+    sourcePromptId          String?
+    sourceRevisionId        String?
+    sourceCommunityPromptId String?
+    publishedRevisionId     String?            @unique
+    deletedAt               DateTime?
+    createdAt               DateTime           @default(now())
+    updatedAt               DateTime           @updatedAt
+
+    creator           User                   @relation("PromptCreator", fields: [creatorId], references: [id], onDelete: Cascade)
+    reviewer          User?                  @relation("PromptReviewer", fields: [reviewedById], references: [id])
+    category          PromptCategory?        @relation(fields: [categoryId], references: [id])
+    publishedRevision PromptRevision?        @relation("PublishedRevision", fields: [publishedRevisionId], references: [id])
+    revisions         PromptRevision[]       @relation("PromptRevisions")
+    moderationHistory PromptModerationEvent[]
+
+    @@index([creatorId])
+    @@index([visibility, reviewStatus])
+    @@index([categoryId])
+    @@index([submittedAt])
+    @@index([publishedAt])
+    @@index([creatorId, deletedAt])
+}
+
+model PromptRevision {
+    id                  String             @id @default(cuid())
+    promptId            String
+    version             Int
+    title               String
+    description         String?
+    body                String             @db.Text
+    categoryId          String?
+    tags                String[]
+    reviewStatus        PromptReviewStatus @default(NOT_SUBMITTED)
+    moderationFeedback  String?            @db.Text
+    rejectionReason     String?            @db.Text
+    submittedAt         DateTime?
+    reviewedAt          DateTime?
+    reviewedById        String?
+    requiredConnections String[]           @default([])
+    requiredDataScopes  String[]           @default([])
+    createdAt           DateTime           @default(now())
+    updatedAt           DateTime           @updatedAt
+
+    prompt       UserPrompt      @relation("PromptRevisions", fields: [promptId], references: [id], onDelete: Cascade)
+    category     PromptCategory? @relation(fields: [categoryId], references: [id])
+    publishedFor UserPrompt?     @relation("PublishedRevision")
+    reviewer     User?           @relation("PromptRevisionReviewer", fields: [reviewedById], references: [id])
+
+    @@unique([promptId, version])
+    @@index([promptId, reviewStatus])
+    @@index([submittedAt])
+}
+
+model PromptModerationEvent {
+    id         String                 @id @default(cuid())
+    promptId   String
+    revisionId String?
+    actorId    String
+    action     PromptModerationAction
+    feedback   String?                @db.Text
+    reason     String?                @db.Text
+    metadata   Json?
+    createdAt  DateTime               @default(now())
+
+    prompt UserPrompt @relation(fields: [promptId], references: [id], onDelete: Cascade)
+
+    @@index([promptId, createdAt])
+    @@index([action])
+}
+
+model PromptPin {
+    id       String              @id @default(cuid())
+    userId   String
+    source   PromptLibrarySource
+    promptId String
+    pinnedAt DateTime            @default(now())
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, source, promptId])
+    @@index([userId, source, pinnedAt])
+}
+
+model PromptLaunchStat {
+    id          String              @id @default(cuid())
+    source      PromptLibrarySource
+    promptId    String
+    launchCount Int                 @default(0)
+
+    @@unique([source, promptId])
+    @@index([source, launchCount])
+}
+
+model PromptLaunchDaily {
+    id         String              @id @default(cuid())
+    userId     String
+    source     PromptLibrarySource
+    promptId   String
+    launchDate DateTime            @db.Date
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, source, promptId, launchDate])
+    @@index([userId, source, launchDate])
+}
+
+// ─── Community Tips ───────────────────────────────────────────────────────────
+
+enum CommunityTipAttribution {
+    PUBLIC
+    ANONYMOUS
+}
+
+enum CommunityTipStatus {
+    LLM_REVIEW
+    PENDING_ADMIN_REVIEW
+    CHANGES_REQUIRED
+    APPROVED
+    REJECTED
+    ARCHIVED
+    EXPIRED
+}
+
+model CommunityTip {
+    id                   String                   @id @default(cuid())
+    authorUserId         String
+    title                String
+    body                 String                   @db.Text
+    attribution          CommunityTipAttribution  @default(PUBLIC)
+    status               CommunityTipStatus       @default(LLM_REVIEW)
+    moderationReason     String?                  @db.Text
+    moderationMetadata   Json?
+    llmReview            Json?
+    llmReviewStartedAt   DateTime?
+    llmReviewCompletedAt DateTime?
+    reviewedById         String?
+    reviewedAt           DateTime?
+    publishedAt          DateTime?
+    expiresAt            DateTime?
+    keywords             String[]                 @default([])
+    normalizedKeywords   String[]                 @default([])
+    merchantNames        String[]                 @default([])
+    normalizedMerchantNames String[]              @default([])
+    transactionCategories String[]                @default([])
+    tags                 String[]                 @default([])
+    tipType              String?
+    potentialBenefit     String?
+    estimatedSavingsPercent Decimal?              @db.Decimal(5, 2)
+    estimatedSavingsAmount  Decimal?              @db.Decimal(14, 2)
+    countryCodes         String[]                 @default([])
+    requirements         String[]                 @default([])
+    externalUrl          String?
+    personallyTested     Boolean                  @default(false)
+    likeCount            Int                      @default(0)
+    submissionFingerprint String?
+    deletedAt            DateTime?
+    createdAt            DateTime                 @default(now())
+    updatedAt            DateTime                 @updatedAt
+
+    author    User               @relation("CommunityTipAuthor", fields: [authorUserId], references: [id], onDelete: Cascade)
+    reviewer  User?              @relation("CommunityTipReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+    likes     CommunityTipLike[]
+
+    @@index([status, publishedAt])
+    @@index([authorUserId, createdAt])
+    @@index([status, createdAt])
+    @@index([expiresAt])
+    @@index([submissionFingerprint])
+    @@index([authorUserId, submissionFingerprint])
+}
+
+model CommunityTipLike {
+    id        String   @id @default(cuid())
+    tipId     String
+    userId    String
+    createdAt DateTime @default(now())
+
+    tip  CommunityTip @relation(fields: [tipId], references: [id], onDelete: Cascade)
+    user User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([tipId, userId])
+    @@index([userId, createdAt])
+}
+
+// ─── Notifications / Financial Monitoring ────────────────────────────────────
+
+enum NotificationSignalType {
+    TRANSACTION_APPEARED
+    EXPECTED_TRANSACTION_MISSING
+    BUDGET_THRESHOLD
+    BALANCE_THRESHOLD
+    LARGE_TRANSACTION
+    RECURRING_AMOUNT_CHANGED
+    UPCOMING_RECURRING_BILL
+    ACCOUNT_SYNC_STALE
+    SCHEDULED_SUMMARY
+}
+
+enum NotificationChannel {
+    EMAIL
+    PUSH
+    IN_APP
+}
+
+enum NotificationUrgency {
+    CRITICAL
+    IMPORTANT
+    INFORMATIONAL
+}
+
+enum PushPrivacyLevel {
+    HIDE_DETAILS
+    GENERAL_DETAILS
+    SHOW_AMOUNTS
+}
+
+enum NotificationDeliveryResult {
+    SENT
+    FAILED
+    SUPPRESSED
+    DEDUPED
+    SHADOW
+}
+
+enum NotificationResolutionStatus {
+    UNRESOLVED
+    RESOLVED
+    SNOOZED
+    MUTED
+}
+
+model NotificationRule {
+    id                   String                 @id @default(cuid())
+    userId               String
+    name                 String
+    plainLanguageSummary String?
+    signalType           NotificationSignalType
+    trigger              Json
+    conditions           Json
+    schedule             Json
+    watchQuery           Json?
+    channels             NotificationChannel[]
+    urgency              NotificationUrgency    @default(IMPORTANT)
+    isActive             Boolean                @default(true)
+    isPaused             Boolean                @default(false)
+    templateId           String?
+    source               String                 @default("manual")
+    sourceAttribution    String?
+    lastEvaluatedAt      DateTime?
+    lastFiredAt          DateTime?
+    lastFiredStateHash   String?
+    fireCount            Int                    @default(0)
+    createdAt            DateTime               @default(now())
+    updatedAt            DateTime               @updatedAt
+
+    user       User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    deliveries NotificationDelivery[]
+
+    @@index([userId, isActive, isPaused])
+    @@index([signalType, isActive])
+}
+
+model NotificationPreference {
+    id                                String                @id @default(cuid())
+    userId                            String                @unique
+    timezone                          String                @default("America/New_York")
+    pushPrivacyLevel                  PushPrivacyLevel      @default(HIDE_DETAILS)
+    quietHoursEnabled                 Boolean               @default(false)
+    quietHoursStartMinute             Int                   @default(1320)
+    quietHoursEndMinute               Int                   @default(480)
+    maxPushPerDay                     Int                   @default(10)
+    weeklySummaryEnabled              Boolean               @default(true)
+    weeklySummaryDayOfWeek            Int                   @default(1)
+    weeklySummaryMinuteOfDay          Int                   @default(480)
+    weeklySummaryChannels             NotificationChannel[] @default([EMAIL, IN_APP])
+    weeklySummaryReportingPeriod      String                @default("previous_calendar_week")
+    weeklySummaryIncludeAiObservations Boolean              @default(true)
+    weeklySummaryAccountIds           String[]              @default([])
+    weeklySummarySections             String[]              @default([])
+    emailEnabled                      Boolean               @default(true)
+    pushEnabled                       Boolean               @default(true)
+    inAppEnabled                      Boolean               @default(true)
+    onboardingSummaryAcknowledgedAt   DateTime?
+    createdAt                         DateTime              @default(now())
+    updatedAt                         DateTime              @updatedAt
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model NotificationDelivery {
+    id               String                       @id @default(cuid())
+    userId           String
+    ruleId           String?
+    title            String
+    body             String
+    channels         NotificationChannel[]
+    deliveryResult   NotificationDeliveryResult
+    failureReason    String?
+    explanation      Json
+    linkedData       Json?
+    evaluationWindow String
+    dedupeKey        String                       @unique
+    stateHash        String?
+    readAt           DateTime?
+    resolvedAt       DateTime?
+    resolutionStatus NotificationResolutionStatus @default(UNRESOLVED)
+    snoozedUntil     DateTime?
+    isWeeklySummary  Boolean                      @default(false)
+    createdAt        DateTime                     @default(now())
+
+    user User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+    rule NotificationRule? @relation(fields: [ruleId], references: [id], onDelete: SetNull)
+
+    @@index([userId, createdAt])
+    @@index([userId, readAt])
+    @@index([ruleId, createdAt])
+}
+
+model DevicePushToken {
+    id               String    @id @default(cuid())
+    userId           String
+    token            String
+    platform         String    @default("ios")
+    appVersion       String?
+    lastRegisteredAt DateTime  @default(now())
+    revokedAt        DateTime?
+    createdAt        DateTime  @default(now())
+    updatedAt        DateTime  @updatedAt
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, token])
+    @@index([userId, revokedAt])
+}
+
+model NotificationSuggestion {
+    id            String    @id @default(cuid())
+    userId        String
+    suggestionKey String
+    title         String
+    description   String
+    templateId    String
+    prefill       Json
+    dismissedAt   DateTime?
+    createdAt     DateTime  @default(now())
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, suggestionKey])
+    @@index([userId, dismissedAt])
+}
+
+model ExpectedRecurringEvent {
+    id                     String    @id @default(cuid())
+    userId                 String
+    label                  String
+    matchCriteria          Json
+    cadence                String
+    expectedWindowStartDay Int?
+    expectedWindowEndDay   Int?
+    missingAfterDay        Int?
+    amount                 Float?
+    accountIds             String[]  @default([])
+    isActive               Boolean   @default(true)
+    lastMatchedAt          DateTime?
+    createdAt              DateTime  @default(now())
+    updatedAt              DateTime  @updatedAt
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId, isActive])
+}
+
+// ─── Taxes ───────────────────────────────────────────────────────────────────
+
+model TaxDocument {
+    id                   String   @id @default(cuid())
+    userId               String
+    taxYear              Int
+    documentCategory     String
+    formType             String?
+    issuer               String?
+    recipient            String?
+    source               String
+    originalFilename     String
+    mimeType             String
+    uploadedAt           DateTime @default(now())
+    processingState      String
+    parserProvider       String?
+    parserVersion        String?
+    extractionConfidence Float?
+    originalStorageKey   String
+    parsedStorageKey     String?
+    reviewStatus         String
+    userConfirmed        Boolean  @default(false)
+    metadata             Json?
+    createdAt            DateTime @default(now())
+    updatedAt            DateTime @updatedAt
+
+    user            User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+    facts           TaxFact[]
+    formExtractions TaxFormExtraction[]
+    llmExtractionJobs TaxLlmExtractionJob[]
+
+    @@index([userId, taxYear])
+    @@index([userId, processingState])
+}
+
+model TaxFact {
+    id                  String   @id @default(cuid())
+    userId              String
+    taxYear             Int
+    category            String
+    type                String
+    key                 String
+    value               Json
+    valueType           String
+    unit                String?
+    currency            String?
+    sourceType          String
+    sourceDocumentId    String?
+    sourceTransactionId String?
+    sourceAccountId     String?
+    sourceHoldingId     String?
+    sourceManualEntryId String?
+    sourceRealEstateId  String?
+    sourceForm          String?
+    sourceBox           String?
+    sourcePage          Int?
+    sourceText          String?
+    confidence          Float
+    extractionMethod    String
+    status              String
+    userConfirmed       Boolean  @default(false)
+    metadata            Json?
+    createdAt           DateTime @default(now())
+    updatedAt           DateTime @updatedAt
+
+    user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+    sourceDocument TaxDocument? @relation(fields: [sourceDocumentId], references: [id], onDelete: SetNull)
+
+    @@index([userId, taxYear])
+    @@index([userId, taxYear, key])
+    @@index([sourceDocumentId])
+}
+
+model TaxFormExtraction {
+    id            String   @id @default(cuid())
+    userId        String
+    documentId    String
+    formType      String
+    schemaVersion String
+    payload       Json
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime @updatedAt
+
+    user     User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+    document TaxDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+    @@index([userId, documentId])
+}
+
+model TaxFactConflict {
+    id              String   @id @default(cuid())
+    userId          String
+    taxYear         Int
+    factKey         String
+    factIds         String[]
+    preferredFactId String?
+    resolutionState String
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId, taxYear])
+    @@unique([userId, taxYear, factKey])
+}
+
+model TaxLlmExtractionJob {
+    id               String    @id @default(cuid())
+    userId           String
+    documentId       String
+    status           String
+    attemptCount     Int       @default(0)
+    maxAttempts      Int       @default(5)
+    documentType     String
+    schemaVersion    String
+    provider         String
+    model            String
+    modelRevision    String?
+    inferenceServer  String?
+    vllmVersion      String?
+    lastErrorCode    String?
+    lastErrorMessage String?
+    createdAt        DateTime  @default(now())
+    startedAt        DateTime?
+    completedAt      DateTime?
+    updatedAt        DateTime  @updatedAt
+
+    user     User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+    document TaxDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+    @@index([userId, status])
+    @@index([documentId, status])
+    @@index([status, createdAt])
+}
+
+model MileageTrip {
+    id                     String   @id @default(cuid())
+    userId                 String
+    startedAt              DateTime
+    endedAt                DateTime
+    distanceMeters         Float
+    trackedDurationSeconds Int
+    startLatitude          Float
+    startLongitude         Float
+    endLatitude            Float
+    endLongitude           Float
+    encodedPolylines       String[]
+    businessPurpose        String
+    createdAt              DateTime @default(now())
+    updatedAt              DateTime @updatedAt
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId, startedAt])
+}

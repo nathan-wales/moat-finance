@@ -1,0 +1,10 @@
+{
+	"files": [],
+	"references": [
+		{ "path": "apps/web/tsconfig.json" },
+		{ "path": "apps/api/tsconfig.json" },
+		{ "path": "apps/mcp/tsconfig.json" },
+		{ "path": "packages/shared/tsconfig.json" },
+		{ "path": "packages/mcp-contracts/tsconfig.json" }
+	]
+}
