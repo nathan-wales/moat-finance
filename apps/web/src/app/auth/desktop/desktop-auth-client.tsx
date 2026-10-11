@@ -1,9 +1,11 @@
 "use client";
 
 import { getCsrfToken } from "@moat/client-ts";
+import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { ConnectAccountConfirmCardSkeleton } from "~/components/auth/connect-account-confirm-card";
+import { Button } from "~/components/ui/button";
 import { toApiUrl } from "~/lib/api-url";
 import { DesktopAuthConfirmCard } from "./desktop-auth-confirm-card";
 import { DesktopAuthMessage } from "./desktop-auth-message";
@@ -19,6 +21,7 @@ type DesktopAuthCompleteResponse = {
 
 type DesktopAuthClientProps = {
 	pairId: string;
+	googleEnabled: boolean;
 };
 
 type ConfirmPhase = "idle" | "connecting" | "switching" | "bound";
@@ -37,7 +40,14 @@ function desktopCallbackUrl(pairId: string): string {
 	return `/auth/desktop?pair=${encodeURIComponent(pairId)}`;
 }
 
-export function DesktopAuthClient({ pairId }: DesktopAuthClientProps) {
+function desktopSignInHref(pairId: string): string {
+	return `/auth/signin?callbackUrl=${encodeURIComponent(desktopCallbackUrl(pairId))}`;
+}
+
+export function DesktopAuthClient({
+	pairId,
+	googleEnabled,
+}: DesktopAuthClientProps) {
 	const { data: session, status } = useSession();
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 	const [phase, setPhase] = useState<ConfirmPhase>("idle");
@@ -45,12 +55,13 @@ export function DesktopAuthClient({ pairId }: DesktopAuthClientProps) {
 	const hasStartedGoogle = useRef(false);
 
 	useEffect(() => {
+		if (!googleEnabled) return;
 		if (status !== "unauthenticated") return;
 		if (phase === "switching") return;
 		if (hasStartedGoogle.current) return;
 		hasStartedGoogle.current = true;
 		void signIn("google", { callbackUrl: desktopCallbackUrl(pairId) });
-	}, [pairId, phase, status]);
+	}, [googleEnabled, pairId, phase, status]);
 
 	async function handleConfirm() {
 		if (phase !== "idle") return;
@@ -77,7 +88,11 @@ export function DesktopAuthClient({ pairId }: DesktopAuthClientProps) {
 			});
 
 			if (response.status === 401) {
-				void signIn("google", { callbackUrl });
+				if (googleEnabled) {
+					void signIn("google", { callbackUrl });
+				} else {
+					window.location.assign(desktopSignInHref(pairId));
+				}
 				return;
 			}
 
@@ -106,6 +121,10 @@ export function DesktopAuthClient({ pairId }: DesktopAuthClientProps) {
 		setPhase("switching");
 		const callbackUrl = desktopCallbackUrl(pairId);
 		await signOut({ redirect: false });
+		if (!googleEnabled) {
+			window.location.assign(desktopSignInHref(pairId));
+			return;
+		}
 		await signIn("google", { callbackUrl }, { prompt: "select_account" });
 	}
 
@@ -124,6 +143,20 @@ export function DesktopAuthClient({ pairId }: DesktopAuthClientProps) {
 				email={connectedEmail}
 				message="You'll be signed in on desktop with this email and the subscription tied to it. You can return to the desktop app — it will finish signing in automatically."
 				title="Desktop connected - you can close this tab"
+			/>
+		);
+	}
+
+	if (status === "unauthenticated" && !googleEnabled) {
+		return (
+			<DesktopAuthMessage
+				action={
+					<Button asChild className="w-full">
+						<Link href={desktopSignInHref(pairId)}>Sign in with email</Link>
+					</Button>
+				}
+				message="Google sign-in isn't configured on this Moat instance. Sign in with your email and password to connect the desktop app."
+				title="Sign in to connect desktop"
 			/>
 		);
 	}

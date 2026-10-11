@@ -1,6 +1,7 @@
 import type { NextAuthConfig } from "next-auth";
 import Google from "next-auth/providers/google";
 import { resolveAuthCookieDomain } from "./cookie-domain";
+import { isGoogleAuthEnabled } from "./google-auth-enabled";
 import { repairPersistedSessionUser } from "./repair-session-user";
 
 // Startup check for AUTH_SECRET
@@ -11,7 +12,7 @@ if (typeof process !== "undefined" && !process.env.AUTH_SECRET) {
 // Edge-safe config for middleware only.
 // Used exclusively in middleware (Edge Runtime).
 export const edgeAuthConfig = {
-	providers: [Google],
+	providers: isGoogleAuthEnabled() ? [Google] : [],
 	session: { strategy: "jwt" },
 	cookies: {
 		sessionToken: {

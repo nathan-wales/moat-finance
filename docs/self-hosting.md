@@ -62,7 +62,7 @@ docker compose ps            # api, web, mcp should be "healthy"; migrate "Exite
 open http://localhost:3000   # create your account at /auth/register
 ```
 
-Sign-up uses email and password by default. Google sign-in is optional (see [Configuration](#configuration-reference)).
+Sign-up uses email and password by default. Google sign-in is optional (see [Enable Google sign-in](#enable-google-sign-in-optional)).
 
 **Back up `.env`, and especially `ENCRYPTION_KEY`.** Bank-connection tokens and 2FA secrets are encrypted with it. If you lose it, that data can't be recovered.
 
@@ -278,7 +278,7 @@ Uncomment a block in `.env` to turn that integration on. Leave unused variables 
 | Integration | Variables | Without it |
 |-------------|-----------|------------|
 | Plaid (bank sync, [your own keys](#bring-your-own-plaid-keys)) | `PLAID_CLIENT_ID`, `PLAID_SECRET`, `PLAID_ENV`, `PLAID_COUNTRY_CODES`, `PLAID_WEBHOOK`, `PLAID_REDIRECT_URI` | Use CSV import and manual accounts |
-| Google sign-in | `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`, `AUTH_GOOGLE_ID_IOS` | Email and password only |
+| Google sign-in ([setup](#enable-google-sign-in-optional)) | `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`, `AUTH_GOOGLE_ID_IOS` | Google button hidden; email and password only |
 | Resend (email) | `RESEND_API_KEY`, `EMAIL_FROM`, `FEEDBACK_RECIPIENT` | No invite, alert, or recovery emails |
 | OpenAI | `OPENAI_API_KEY` | No built-in AI features. Your own assistant can still connect over MCP. |
 | PostHog | `NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_POSTHOG_HOST`, `POSTHOG_API_KEY`, `POSTHOG_HOST` | No analytics, and feature flags fall back to their defaults (see below) |
@@ -287,6 +287,21 @@ Uncomment a block in `.env` to turn that integration on. Leave unused variables 
 | Logo.dev | `NEXT_PUBLIC_LOGO_DEV_PUBLISHABLE_KEY` | Generic institution icons |
 
 **`NEXT_PUBLIC_*` values and `PUBLIC_API_URL` / `PUBLIC_MCP_URL` are built into the web app's JavaScript.** After you change any of them, rebuild the web image with `docker compose build web && docker compose up -d web`. Every other variable only needs `docker compose up -d`, which recreates any container whose config changed.
+
+### Enable Google sign-in (optional)
+
+Google sign-in is off unless you configure it. Without `AUTH_GOOGLE_ID` and `AUTH_GOOGLE_SECRET`, the "Continue with Google" button is hidden and everyone signs in with email and password. The desktop app's pairing page then asks you to sign in with email instead of sending you to Google.
+
+To turn it on:
+
+1. In [Google Cloud Console](https://console.cloud.google.com/), go to **APIs & Services → Credentials → Create credentials → OAuth client ID** and choose **Web application**. (Configure the OAuth consent screen first if Google asks you to.)
+2. Under **Authorized redirect URIs**, add `<your web URL>/api/auth/callback/google`. For example:
+   - Docker: `http://localhost:3000/api/auth/callback/google`
+   - Vercel: `https://app.example.com/api/auth/callback/google`
+3. Set the client ID and secret:
+   - Web and API: `AUTH_GOOGLE_ID` and `AUTH_GOOGLE_SECRET`
+   - API only: `AUTH_GOOGLE_ID_IOS`. It is required once `AUTH_GOOGLE_ID` is set. If you don't use the iOS app, set it to the same value as `AUTH_GOOGLE_ID`.
+4. Restart: `docker compose up -d` on Docker, or redeploy the web and API projects on Vercel.
 
 ### Features that are off without PostHog
 

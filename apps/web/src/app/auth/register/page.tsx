@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { SignupsClosed } from "~/components/auth/signups-closed";
+import { isGoogleAuthEnabled } from "~/server/auth/google-auth-enabled";
 import { getSignupsEnabled } from "~/server/signup-status";
 import { RegisterForm } from "./register-form";
 
@@ -12,7 +13,7 @@ export default async function RegisterPage() {
 
 	return (
 		<Suspense>
-			<RegisterForm />
+			<RegisterForm googleEnabled={isGoogleAuthEnabled()} />
 		</Suspense>
 	);
 }

@@ -13,6 +13,7 @@ import { z } from "zod";
 import { logger } from "~/lib/logger";
 import { authorizeCredentials, resolveGoogleUser } from "./api-auth";
 import { resolveAuthCookieDomain } from "./cookie-domain";
+import { isGoogleAuthEnabled } from "./google-auth-enabled";
 import { logAuthJsError } from "./log-authjs-error";
 import { repairPersistedSessionUser } from "./repair-session-user";
 
@@ -78,7 +79,7 @@ async function resolveGoogleAccount(idToken: unknown) {
 
 export const authConfig = {
 	providers: [
-		Google,
+		...(isGoogleAuthEnabled() ? [Google] : []),
 		Credentials({
 			name: "credentials",
 			credentials: {

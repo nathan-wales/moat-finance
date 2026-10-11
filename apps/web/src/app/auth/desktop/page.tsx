@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { isGoogleAuthEnabled } from "~/server/auth/google-auth-enabled";
 import { DesktopAuthClient } from "./desktop-auth-client";
 import { DesktopAuthLayout } from "./desktop-auth-layout";
 
@@ -32,12 +33,14 @@ export default async function DesktopAuthPage({
 				<div className="w-full rounded-lg border bg-card p-6 text-card-foreground shadow-sm">
 					<h1 className="font-semibold text-xl">Desktop sign-in unavailable</h1>
 					<p className="mt-2 text-muted-foreground text-sm">
-						Open this flow from the Moat desktop app to continue with Google.
+						Open this flow from the Moat desktop app to continue.
 					</p>
 				</div>
 			</DesktopAuthLayout>
 		);
 	}
 
-	return <DesktopAuthClient pairId={pairId} />;
+	return (
+		<DesktopAuthClient googleEnabled={isGoogleAuthEnabled()} pairId={pairId} />
+	);
 }
