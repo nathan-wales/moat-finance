@@ -92,7 +92,7 @@ describe("audience landing pages", () => {
 		const sitemap = readFileSync(join(marketingRoot, "sitemap.xml"), "utf8");
 		assert.match(sitemap, /https:\/\/moatfinance\.ai\/</);
 		assert.match(sitemap, /https:\/\/moatfinance\.ai\/for\/ai-agents</);
-		assert.match(sitemap, /https:\/\/moatfinance\.ai\/for\/local</);
+		assert.doesNotMatch(sitemap, /for\/local/);
 		assert.doesNotMatch(sitemap, /for\/self-employed/);
 	});
 
@@ -101,12 +101,10 @@ describe("audience landing pages", () => {
 		assert.equal(tag(home, "h1"), "Free, self-hosted personal finance app");
 		assert.match(home, /The three questions everyone asks/);
 		assert.match(home, /id="quickstart"/);
-		assert.match(home, /id="deploy"/);
 		assert.doesNotMatch(home, /id="pricing"/);
 		assert.match(home, />AI Agents</);
 		assert.match(home, /href="index\.html"/);
 		assert.match(home, /href="for\/ai-agents\.html"/);
-		assert.match(home, /href="download\.html"/);
 	});
 
 	it("sends local visitors to download and the Windows waitlist", () => {
