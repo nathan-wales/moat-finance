@@ -145,6 +145,10 @@ export default defineConfig(({ mode }) => {
 						__dirname,
 						"../../packages/mcp-contracts/src/index.ts",
 					),
+					"@moat/contracts/feature-flags": path.resolve(
+						__dirname,
+						"../../packages/contracts/src/feature-flags.ts",
+					),
 					"@moat/contracts": path.resolve(
 						__dirname,
 						"../../packages/contracts/src/index.ts",
@@ -223,6 +227,10 @@ export default defineConfig(({ mode }) => {
 					"@moat/mcp-contracts": path.resolve(
 						__dirname,
 						"../../packages/mcp-contracts/src/index.ts",
+					),
+					"@moat/contracts/feature-flags": path.resolve(
+						__dirname,
+						"../../packages/contracts/src/feature-flags.ts",
 					),
 					"@moat/contracts": path.resolve(
 						__dirname,
@@ -311,6 +319,10 @@ export default defineConfig(({ mode }) => {
 					"@moat/features": path.resolve(
 						__dirname,
 						"../../packages/features/src/index.ts",
+					),
+					"@moat/contracts/feature-flags": path.resolve(
+						__dirname,
+						"../../packages/contracts/src/feature-flags.ts",
 					),
 					"@moat/contracts": path.resolve(
 						__dirname,
