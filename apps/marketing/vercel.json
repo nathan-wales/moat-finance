@@ -1,10 +1,6 @@
 {
   "rewrites": [
     {
-      "source": "/download",
-      "destination": "/download.html"
-    },
-    {
       "source": "/privacy",
       "destination": "/privacy.html"
     },
@@ -21,31 +17,63 @@
       "destination": "/terms.html"
     },
     {
-      "source": "/windows",
-      "destination": "/windows.html"
-    },
-    {
       "source": "/agents",
       "destination": "/agents.html"
     },
     {
       "source": "/for/ai-agents",
       "destination": "/for/ai-agents.html"
-    },
-    {
-      "source": "/for/local",
-      "destination": "/for/local.html"
     }
   ],
   "redirects": [
     {
-      "source": "/for/self-employed",
-      "destination": "/",
-      "permanent": true
+      "source": "/download",
+      "destination": "/#quickstart",
+      "permanent": false
     },
     {
       "source": "/download.html",
-      "destination": "/download",
+      "destination": "/#quickstart",
+      "permanent": false
+    },
+    {
+      "source": "/windows",
+      "destination": "/#quickstart",
+      "permanent": false
+    },
+    {
+      "source": "/windows.html",
+      "destination": "/#quickstart",
+      "permanent": false
+    },
+    {
+      "source": "/for/local",
+      "destination": "/#quickstart",
+      "permanent": false
+    },
+    {
+      "source": "/for/local.html",
+      "destination": "/#quickstart",
+      "permanent": false
+    },
+    {
+      "source": "/for-local.html",
+      "destination": "/#quickstart",
+      "permanent": false
+    },
+    {
+      "source": "/local",
+      "destination": "/#quickstart",
+      "permanent": false
+    },
+    {
+      "source": "/local/(.*)",
+      "destination": "/#quickstart",
+      "permanent": false
+    },
+    {
+      "source": "/for/self-employed",
+      "destination": "/",
       "permanent": true
     },
     {
@@ -69,11 +97,6 @@
       "permanent": true
     },
     {
-      "source": "/windows.html",
-      "destination": "/windows",
-      "permanent": true
-    },
-    {
       "source": "/index.html",
       "destination": "/",
       "permanent": true
@@ -86,11 +109,6 @@
     {
       "source": "/for/ai-agents.html",
       "destination": "/for/ai-agents",
-      "permanent": true
-    },
-    {
-      "source": "/for/local.html",
-      "destination": "/for/local",
       "permanent": true
     },
     {
@@ -111,11 +129,6 @@
     {
       "source": "/for-ai.html",
       "destination": "/for/ai-agents",
-      "permanent": true
-    },
-    {
-      "source": "/for-local.html",
-      "destination": "/for/local",
       "permanent": true
     },
     {

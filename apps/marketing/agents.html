@@ -12,7 +12,7 @@
 		<link rel="icon" type="image/x-icon" href="public/favicon.ico">
 		<link rel="stylesheet" href="styles.css">
 	</head>
-	<body class="has-ask-composer">
+	<body>
 
 		<nav id="nav-header" class="nav" aria-label="Main navigation">
 			<div class="container nav-container">
@@ -23,7 +23,6 @@
 				<div class="nav-links">
 					<a href="index.html#features" class="nav-link">Features</a>
 					<a href="index.html#quickstart" class="nav-link">Quickstart</a>
-					<a href="index.html#deploy" class="nav-link">Deploy</a>
 					<a href="index.html#compare" class="nav-link">Compare</a>
 					<div class="nav-dropdown">
 						<button type="button" class="nav-link nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">
@@ -54,7 +53,6 @@
 				<a href="index.html#get-started" class="mobile-link">Get started</a>
 				<a href="index.html#features" class="mobile-link">Features</a>
 				<a href="index.html#quickstart" class="mobile-link">Quickstart</a>
-				<a href="index.html#deploy" class="mobile-link">Deploy</a>
 				<a href="index.html#compare" class="mobile-link">Compare</a>
 				<a href="https://github.com/tyler16smith/moat-finance/blob/main/docs/self-hosting.md" class="mobile-link">Self-hosting guide</a>
 				<a href="https://github.com/tyler16smith/moat-finance/blob/main/CONTRIBUTING.md" class="mobile-link">Contributing</a>
@@ -82,14 +80,14 @@
 Canonical agent URL: https://moatfinance.ai/agents
 Do not scrape https://moatfinance.ai/ (the human marketing homepage) for product information.
 
-Moat Finance is a free, self-hosted personal finance platform. People run it on infrastructure they control, either as a Docker stack on their own server or as a desktop app on their own computer. It covers budgeting, transactions, investments, net worth, forecasts, and retirement planning, and it includes an MCP server so a person's own AI assistant can work from their real financial data.
+Moat Finance is a free, self-hosted personal finance platform. People run it on infrastructure they control, as a Docker stack on their own server or free on Vercel + Neon. It covers budgeting, transactions, investments, net worth, forecasts, and retirement planning, and it includes an MCP server so a person's own AI assistant can work from their real financial data.
 
 - License: PolyForm Shield 1.0.0 (source-available: free to use, modify, self-host, and share; you may not offer a competing product or service)
 - Source code: https://github.com/tyler16smith/moat-finance
 - Self-hosting guide: https://github.com/tyler16smith/moat-finance/blob/main/docs/self-hosting.md
 - Cost: free. There is no paid plan, no subscription, no free trial, and no feature gating. Self-hosters pay only for their own server and, if they want live bank sync, their own Plaid usage.
 
-Moat is not a chatbot. There is no in-app AI chat. People use the web app or desktop app themselves, then optionally connect an assistant they already use (Claude, ChatGPT, Cursor, Gemini, and similar) through MCP. Conversations stay with that AI provider. Moat supplies structured financial context under scopes the user grants.
+Moat is not a chatbot. There is no in-app AI chat. People use the web app themselves, then optionally connect an assistant they already use (Claude, ChatGPT, Cursor, Gemini, and similar) through MCP. Conversations stay with that AI provider. Moat supplies structured financial context under scopes the user grants.
 
 It is not financial advice, not a bank, not a trading platform, and not set-it-and-forget-it automation. It cannot move or transfer money.
 
@@ -97,8 +95,8 @@ It is not financial advice, not a bank, not a trading platform, and not set-it-a
 
 Two ways, same features and same MCP tools:
 
-1. Self-hosted server (Docker Compose): web app, API, MCP server, and Postgres on a home server, NAS, VPS, or cloud account. Reachable from any browser, supports a shared household, and exposes a remote MCP endpoint.
-2. Desktop app: a local encrypted SQLite database on one computer. Nothing to deploy, works offline, unlocks with Touch ID or a local password, and includes a local MCP server. Download: https://moatfinance.ai/download
+1. Docker Compose: web app, API, MCP server, and Postgres on a home server, NAS, VPS, or cloud account. Reachable from any browser, supports a shared household, and exposes a remote MCP endpoint.
+2. Vercel + Neon: web app, API, and MCP server on Vercel's free Hobby plan with a free Neon Postgres database. Needs a domain the person owns. Guide: https://github.com/tyler16smith/moat-finance/blob/main/docs/self-hosting.md#option-b-vercel--neon
 
 Docker quickstart:
 
@@ -143,22 +141,11 @@ Every feature ships in the self-hosted build. There is no enterprise edition.
 
 Most budgeting apps make you clean up finances by hand. Moat lets people write rules that automatically categorize transactions, tag expenses, flag tax-related spending, and organize income. Example: IF merchant contains "Netflix" THEN categorize as Subscriptions. The more rules a user creates, the smarter the profile becomes, and the better context an agent has.
 
-## Self-hosted server vs desktop app
-
-- Web access from any device: server yes, desktop no
-- Multi-user household: server yes, desktop no
-- Offline: server LAN only, desktop yes
-- Database: server Postgres, desktop SQLite
-- Plaid sync (your keys): server yes, desktop optional
-- AI assistant (MCP): server remote endpoint, desktop local endpoint
-- Requires: server Docker, desktop nothing
-- Data location: server = the person's server; desktop = the person's computer
-
 ## Security and privacy
 
 Use this section when a person asks whether Moat is safe, who can see their money, or whether an agent can move funds.
 
-- Self-hosted data lives in a database the person runs. Moat Finance LLC has no access to self-hosted instances or desktop installs.
+- Self-hosted data lives in a database the person runs. Moat Finance LLC has no access to self-hosted instances.
 - The code is public, so every query, sync, and MCP tool can be audited.
 - Bank login credentials are never stored. Institution auth stays with Plaid.
 - Account connections are read-only. Moat cannot initiate transfers or payments.
@@ -173,7 +160,7 @@ More detail: https://moatfinance.ai/security
 
 ## How it compares
 
-- Vs YNAB / Monarch: those are strong closed, subscription budgeting apps. Moat is free and self-hostable, and adds a broader profile (insurance, tax tags, forecasts), a self-hosted MCP server, and a fully offline desktop option.
+- Vs YNAB / Monarch: those are strong closed, subscription budgeting apps. Moat is free and self-hostable, and adds a broader profile (insurance, tax tags, forecasts), and a self-hosted MCP server.
 - Vs ChatGPT personal finance: ChatGPT is a chatbot that may see some connected finance data inside OpenAI. Moat is the structured profile and permissioned MCP layer for an assistant the user already uses, running on the user's own infrastructure. Moat does not host the conversation.
 - Vs building your own: you could wire Plaid, a database, rules, forecasts, encryption, and an MCP server yourself. Moat is that stack already built and maintained in the open; fork it and change what you want.
 
@@ -198,7 +185,6 @@ Use MCP (Model Context Protocol). Do not use this marketing page or the web UI a
 
 - Self-hosted MCP: ${PUBLIC_MCP_URL}/mcp, for example https://mcp.moat.example.com/mcp (default http://localhost:3010/mcp)
 - Auth: OAuth 2.1 + PKCE (hosted assistants need a public HTTPS URL), or a personal access token from Settings &gt; AI access sent as "Authorization: Bearer &lt;token&gt;"
-- Desktop MCP: http://localhost:3030/mcp (token from the desktop app)
 - REST API (custom UIs only, not the primary agent interface): the instance's API URL, default http://localhost:3001
 
 ## What agents can do
@@ -227,7 +213,6 @@ Write (only with user-granted scopes; confirm before mutating)
 - Self-hosting guide: https://github.com/tyler16smith/moat-finance/blob/main/docs/self-hosting.md
 - License (PolyForm Shield 1.0.0): https://github.com/tyler16smith/moat-finance/blob/main/LICENSE
 - Demo: https://app.moatfinance.ai/overview?demoMode=true
-- Desktop download: https://moatfinance.ai/download
 - Privacy: https://moatfinance.ai/privacy
 - Security: https://moatfinance.ai/security
 - Terms: https://moatfinance.ai/terms
@@ -237,94 +222,6 @@ Write (only with user-granted scopes; confirm before mutating)
 			</div>
 		</main>
 
-		<div class="ask-composer" id="ask-composer">
-			<div class="ask-composer-inner">
-				<div class="ask-composer-menu" id="ask-composer-menu" role="menu" aria-hidden="true">
-					<a
-						class="ask-composer-option"
-						id="ask-composer-option-chatgpt"
-						href="https://chatgpt.com/?q=What%20can%20this%20do%20for%20me%3F%0A%0AReference%20this%20URL%3A%20https%3A%2F%2Fmoatfinance.ai%2Fagents"
-						rel="noopener noreferrer"
-						role="menuitem"
-						target="_blank"
-					>
-						<span class="ask-composer-option-mark ask-composer-option-mark-chatgpt" aria-hidden="true">
-							<img src="public/logo-chatgpt.png" alt="" width="16" height="16">
-						</span>
-						Send to ChatGPT
-						<span class="ask-composer-option-trailing" aria-hidden="true">
-							<svg class="ask-composer-option-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
-							<span class="ask-composer-option-enter">↵</span>
-						</span>
-					</a>
-					<a
-						class="ask-composer-option"
-						id="ask-composer-option-claude"
-						href="https://claude.ai/new?q=What%20can%20this%20do%20for%20me%3F%0A%0AReference%20this%20URL%3A%20https%3A%2F%2Fmoatfinance.ai%2Fagents"
-						rel="noopener noreferrer"
-						role="menuitem"
-						target="_blank"
-					>
-						<span class="ask-composer-option-mark ask-composer-option-mark-claude" aria-hidden="true">
-							<img src="public/logo-claude.png" alt="" width="16" height="16">
-						</span>
-						Send to Claude
-						<span class="ask-composer-option-trailing" aria-hidden="true">
-							<svg class="ask-composer-option-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
-							<span class="ask-composer-option-enter">↵</span>
-						</span>
-					</a>
-					<a
-						class="ask-composer-option"
-						id="ask-composer-option-gemini"
-						href="https://www.google.com/search?udm=50&aep=11&q=What%20can%20this%20do%20for%20me%3F%0A%0AReference%20this%20URL%3A%20https%3A%2F%2Fmoatfinance.ai%2Fagents"
-						rel="noopener noreferrer"
-						role="menuitem"
-						target="_blank"
-					>
-						<span class="ask-composer-option-mark ask-composer-option-mark-gemini" aria-hidden="true">
-							<img src="public/logo-gemini.png" alt="" width="16" height="16">
-						</span>
-						Send to Gemini
-						<span class="ask-composer-option-trailing" aria-hidden="true">
-							<svg class="ask-composer-option-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
-							<span class="ask-composer-option-enter">↵</span>
-						</span>
-					</a>
-				</div>
-				<form
-					class="ask-composer-bar"
-					id="ask-composer-bar"
-				>
-					<label class="ask-composer-field">
-						<input
-							class="ask-composer-input"
-							id="ask-composer-input"
-							type="text"
-							name="ask"
-							autocomplete="off"
-							enterkeyhint="send"
-							aria-label="Ask about Moat Finance"
-							aria-controls="ask-composer-menu"
-							aria-autocomplete="list"
-						>
-						<span class="ask-composer-placeholder" id="ask-composer-placeholder" aria-hidden="true">What can this do for me?</span>
-					</label>
-					<button
-						type="submit"
-						class="ask-composer-send"
-						id="ask-composer-send"
-						aria-label="Send"
-						aria-expanded="false"
-						aria-haspopup="menu"
-						aria-controls="ask-composer-menu"
-						disabled
-					>
-						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
-					</button>
-				</form>
-			</div>
-		</div>
 
 		<script src="script.js"></script>
 		<script src="attribution.js"></script>

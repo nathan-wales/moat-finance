@@ -13,7 +13,7 @@
 		<link rel="alternate" href="https://moatfinance.ai/agents" title="For agents">
 		<link rel="stylesheet" href="styles.css">
 	</head>
-	<body class="has-ask-composer">
+	<body>
 
 		<!-- Navigation -->
 		<nav id="nav-header" class="nav" aria-label="Main navigation">
@@ -25,7 +25,6 @@
 				<div class="nav-links">
 					<a href="#features" class="nav-link">Features</a>
 					<a href="#quickstart" class="nav-link">Quickstart</a>
-					<a href="#deploy" class="nav-link">Deploy</a>
 					<a href="#compare" class="nav-link">Compare</a>
 					<div class="nav-dropdown">
 						<button type="button" class="nav-link nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">
@@ -56,7 +55,6 @@
 				<a href="#get-started" class="mobile-link">Get started</a>
 				<a href="#features" class="mobile-link">Features</a>
 				<a href="#quickstart" class="mobile-link">Quickstart</a>
-				<a href="#deploy" class="mobile-link">Deploy</a>
 				<a href="#compare" class="mobile-link">Compare</a>
 				<a href="https://github.com/tyler16smith/moat-finance/blob/main/docs/self-hosting.md" class="mobile-link">Self-hosting guide</a>
 				<a href="https://github.com/tyler16smith/moat-finance/blob/main/CONTRIBUTING.md" class="mobile-link">Contributing</a>
@@ -90,7 +88,7 @@
 						</div>
 						<a href="https://app.moatfinance.ai/overview?demoMode=true" class="btn btn-ghost btn-lg">Try the demo</a>
 					</div>
-					<p class="hero-trust">Public source code &middot; Docker or desktop &middot; Your own database &middot; Read-only bank connections &middot; No vendor lock-in</p>
+					<p class="hero-trust">Public source code &middot; Docker or Vercel &middot; Your own database &middot; Read-only bank connections &middot; No vendor lock-in</p>
 				</div>
 				<div class="hero-visual reveal reveal-delay-1">
 					<div class="hero-visual-shapes" aria-hidden="true">
@@ -227,11 +225,6 @@
 									</li>
 									<li>
 										<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-										<strong>Desktop app</strong>
-										<span>A local SQLite database on your computer. Unlock with Touch ID. Runs fully offline.</span>
-									</li>
-									<li>
-										<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
 										<strong>Read the code</strong>
 										<span>Every query, every sync, every MCP tool is in the repo. Audit it yourself.</span>
 									</li>
@@ -260,7 +253,6 @@
 										<p>Bring your own <strong>Plaid</strong> keys. You pay Plaid directly at their rates &mdash; no markup from us.</p>
 									</div>
 								</div>
-								<p class="first-things-quiet-link">Rather not run a server? <a href="download.html">The desktop app</a> needs no setup at all.</p>
 							</article>
 						</div>
 					</div>
@@ -274,7 +266,7 @@
 				<div class="section-header centered reveal">
 					<div class="eyebrow">GET STARTED</div>
 					<h2 class="section-title centered">Run it yourself.<br/>Free forever.</h2>
-					<p class="section-description centered">Your data stays on your hardware and it costs nothing. Pick a server you can reach from anywhere, or the desktop app with nothing to deploy.</p>
+					<p class="section-description centered">Your data stays on infrastructure you control and it costs nothing. Run it with Docker on a server you own, or free in the cloud on Vercel + Neon.</p>
 				</div>
 				<div class="privacy-modes-grid reveal reveal-delay-1">
 					<div class="privacy-mode-card get-started-card-recommended">
@@ -283,7 +275,7 @@
 							<h3 class="privacy-mode-title">Self-host</h3>
 							<p class="privacy-mode-tagline"><strong>Free forever</strong> &middot; bring your own keys</p>
 						</div>
-						<p class="privacy-mode-desc">Run Moat with Docker on your own server, or use the desktop app. Add manual accounts and CSV imports with no keys at all, or bring your own Plaid keys for live bank sync and pay Plaid directly.</p>
+						<p class="privacy-mode-desc">Run Moat with Docker on your own server, or free on Vercel + Neon. Add manual accounts and CSV imports with no keys at all, or bring your own Plaid keys for live bank sync and pay Plaid directly.</p>
 						<ul class="privacy-mode-list">
 							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Every feature, unlimited accounts</li>
 							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Your data never touches our servers</li>
@@ -292,7 +284,7 @@
 						</ul>
 						<div class="privacy-mode-footer">
 							<a href="#quickstart" class="btn btn-primary btn-full">Self-host for free</a>
-							<span class="btn-subtext">Docker quickstart below &middot; <a href="download.html">or download the desktop app</a></span>
+							<span class="btn-subtext">Docker and Vercel quickstart below</span>
 						</div>
 					</div>
 					<div class="privacy-mode-card">
@@ -506,78 +498,9 @@
 					</div>
 					<div class="data-layer-card">
 						<div class="data-layer-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/></svg></div>
-						<strong>REST API &amp; SDK</strong><span>OpenAPI spec, TypeScript client</span>
+						<strong>REST API</strong><span>OpenAPI spec included</span>
 					</div>
 				</div>
-			</div>
-		</section>
-
-		<!-- 6. DEPLOYMENT OPTIONS -->
-		<section id="deploy" class="section section-alt">
-			<div class="container">
-				<div class="section-header centered reveal">
-					<div class="eyebrow">DEPLOYMENT OPTIONS</div>
-					<h2 class="section-title centered">One codebase.<br/>Run it your way.</h2>
-					<p class="section-description centered">Run a server you can reach from anywhere, or keep everything on a single computer. Same features, same MCP tools.</p>
-				</div>
-				<div class="privacy-modes-grid reveal reveal-delay-1">
-					<div class="privacy-mode-card">
-						<div class="privacy-mode-header">
-							<div class="privacy-mode-badge badge-cloud">Server</div>
-							<h3 class="privacy-mode-title">Self-hosted server</h3>
-							<p class="privacy-mode-tagline">Your cloud, your rules</p>
-						</div>
-						<p class="privacy-mode-desc">Run Moat with Docker on a home server, NAS, or VPS, or for free on Vercel + Neon. Access it from any browser, share it with your household, and give your AI assistant a remote MCP endpoint.</p>
-						<ul class="privacy-mode-list">
-							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Docker, or Vercel + Neon (free)</li>
-							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Your own Postgres database</li>
-							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Web access from any device</li>
-							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Multi-user household access</li>
-							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Optional Plaid sync with your keys</li>
-							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Remote MCP for AI assistants</li>
-						</ul>
-						<div class="privacy-mode-footer">
-							<a href="#quickstart" class="btn btn-primary btn-full">See setup options</a>
-						</div>
-					</div>
-					<div class="privacy-mode-card privacy-mode-card-local">
-						<div class="privacy-mode-header">
-							<div class="privacy-mode-badge badge-local">Desktop</div>
-							<h3 class="privacy-mode-title">Local desktop app</h3>
-							<p class="privacy-mode-tagline">Nothing to deploy at all</p>
-						</div>
-						<p class="privacy-mode-desc">Prefer not to run a server? The desktop app keeps your entire financial life in a SQLite file on your computer. It runs fully offline, unlocks with Touch ID, and includes a local MCP server.</p>
-						<ul class="privacy-mode-list">
-							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Local SQLite database</li>
-							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Fully offline capable</li>
-							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>macOS and Windows builds</li>
-							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Build from source or download</li>
-							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Local MCP for AI assistants</li>
-							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>You control backups and exports</li>
-						</ul>
-						<div class="privacy-mode-footer">
-							<a href="download.html" class="btn btn-outline btn-full">Download desktop app</a>
-						</div>
-					</div>
-				</div>
-				<div class="privacy-compare reveal reveal-delay-2">
-					<table class="privacy-compare-table">
-						<thead>
-							<tr><th>Feature</th><th>Self-hosted server</th><th>Desktop app</th></tr>
-						</thead>
-						<tbody>
-							<tr><td>Web access from any device</td><td class="yes">Yes</td><td class="no">No</td></tr>
-							<tr><td>Multi-user household</td><td class="yes">Yes</td><td class="no">No</td></tr>
-							<tr><td>Offline mode</td><td class="partial">LAN only</td><td class="yes">Yes</td></tr>
-							<tr><td>Database</td><td>Postgres</td><td>SQLite</td></tr>
-							<tr><td>Plaid sync (your keys)</td><td class="yes">Yes</td><td class="partial">Optional</td></tr>
-							<tr><td>AI assistant (MCP)</td><td class="yes">Remote</td><td class="yes">Local</td></tr>
-							<tr><td>Requires</td><td>Docker, or Vercel + Neon + a domain</td><td>Nothing</td></tr>
-							<tr><td>Data location</td><td>Your server</td><td>Your computer</td></tr>
-						</tbody>
-					</table>
-				</div>
-				<p class="compare-footnote centered reveal">Don&rsquo;t want to run a server? The desktop app needs nothing at all. Want us to host it? A hosted version may be offered for $15/month &mdash; <a href="mailto:hello@moatfinance.ai?subject=Hosted%20Moat%20waitlist">join the waitlist</a>.</p>
 			</div>
 		</section>
 
@@ -675,7 +598,6 @@
 								<tr><td>Rules-based transaction system</td><td class="compare-moat-col"><span class="compare-yes">Yes</span></td><td><span class="compare-maybe">Partial</span></td><td><span class="compare-maybe">Category rules</span></td><td><span class="compare-maybe">Limited</span></td><td><span class="compare-maybe">If built</span></td></tr>
 								<tr><td>Insurance &amp; HSA context</td><td class="compare-moat-col"><span class="compare-yes">Yes</span></td><td><span class="compare-no">Not core</span></td><td><span class="compare-no">Not core</span></td><td><span class="compare-no">Not core</span></td><td><span class="compare-maybe">If built</span></td></tr>
 								<tr><td>Self-hosted MCP server</td><td class="compare-moat-col"><span class="compare-yes">Yes</span></td><td><span class="compare-no">No</span></td><td><span class="compare-no">No</span></td><td><span class="compare-no">No</span></td><td><span class="compare-maybe">If built</span></td></tr>
-								<tr><td>Fully offline desktop mode</td><td class="compare-moat-col"><span class="compare-yes">Yes</span></td><td><span class="compare-no">No</span></td><td><span class="compare-no">No</span></td><td><span class="compare-no">No</span></td><td><span class="compare-yes">Yes</span></td></tr>
 								<tr><td>Read-only account connections</td><td class="compare-moat-col"><span class="compare-yes">Yes</span></td><td><span class="compare-yes">Yes</span></td><td><span class="compare-yes">Yes</span></td><td><span class="compare-yes">Yes</span></td><td><span class="compare-maybe">Depends</span></td></tr>
 							</tbody>
 						</table>
@@ -708,7 +630,7 @@
 					<h2 class="section-title centered">Privacy you can verify</h2>
 					<p class="section-description centered">Closed apps ask you to trust them. Public source code lets you check.</p>
 				</div>
-				<div class="security-grid reveal reveal-delay-1">
+				<div class="security-grid security-grid-single reveal reveal-delay-1">
 					<div class="security-card">
 						<div class="security-card-header">
 							<div class="security-mode-badge badge-cloud">Server</div>
@@ -721,19 +643,6 @@
 							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Read-only bank connections via your Plaid keys</li>
 							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Scoped MCP tokens with a full audit log</li>
 							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Product analytics off unless you configure it</li>
-						</ul>
-					</div>
-					<div class="security-card security-card-local">
-						<div class="security-card-header">
-							<div class="security-mode-badge badge-local">Desktop</div>
-							<h3>Local desktop app</h3>
-						</div>
-						<ul class="security-list">
-							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Local SQLite database, data never leaves your computer</li>
-							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Fully offline capable, no cloud dependency</li>
-							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Touch ID or password unlock</li>
-							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Local-only MCP for AI assistants</li>
-							<li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>You control your backups and exports</li>
 						</ul>
 					</div>
 				</div>
@@ -810,9 +719,7 @@
 						<strong>Product</strong>
 						<a href="#features">Features</a>
 						<a href="#quickstart">Quickstart</a>
-						<a href="#deploy">Deploy</a>
 						<a href="#compare">Compare</a>
-						<a href="download.html">Download desktop</a>
 						<a href="for/ai-agents.html">AI Agents</a>
 					</div>
 					<div class="footer-col">
@@ -844,94 +751,6 @@
 		</footer>
 		</main>
 
-		<div class="ask-composer" id="ask-composer">
-			<div class="ask-composer-inner">
-				<div class="ask-composer-menu" id="ask-composer-menu" role="menu" aria-hidden="true">
-					<a
-						class="ask-composer-option"
-						id="ask-composer-option-chatgpt"
-						href="https://chatgpt.com/?q=What%20can%20this%20do%20for%20me%3F%0A%0AReference%20this%20URL%3A%20https%3A%2F%2Fmoatfinance.ai%2Fagents"
-						rel="noopener noreferrer"
-						role="menuitem"
-						target="_blank"
-					>
-						<span class="ask-composer-option-mark ask-composer-option-mark-chatgpt" aria-hidden="true">
-							<img src="public/logo-chatgpt.png" alt="" width="16" height="16">
-						</span>
-						Send to ChatGPT
-						<span class="ask-composer-option-trailing" aria-hidden="true">
-							<svg class="ask-composer-option-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
-							<span class="ask-composer-option-enter">↵</span>
-						</span>
-					</a>
-					<a
-						class="ask-composer-option"
-						id="ask-composer-option-claude"
-						href="https://claude.ai/new?q=What%20can%20this%20do%20for%20me%3F%0A%0AReference%20this%20URL%3A%20https%3A%2F%2Fmoatfinance.ai%2Fagents"
-						rel="noopener noreferrer"
-						role="menuitem"
-						target="_blank"
-					>
-						<span class="ask-composer-option-mark ask-composer-option-mark-claude" aria-hidden="true">
-							<img src="public/logo-claude.png" alt="" width="16" height="16">
-						</span>
-						Send to Claude
-						<span class="ask-composer-option-trailing" aria-hidden="true">
-							<svg class="ask-composer-option-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
-							<span class="ask-composer-option-enter">↵</span>
-						</span>
-					</a>
-					<a
-						class="ask-composer-option"
-						id="ask-composer-option-gemini"
-						href="https://www.google.com/search?udm=50&aep=11&q=What%20can%20this%20do%20for%20me%3F%0A%0AReference%20this%20URL%3A%20https%3A%2F%2Fmoatfinance.ai%2Fagents"
-						rel="noopener noreferrer"
-						role="menuitem"
-						target="_blank"
-					>
-						<span class="ask-composer-option-mark ask-composer-option-mark-gemini" aria-hidden="true">
-							<img src="public/logo-gemini.png" alt="" width="16" height="16">
-						</span>
-						Send to Gemini
-						<span class="ask-composer-option-trailing" aria-hidden="true">
-							<svg class="ask-composer-option-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
-							<span class="ask-composer-option-enter">↵</span>
-						</span>
-					</a>
-				</div>
-				<form
-					class="ask-composer-bar"
-					id="ask-composer-bar"
-				>
-					<label class="ask-composer-field">
-						<input
-							class="ask-composer-input"
-							id="ask-composer-input"
-							type="text"
-							name="ask"
-							autocomplete="off"
-							enterkeyhint="send"
-							aria-label="Ask about Moat Finance"
-							aria-controls="ask-composer-menu"
-							aria-autocomplete="list"
-						>
-						<span class="ask-composer-placeholder" id="ask-composer-placeholder" aria-hidden="true">What can this do for me?</span>
-					</label>
-					<button
-						type="submit"
-						class="ask-composer-send"
-						id="ask-composer-send"
-						aria-label="Send"
-						aria-expanded="false"
-						aria-haspopup="menu"
-						aria-controls="ask-composer-menu"
-						disabled
-					>
-						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
-					</button>
-				</form>
-			</div>
-		</div>
 
 		<script src="script.js"></script>
 		<script src="attribution.js"></script>

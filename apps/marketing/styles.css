@@ -2211,6 +2211,12 @@ button { cursor: pointer; font-family: inherit; }
 	gap: var(--space-6);
 }
 
+.security-grid-single {
+	grid-template-columns: 1fr;
+	max-width: 36rem;
+	margin: 0 auto;
+}
+
 .security-card {
 	background: var(--bg);
 	border: 1px solid var(--border);
