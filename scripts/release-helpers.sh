@@ -207,7 +207,7 @@ load_last_green_staging() {
 	local run_info
 	run_info="$(gh run list \
 		--workflow=deploy-staging.yml \
-		--branch=staging \
+		--branch=main \
 		--limit=50 \
 		--json conclusion,headSha,status,url)"
 
@@ -220,7 +220,7 @@ load_last_green_staging() {
 		const success = runs.find((run) => run.status === 'completed' && run.conclusion === 'success');
 		if (!success || !success.headSha) {
 			console.error('Error: no successful Deploy Staging run found');
-			console.error('    Sync main to staging and wait for the pipeline to pass.');
+			console.error('    Push to main and wait for the Deploy Staging pipeline to pass.');
 			process.exit(1);
 		}
 		const fields = {
@@ -258,7 +258,7 @@ try_load_last_green_staging() {
 	local run_info
 	if ! run_info="$(gh run list \
 		--workflow=deploy-staging.yml \
-		--branch=staging \
+		--branch=main \
 		--limit=50 \
 		--json conclusion,headSha,status,url 2>/dev/null)"; then
 		return 1

@@ -36,7 +36,6 @@ Read [AGENTS.md](AGENTS.md) first. The content below is preserved for tools that
 | Zip extension (localhost) | `pnpm --filter moat-finance-extension run zip:development` |
 | Dist desktop (mac) | `pnpm --filter moat-desktop run dist:mac` |
 | Dist desktop (win) | `pnpm --filter moat-desktop run dist:win` |
-| Sync main → staging (runs full CI, then deploys) | `pnpm sync:branches` |
 | Release cloud / desktop / iOS (last green staging SHA; bumps if tag exists) | `pnpm release:cloud` / `pnpm release:desktop` / `pnpm release:ios` |
 | Emergency prod from main | `pnpm release:emergency` (type `PUSH TO PRODUCTION`) |
 | Self-host stack (Docker) | `docker compose up -d --build` (see [docs/self-hosting.md](docs/self-hosting.md)) |

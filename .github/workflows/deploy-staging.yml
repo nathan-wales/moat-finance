@@ -2,7 +2,7 @@ name: Deploy Staging
 
 on:
   push:
-    branches: [staging]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -28,22 +28,22 @@ jobs:
     runs-on: ubuntu-latest
     environment: staging
     steps:
-      - name: Validate required secrets
+      - name: Validate required secrets and variables
         env:
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID_API: ${{ secrets.VERCEL_PROJECT_ID_API }}
-          VERCEL_PROJECT_ID_MCP: ${{ secrets.VERCEL_PROJECT_ID_MCP }}
-          VERCEL_PROJECT_ID_MARKETING: ${{ secrets.VERCEL_PROJECT_ID_MARKETING }}
-          VERCEL_PROJECT_ID_WEB: ${{ secrets.VERCEL_PROJECT_ID_WEB }}
+          VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID_API: ${{ vars.VERCEL_PROJECT_ID_API }}
+          VERCEL_PROJECT_ID_MCP: ${{ vars.VERCEL_PROJECT_ID_MCP }}
+          VERCEL_PROJECT_ID_MARKETING: ${{ vars.VERCEL_PROJECT_ID_MARKETING }}
+          VERCEL_PROJECT_ID_WEB: ${{ vars.VERCEL_PROJECT_ID_WEB }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
           missing=0
           for name in AUTH_SECRET DATABASE_URL DIRECT_URL VERCEL_ORG_ID VERCEL_PROJECT_ID_API VERCEL_PROJECT_ID_MCP VERCEL_PROJECT_ID_MARKETING VERCEL_PROJECT_ID_WEB VERCEL_TOKEN; do
             if [ -z "${!name}" ]; then
-              echo "Missing required secret: $name"
+              echo "Missing required secret or variable: $name"
               missing=1
             fi
           done
@@ -92,29 +92,29 @@ jobs:
 
       - name: Deploy API to Vercel preview
         env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_API }}
+          VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ vars.VERCEL_PROJECT_ID_API }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: bash scripts/vercel-deploy-app.sh apps/api preview "$VERCEL_PROJECT_ID"
 
       - name: Deploy MCP to Vercel preview
         env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_MCP }}
+          VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ vars.VERCEL_PROJECT_ID_MCP }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: bash scripts/vercel-deploy-app.sh apps/mcp preview "$VERCEL_PROJECT_ID"
 
       - name: Deploy web to Vercel preview
         env:
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_WEB }}
+          VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ vars.VERCEL_PROJECT_ID_WEB }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: bash scripts/vercel-deploy-app.sh apps/web preview "$VERCEL_PROJECT_ID"
 
       - name: Deploy marketing to Vercel preview
         env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_MARKETING }}
+          VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ vars.VERCEL_PROJECT_ID_MARKETING }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: bash scripts/vercel-deploy-app.sh apps/marketing preview "$VERCEL_PROJECT_ID"

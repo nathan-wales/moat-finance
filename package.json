@@ -23,7 +23,6 @@
 		"db:studio": "pnpm --filter moat-api run db:studio",
 		"db:push": "pnpm --filter moat-api run db:push",
 		"db:migrate": "pnpm --filter moat-api run db:migrate",
-		"sync:branches": "./scripts/sync-branches.sh",
 		"release:cloud": "./scripts/release-cloud.sh",
 		"release:desktop": "./scripts/release-desktop.sh",
 		"release:ios": "./scripts/release-ios.sh",

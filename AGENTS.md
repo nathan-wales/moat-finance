@@ -111,7 +111,6 @@ Shared interactive UI comes from `@moat/ui` (Button, Select, Dialog, Input, Chec
 | Zip extension (localhost) | `pnpm --filter moat-finance-extension run zip:development` |
 | Dist desktop (mac) | `pnpm --filter moat-desktop run dist:mac` |
 | Dist desktop (win) | `pnpm --filter moat-desktop run dist:win` |
-| Sync main → staging (runs CI + Plaid goldens, then deploys staging) | `pnpm sync:branches` |
 | Release cloud / desktop (last green staging SHA; bumps if tag exists) | `pnpm release:cloud` / `pnpm release:desktop` |
 | Release iOS (bumps version, tags `ios-v*` → TestFlight) | `pnpm release:ios` |
 | Emergency prod from main | `pnpm release:emergency` (type `PUSH TO PRODUCTION`) |
@@ -129,7 +128,7 @@ The maintainer's hosted instance (app.moatfinance.ai) deploys from this repo. Th
 | Workflow | Trigger | What it does |
 |----------|---------|--------------|
 | `ci.yml` | push / PR to `main`, `workflow_call` | Lint, typecheck, API contract tests (no secrets) |
-| `deploy-staging.yml` | push to `staging` (via `pnpm sync:branches`) | `ci.yml` + Plaid golden e2e (web + desktop), then migrate + deploy api, mcp, web, marketing to Vercel preview |
+| `deploy-staging.yml` | push to `main` | `ci.yml` + Plaid golden e2e (web + desktop), then migrate + deploy api, mcp, web, marketing to Vercel preview |
 | `deploy-production.yml` | tag `cloud-v*` (via `pnpm release:cloud`) | `ci.yml`, build, migrate, deploy api, mcp, web, marketing to Vercel production |
 | `desktop-release.yml` | tag `desktop-v*` (via `pnpm release:desktop`) | Signed mac + linux builds → GitHub Release + R2 downloads |
 | `ios-release.yml` | tag `ios-v*` (via `pnpm release:ios`) | Build + upload to TestFlight |
