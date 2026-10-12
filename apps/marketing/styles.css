@@ -3835,6 +3835,26 @@ button { cursor: pointer; font-family: inherit; }
 	vertical-align: -3px;
 }
 
+@media (max-width: 768px) {
+	.nav-github-label {
+		display: none;
+	}
+
+	.nav-actions .nav-github svg {
+		margin-right: 0;
+	}
+
+	.nav-container { gap: var(--space-2); }
+	.nav-actions { margin-left: auto; gap: var(--space-1); }
+	.nav-actions .nav-github { padding-inline: var(--space-2); }
+	.nav-actions .btn-primary { padding-inline: var(--space-3); }
+	.mobile-menu-btn { margin-left: 0; }
+}
+
+@media (max-width: 400px) {
+	.nav-actions .btn-primary { display: none; }
+}
+
 @media (max-width: 900px) {
 	.quickstart-layout,
 	.quickstart-extras-list {
