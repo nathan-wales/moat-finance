@@ -20,12 +20,10 @@ import {
 	BarChart3,
 	Bell,
 	Calculator,
-	Car,
 	Castle,
 	ChevronUp,
 	FlaskConical,
 	IdCard,
-	Lightbulb,
 	LineChart,
 	List,
 	LogOut,
@@ -103,7 +101,6 @@ const budgetItems = [
 	{ href: "/transactions", label: "Transactions", icon: List },
 	{ href: "/categories", label: "Categories", icon: Tag },
 	{ href: "/what-if", label: "What If", icon: Calculator },
-	{ href: "/community-tips", label: "Community Tips", icon: Lightbulb },
 ];
 
 const wealthItems = [
@@ -114,11 +111,6 @@ const wealthItems = [
 		label: "Taxes",
 		icon: Receipt,
 		featureFlag: TAXES_FEATURE_FLAG,
-	},
-	{
-		href: "/mileage",
-		label: "Mileage",
-		icon: Car,
 	},
 	{ href: "/scenarios", label: "Scenarios", icon: LineChart },
 ];

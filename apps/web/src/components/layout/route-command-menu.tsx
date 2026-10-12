@@ -22,7 +22,6 @@ import {
 	Bell,
 	Brain,
 	Calculator,
-	Car,
 	Download,
 	FlaskConical,
 	Home,
@@ -275,14 +274,6 @@ const WEB_ROUTES: WebRoute[] = [
 		keywords: ["forecast", "projection"],
 	},
 	{
-		id: "community-tips",
-		label: "Community Tips",
-		href: "/community-tips",
-		icon: Lightbulb,
-		group: "Budget",
-		keywords: ["tips", "community", "recommendations"],
-	},
-	{
 		id: "investments",
 		label: "Investments",
 		href: "/investments",
@@ -291,14 +282,6 @@ const WEB_ROUTES: WebRoute[] = [
 	},
 	retirementPlannerRoute,
 	taxesPlannerRoute,
-	{
-		id: "mileage",
-		label: "Mileage",
-		href: "/mileage",
-		icon: Car,
-		group: "Wealth Management",
-		keywords: ["mileage", "trips", "business", "irs"],
-	},
 	{
 		id: "scenarios",
 		label: "Scenarios",
