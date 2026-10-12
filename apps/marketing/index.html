@@ -85,10 +85,10 @@
 					<p class="hero-subtitle">Moat Finance is a personal finance platform you run yourself, for free. Budgeting, investments, retirement planning, and an MCP server for your AI assistant &mdash; on hardware you control.</p>
 					<div class="hero-ctas">
 						<div class="hero-cta-primary">
-							<a href="#get-started" class="btn btn-primary btn-lg">Get started free</a>
+							<a href="https://github.com/tyler16smith/moat-finance" class="btn btn-primary btn-lg">View on GitHub</a>
 							<span class="hero-cta-subtext">Free forever &mdash; clone it, fork it, run it anywhere</span>
 						</div>
-						<a href="https://github.com/tyler16smith/moat-finance" class="btn btn-ghost btn-lg">View on GitHub</a>
+						<a href="https://app.moatfinance.ai/overview?demoMode=true" class="btn btn-ghost btn-lg">Try the demo</a>
 					</div>
 					<p class="hero-trust">Public source code &middot; Docker or desktop &middot; Your own database &middot; Read-only bank connections &middot; No vendor lock-in</p>
 				</div>
@@ -325,13 +325,19 @@
 					<p class="section-description centered"><strong>Docker</strong> is the easiest: one machine, one config file, three commands. <strong>Vercel + Neon</strong> is free in the cloud, with a bit more setup and your own domain. Anything that runs Node.js and Postgres works too.</p>
 				</div>
 				<div class="quickstart-layout reveal reveal-delay-1">
-					<figure class="quickstart-terminal" aria-label="Option A: Docker quickstart commands">
-						<div class="hero-visual-chrome" aria-hidden="true">
-							<span></span><span></span><span></span>
+					<div class="quickstart-option">
+						<div class="quickstart-option-header">
+							<span class="quickstart-option-badge">A</span>
+							<div>
+								<h3 class="quickstart-option-title">Docker <span class="quickstart-option-tag">Easiest</span></h3>
+								<p class="quickstart-option-desc">One machine, one config file, three commands.</p>
+							</div>
 						</div>
-<pre class="quickstart-code"><code><span class="qs-comment"># Option A: Docker (easiest)</span>
-
-<span class="qs-comment"># 1. Get the code</span>
+						<figure class="quickstart-terminal" aria-label="Option A: Docker quickstart commands">
+							<div class="hero-visual-chrome" aria-hidden="true">
+								<span></span><span></span><span></span>
+							</div>
+<pre class="quickstart-code"><code><span class="qs-comment"># 1. Get the code</span>
 <span class="qs-prompt">$</span> git clone https://github.com/tyler16smith/moat-finance.git
 <span class="qs-prompt">$</span> cd moat-finance
 
@@ -343,12 +349,35 @@
 <span class="qs-prompt">$</span> docker compose up -d
 
 <span class="qs-comment"># Open http://localhost:3000</span></code></pre>
-					</figure>
-					<ol class="quickstart-steps">
-						<li>
-							<strong>Option B: Vercel + Neon, free</strong>
-							<span>Run the web app, API, and MCP server on Vercel&rsquo;s Hobby plan with a free Neon database (500 MB). Needs your own domain, about $10/year. <a href="https://github.com/tyler16smith/moat-finance/blob/main/docs/self-hosting.md#option-b-vercel--neon">Step-by-step guide</a></span>
-						</li>
+						</figure>
+					</div>
+					<div class="quickstart-option">
+						<div class="quickstart-option-header">
+							<span class="quickstart-option-badge">B</span>
+							<div>
+								<h3 class="quickstart-option-title">Vercel + Neon <span class="quickstart-option-tag">Free cloud</span></h3>
+								<p class="quickstart-option-desc">Vercel&rsquo;s Hobby plan and a free 500&nbsp;MB Neon database. Needs your own domain, about $10/year.</p>
+							</div>
+						</div>
+						<ol class="quickstart-steps">
+							<li>
+								<strong>Fork the repo and create a Neon database</strong>
+								<span>Generate your secrets and run the migrations against it.</span>
+							</li>
+							<li>
+								<strong>Create three Vercel projects</strong>
+								<span>Web app, API, and MCP server, all from your fork.</span>
+							</li>
+							<li>
+								<strong>Add your domains and deploy</strong>
+								<span>Pushes to your fork redeploy automatically. <a href="https://github.com/tyler16smith/moat-finance/blob/main/docs/self-hosting.md#option-b-vercel--neon">Step-by-step guide</a></span>
+							</li>
+						</ol>
+					</div>
+				</div>
+				<div class="quickstart-extras reveal reveal-delay-2">
+					<div class="quickstart-extras-label">Either way</div>
+					<ul class="quickstart-extras-list">
 						<li>
 							<strong>Bring your own keys, or none</strong>
 							<span>Manual accounts and CSV imports work out of the box. Add your own Plaid keys when you want live bank syncing.</span>
@@ -361,7 +390,7 @@
 							<strong>Want the iPhone app?</strong>
 							<span>Build it with your Apple Developer account and install it through TestFlight. <a href="https://github.com/tyler16smith/moat-finance/blob/main/docs/self-hosting.md#ios-app">iOS setup</a></span>
 						</li>
-					</ol>
+					</ul>
 				</div>
 				<div class="security-section-cta reveal reveal-delay-2">
 					<a href="https://github.com/tyler16smith/moat-finance/blob/main/docs/self-hosting.md" class="btn btn-secondary">Read the full self-hosting guide</a>
@@ -755,10 +784,10 @@
 					<p class="final-cta-desc">Clone the repo, run one command, and own your financial data for good.</p>
 					<div class="final-cta-actions">
 						<div class="final-cta-primary">
-							<a href="#get-started" class="btn btn-primary btn-xl">Get started free</a>
+							<a href="https://github.com/tyler16smith/moat-finance" class="btn btn-primary btn-xl">View on GitHub</a>
 							<span class="btn-subtext">Free to self-host</span>
 						</div>
-						<a href="https://github.com/tyler16smith/moat-finance" class="btn btn-ghost btn-xl">View on GitHub</a>
+						<a href="https://app.moatfinance.ai/overview?demoMode=true" class="btn btn-ghost btn-xl">Try the demo</a>
 					</div>
 					<p class="final-cta-sub">Free &middot; Self-hosted &middot; AI-ready</p>
 					<p class="final-cta-sub">Questions? <a href="mailto:hello@moatfinance.ai">hello@moatfinance.ai</a></p>
