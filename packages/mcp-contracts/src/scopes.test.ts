@@ -48,6 +48,13 @@ describe("mcp financial write scopes", () => {
 		assert.equal(detectMcpScopePreset(scopes), "financial-assistant");
 	});
 
+	it("keeps the recommended preset read-only", () => {
+		const scopes = scopesForMcpPreset("recommended");
+		const writes = writeScopes as readonly string[];
+		assert.equal(scopes.some((scope) => writes.includes(scope)), false);
+		assert.equal(detectMcpScopePreset(scopes), "recommended");
+	});
+
 	it("requires explicit write scopes for financial mutations", () => {
 		assert.equal(hasRequiredScopes(["mcp:read"], ["mcp:rules:write"]), false);
 		assert.equal(

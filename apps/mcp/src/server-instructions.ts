@@ -16,7 +16,7 @@ Financial write policy:
 4. Prefer small, reversible edits. Hiding a transaction removes it from lists; it does not hard-delete bank history.
 5. Notification rules: prefer typed watchQuery (no SQL). Evals ~once/day; ~45-day tx lookback. Before moat.createNotificationRule, confirm feasibility, restate the alert plainly, and get user OK.
 
-Feedback — use moat.submitFeedback when the user asks to send feedback, or to report a distinct MCP tool failure once with type MCP_TOOL_ISSUE. FEATURE_REQUEST, BUG, GENERAL, and INCORRECT_RESULT require userApproved: true.
+Feedback — use moat.submitFeedback when the user asks to send feedback, or to report a distinct MCP tool failure once with type MCP_TOOL_ISSUE. Every type requires userApproved: true — show the user the exact message and get their OK first.
 
 Privacy: Never put balances, account numbers, emails, tokens, or raw transaction descriptions in feedback messages. Text only — no screenshots.`;
 

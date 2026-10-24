@@ -59,7 +59,6 @@ export const defaultMcpScopes = [
 	"mcp:budget:read",
 	"mcp:forecast:read",
 	"mcp:retirement:read",
-	"mcp:feedback:write",
 ] as const satisfies readonly McpScope[];
 
 export const mcpScopeLabels: Record<McpScope, string> = {
@@ -149,7 +148,7 @@ export const mcpScopePresetOptions: {
 		id: "recommended",
 		label: "Recommended",
 		description:
-			"Best for local AI tools. Can view your accounts, transactions, budgets, forecasts, and retirement plan, and send feedback when something is missing or an MCP tool fails.",
+			"Best for local AI tools. Can view your accounts, transactions, budgets, forecasts, and retirement plan.",
 	},
 	{
 		id: "read-only-full",
