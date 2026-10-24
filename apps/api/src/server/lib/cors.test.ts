@@ -196,7 +196,7 @@ describe("API CORS policy", () => {
 		);
 	});
 
-	it("sets CORS headers for chrome-extension origins without trusting them for CSRF", () => {
+	it("does not set CORS headers for unlisted chrome-extension origins", () => {
 		setEnv({
 			CORS_ORIGINS: undefined,
 			NEXT_PUBLIC_WEB_URL: undefined,
@@ -212,16 +212,29 @@ describe("API CORS policy", () => {
 			response as Parameters<typeof applyCorsHeaders>[1],
 		);
 
+		assert.equal(result.isAllowedOrigin, false);
+		assert.equal(headers.get("access-control-allow-origin"), undefined);
+		assert.equal(headers.get("access-control-allow-credentials"), undefined);
+	});
+
+	it("sets CORS headers for chrome-extension origins listed in CORS_ORIGINS", () => {
+		const origin = "chrome-extension://abcdefghijklmnopqrstuvwxyzabcdef";
+		setEnv({
+			CORS_ORIGINS: origin,
+			NEXT_PUBLIC_WEB_URL: undefined,
+			NODE_ENV: "production",
+			WEB_ORIGIN: undefined,
+		});
+		const request = { headers: { origin } };
+		const { headers, response } = createMockResponse();
+
+		const result = applyCorsHeaders(
+			request as Parameters<typeof applyCorsHeaders>[0],
+			response as Parameters<typeof applyCorsHeaders>[1],
+		);
+
 		assert.equal(result.isAllowedOrigin, true);
 		assert.equal(headers.get("access-control-allow-origin"), origin);
-		assert.throws(
-			() =>
-				enforceOrigin(
-					request as Parameters<typeof enforceOrigin>[0],
-					result.allowedOrigins,
-				),
-			/Origin not allowed/,
-		);
 	});
 
 	it("does not allow the WXT extension origin in production", () => {

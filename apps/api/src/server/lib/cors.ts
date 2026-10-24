@@ -85,21 +85,16 @@ export function getAllowedOrigins(): string[] {
 	);
 }
 
-export function isChromeExtensionOrigin(origin: string): boolean {
-	try {
-		return new URL(origin).protocol === "chrome-extension:";
-	} catch {
-		return false;
-	}
-}
-
+// Extension origins are not trusted implicitly: any installed extension could
+// otherwise read credentialed API responses. The Moat extension holds host
+// permissions for the API, which exempts it from CORS; list any other
+// extension origin explicitly in CORS_ORIGINS.
 export function isAllowedCorsOrigin(
 	origin: string | undefined,
 	allowedOrigins: string[] = getAllowedOrigins(),
 ): boolean {
 	if (!origin) return false;
-	if (allowedOrigins.includes(origin)) return true;
-	return isChromeExtensionOrigin(origin);
+	return allowedOrigins.includes(origin);
 }
 
 export function applyCorsHeaders(
