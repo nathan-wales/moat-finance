@@ -12,7 +12,10 @@ import {
 	enforceOrigin,
 	getCorsRequestDiagnostics,
 } from "../../../../src/server/lib/cors";
-import { computeCsrfToken } from "../../../../src/server/lib/csrf";
+import {
+	computeCsrfToken,
+	violatesFetchMetadataPolicy,
+} from "../../../../src/server/lib/csrf";
 import { validateProductionConfig } from "../../../../src/server/lib/env-validation";
 import { buildRouteHandlerInput } from "../../../../src/server/lib/route-handler-input";
 
@@ -225,6 +228,23 @@ export default async function handler(
 				}
 			}
 		}
+	} else if (
+		hasSession &&
+		!hasBearerAuth &&
+		violatesFetchMetadataPolicy({
+			secFetchSite: getHeaderValue(req.headers["sec-fetch-site"]),
+			secFetchMode: getHeaderValue(req.headers["sec-fetch-mode"]),
+		})
+	) {
+		await requestLogger.warn("api.auth.cross_site_read_rejected", {
+			method,
+			router: req.query.router,
+			action: req.query.action,
+			origin,
+		});
+		return res.status(403).json({
+			error: { message: "Cross-site request not allowed" },
+		});
 	}
 
 	const { router, action } = req.query;

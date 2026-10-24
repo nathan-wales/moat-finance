@@ -84,6 +84,24 @@ export async function computeCsrfToken(cookieHeader: string): Promise<string> {
 }
 
 /**
+ * Fetch Metadata check for cookie-authenticated safe-method requests.
+ *
+ * The v1 router dispatches every action on GET, and SameSite=Lax cookies ride
+ * along on top-level navigations, so a link from another site could invoke a
+ * mutation without a CSRF token. No legitimate client navigates to the JSON
+ * API or reads it cross-site with cookies, so both are rejected. Requests
+ * without Sec-Fetch-* headers (server-side fetches, older browsers) pass.
+ */
+export function violatesFetchMetadataPolicy(headers: {
+	secFetchSite: string | undefined;
+	secFetchMode: string | undefined;
+}): boolean {
+	return (
+		headers.secFetchSite === "cross-site" || headers.secFetchMode === "navigate"
+	);
+}
+
+/**
  * Issue a CSRF token when a session cookie exists. Anonymous demo has no
  * session, so it returns null; authenticated demo still gets a token because
  * the router requires CSRF on cookie-authenticated mutations.
