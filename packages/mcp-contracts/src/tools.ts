@@ -972,7 +972,7 @@ const mcpToolContractDefs = {
 		name: "moat.submitFeedback",
 		title: "Submit feedback",
 		description:
-			"Use this when the user asks to submit feedback about Moat Finance. Args: type (BUG, FEATURE_REQUEST, GENERAL, MCP_TOOL_ISSUE, or INCORRECT_RESULT; default GENERAL), message (10-2000 chars), optional relatedToolName, severity, userApproved, metadata. FEATURE_REQUEST, BUG, GENERAL, and INCORRECT_RESULT require userApproved: true. MCP_TOOL_ISSUE reports a failing MCP tool and should include relatedToolName; userApproved is not required for that type. Do not include balances, account numbers, emails, tokens, or raw transaction descriptions.",
+			"Use this when the user asks to submit feedback about Moat Finance. Args: type (BUG, FEATURE_REQUEST, GENERAL, MCP_TOOL_ISSUE, or INCORRECT_RESULT; default GENERAL), message (10-2000 chars), optional relatedToolName, severity, userApproved, metadata. Every type requires userApproved: true, set only after the user confirms the exact message. MCP_TOOL_ISSUE reports a failing MCP tool and should include relatedToolName. Do not include balances, account numbers, emails, tokens, or raw transaction descriptions.",
 		inputSchema: submitFeedbackInputSchema,
 		requiredScopes: ["mcp:feedback:write"],
 		safetyClass: "mutates_app_data",

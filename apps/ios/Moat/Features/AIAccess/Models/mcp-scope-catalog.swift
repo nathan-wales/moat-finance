@@ -44,7 +44,7 @@ enum McpScope: String, CaseIterable, Identifiable, Codable, Hashable {
     }
 
     static let recommendedDefaults: [McpScope] = [
-        .read, .accountsRead, .transactionsRead, .budgetRead, .forecastRead, .retirementRead, .feedbackWrite,
+        .read, .accountsRead, .transactionsRead, .budgetRead, .forecastRead, .retirementRead,
     ]
 
     static let readOnlyFull: [McpScope] = [
@@ -86,7 +86,7 @@ enum McpScopePreset: String, CaseIterable, Identifiable {
     var description: String {
         switch self {
         case .recommended:
-            return "Best for local AI tools. Can view your accounts, transactions, budgets, forecasts, and retirement plan, and send feedback when something is missing or an MCP tool fails."
+            return "Best for local AI tools. Can view your accounts, transactions, budgets, forecasts, and retirement plan."
         case .readOnlyFull:
             return "Can view all financial context, including rules and memories."
         case .financialAssistant:

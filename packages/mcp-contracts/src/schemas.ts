@@ -800,7 +800,7 @@ export const submitFeedbackInputSchema = z
 			.literal(true)
 			.optional()
 			.describe(
-				"Must be true for BUG/FEATURE_REQUEST/GENERAL/INCORRECT_RESULT after user confirms",
+				"Must be true for every feedback type, after the user confirms",
 			),
 		metadata: z
 			.record(z.unknown())
@@ -809,13 +809,12 @@ export const submitFeedbackInputSchema = z
 	})
 	.strict()
 	.superRefine((value, ctx) => {
-		if (value.type === "MCP_TOOL_ISSUE") return;
 		if (value.userApproved !== true) {
 			ctx.addIssue({
 				code: z.ZodIssueCode.custom,
 				path: ["userApproved"],
 				message:
-					"userApproved must be true — confirm with the user before submitting this feedback type.",
+					"userApproved must be true — confirm with the user before submitting feedback.",
 			});
 		}
 	});

@@ -9,7 +9,29 @@ import {
 	listTransactionsInputSchema,
 	previewTransactionImportInputSchema,
 	searchTransactionsInputSchema,
+	submitFeedbackInputSchema,
 } from "./schemas";
+
+describe("submitFeedbackInputSchema", () => {
+	it("requires userApproved for MCP tool issue reports", () => {
+		const result = submitFeedbackInputSchema.safeParse({
+			type: "MCP_TOOL_ISSUE",
+			message: "moat.listTransactions returned an error",
+			relatedToolName: "moat.listTransactions",
+		});
+		assert.equal(result.success, false);
+	});
+
+	it("accepts approved feedback of any type", () => {
+		const result = submitFeedbackInputSchema.safeParse({
+			type: "MCP_TOOL_ISSUE",
+			message: "moat.listTransactions returned an error",
+			relatedToolName: "moat.listTransactions",
+			userApproved: true,
+		});
+		assert.equal(result.success, true);
+	});
+});
 
 describe("mcp input schema validation", () => {
 	it("rejects malformed dates", () => {
